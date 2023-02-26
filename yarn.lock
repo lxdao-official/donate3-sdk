@@ -1306,7 +1306,7 @@
     "@ethersproject/bytes" "^5.7.0"
     "@ethersproject/properties" "^5.7.0"
 
-"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@^5.7.0":
+"@ethersproject/bignumber@5.7.0", "@ethersproject/bignumber@^5.5.0", "@ethersproject/bignumber@^5.7.0":
   version "5.7.0"
   resolved "https://mirrors.cloud.tencent.com/npm/@ethersproject%2fbignumber/-/bignumber-5.7.0.tgz#e2f03837f268ba655ffba03a57853e18a18dc9c2"
   integrity sha512-n1CAdIHRWjSucQO3MC1zPSVgV/6dy/fjL9pMrPP9peL+QxEg9wOsVqwD4+818B6LUEtaXzVHQiuivzRoxPxUGw==
@@ -1495,7 +1495,7 @@
     elliptic "6.5.4"
     hash.js "1.1.7"
 
-"@ethersproject/solidity@5.7.0":
+"@ethersproject/solidity@5.7.0", "@ethersproject/solidity@^5.5.0":
   version "5.7.0"
   resolved "https://mirrors.cloud.tencent.com/npm/@ethersproject%2fsolidity/-/solidity-5.7.0.tgz#5e9c911d8a2acce2a5ebb48a5e2e0af20b631cb8"
   integrity sha512-HmabMd2Dt/raavyaGukF4XxizWKhKQ24DoLtdNbBmNKUOPqwjsKQSdV9GQtj9CBEea9DlzETlVER1gYeXXBGaA==
@@ -2073,6 +2073,29 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@nouns/assets@^0.4.2":
+  version "0.4.2"
+  resolved "https://mirrors.cloud.tencent.com/npm/@nouns/assets/-/assets-0.4.2.tgz#bec72becebee256b97cf1b5bfcfc03d3ab336259"
+  integrity sha512-pPiPU6Ifbldjx2WpIZOEet/h2hV32rpZd6GCBlCHmuJfW4p7qqCsD2glwQ8YRqVEr+JQ0Z3WIFKa5iumQxtM3Q==
+  dependencies:
+    "@ethersproject/bignumber" "^5.5.0"
+    "@ethersproject/solidity" "^5.5.0"
+
+"@nouns/contracts@^0.3.0":
+  version "0.3.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/@nouns/contracts/-/contracts-0.3.0.tgz#d5c29ab6e9d07065d51faadab18e6b7730efd94c"
+  integrity sha512-l619EP77QqX0gPGw3gPfh9tgBlz5lFwK8EzB+orLJx3JrfHSUqfjjYCfZih+I++bhJuK78ro2FgFx6U0kZnXEw==
+  dependencies:
+    ethers "^5.6.8"
+
+"@nouns/sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://mirrors.cloud.tencent.com/npm/@nouns/sdk/-/sdk-0.4.0.tgz#0c98721e819339c6812e3b8e604510bdadace37c"
+  integrity sha512-PLRDUad/TXCsGmP2ITXkYBrwlzQfO9DaoB0xwikvNPF/Vul+rAVnsXgMf8gm5KQ8CKVlxImoEnxsL8Dcx5elAw==
+  dependencies:
+    "@nouns/contracts" "^0.3.0"
+    ethers "^5.6.8"
 
 "@pedrouid/environment@^1.0.1":
   version "1.0.1"
@@ -5963,7 +5986,7 @@ eth-rpc-errors@^4.0.2:
   dependencies:
     fast-safe-stringify "^2.0.6"
 
-ethers@^5.5.1, ethers@^5.7.2:
+ethers@^5.5.1, ethers@^5.6.8, ethers@^5.7.2:
   version "5.7.2"
   resolved "https://mirrors.cloud.tencent.com/npm/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
