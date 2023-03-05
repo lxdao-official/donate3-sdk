@@ -17,73 +17,17 @@ import {
   // cssStringFromTheme,
 } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet, goerli } from "wagmi/chains";
+import { mainnet, goerli, polygon, polygonMumbai } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import App from "./App";
-import {
-  generateColorFromAddress,
-  generateNounsImageFromAddress,
-} from "./utils";
+import useNouns from "./hooks/useNouns";
+import { Props } from "./App";
 
-const base64Hash = generateNounsImageFromAddress(
-  "0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4"
-);
-console.log("---------", base64Hash);
-const myCustomTheme: Theme = {
-  blurs: {
-    modalOverlay: "red",
-  },
-  colors: {
-    accentColor: "red",
-    accentColorForeground: "...",
-    actionButtonBorder: "...",
-    actionButtonBorderMobile: "...",
-    actionButtonSecondaryBackground: "...",
-    closeButton: "small",
-    closeButtonBackground: "red",
-    connectButtonBackground: "...",
-    connectButtonBackgroundError: "...",
-    connectButtonInnerBackground: "...",
-    connectButtonText: "...",
-    connectButtonTextError: "...",
-    connectionIndicator: "...",
-    downloadBottomCardBackground: "...",
-    downloadTopCardBackground: "...",
-    error: "...",
-    generalBorder: "...",
-    generalBorderDim: "...",
-    menuItemBackground: "...",
-    modalBackdrop: "white",
-    modalBackground: "red",
-    modalBorder: "...",
-    modalText: "...",
-    modalTextDim: "...",
-    modalTextSecondary: "...",
-    profileAction: "...",
-    profileActionHover: "...",
-    profileForeground: "...",
-    selectedOptionBorder: "...",
-    standby: "...",
-  },
-  fonts: {
-    body: "...",
-  },
-  radii: {
-    actionButton: "9999px",
-    connectButton: "...",
-    menuButton: "...",
-    modal: "...",
-    modalMobile: "...",
-  },
-  shadows: {
-    connectButton: "...",
-    dialog: "...",
-    profileDetailsAction: "...",
-    selectedOption: "...",
-    selectedWallet: "...",
-    walletLogo: "...",
-  },
-};
+declare global {
+  interface Window {
+    renderDonate3: any;
+  }
+}
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
@@ -96,7 +40,10 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
   console.log(address, ensImage, size);
-  const color = generateColorFromAddress(address);
+
+  const base64Hash = useNouns("0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4");
+  console.log("---------", base64Hash);
+
   return ensImage ? (
     <img
       src={ensImage}
@@ -106,25 +53,16 @@ const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
       style={{ borderRadius: 999 }}
     />
   ) : (
-    <div
-      style={{
-        backgroundColor: color,
-        borderRadius: 999,
-        height: size,
-        width: size,
-      }}
-    >
-      :^)
-    </div>
+    <img src={`data:image/svg+xml;base64,${base64Hash}`} />
   );
 };
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
     mainnet,
-    // polygon,
-    // optimism,
-    // arbitrum,
+    goerli,
+    polygon,
+    polygonMumbai,
     ...(process.env.REACT_APP_ENABLE_TESTNETS === "true" ? [goerli] : []),
   ],
   [publicProvider()]
@@ -142,41 +80,51 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+const renderDonate3 = (domElement: HTMLElement | null, config: Props) => {
+  if (!domElement) throw new Error("Your DOM id is incorrect");
 
-root.render(
-  <React.StrictMode>
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider
-        appInfo={{
-          appName: "Donate3",
-          learnMoreUrl: "https://donate3.xyz",
-          disclaimer: Disclaimer,
-        }}
-        avatar={CustomAvatar}
-        // theme={myCustomTheme}
-        // theme={midnightTheme({
-        //   // accentColor: "#7b3fe4",
-        //   // ...darkTheme.accentColors.green,
-        //   // accentColorForeground: "white",
-        //   // borderRadius: "small",
-        //   // fontStack: "system",
-        //   // overlayBlur: "small",
-        // })}
-        theme={{
-          lightMode: lightTheme(),
-          darkMode: darkTheme(),
-        }}
-        chains={chains}
-        showRecentTransactions={true}
-      >
-        <App />
-      </RainbowKitProvider>
-    </WagmiConfig>
-  </React.StrictMode>
-);
+  const root = ReactDOM.createRoot(domElement as HTMLElement);
+  root.render(
+    <React.StrictMode>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider
+          appInfo={{
+            appName: "Donate3",
+            learnMoreUrl: "https://donate3.xyz",
+            disclaimer: Disclaimer,
+          }}
+          avatar={CustomAvatar}
+          // theme={myCustomTheme}
+          // theme={midnightTheme({
+          //   // accentColor: "#7b3fe4",
+          //   // ...darkTheme.accentColors.green,
+          //   // accentColorForeground: "white",
+          //   // borderRadius: "small",
+          //   // fontStack: "system",
+          //   // overlayBlur: "small",
+          // })}
+          theme={{
+            lightMode: lightTheme(),
+            darkMode: darkTheme(),
+          }}
+          chains={chains}
+          showRecentTransactions={true}
+        >
+          <App {...config} />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </React.StrictMode>
+  );
+};
+
+window.renderDonate3 = renderDonate3;
+
+renderDonate3(document.getElementById("donate3_root"), {
+  type: 1,
+  color: "#396AFF",
+  name: "Charity3",
+  address: "0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5",
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

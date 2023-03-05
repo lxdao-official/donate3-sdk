@@ -8,24 +8,39 @@ import {
   useChainModal,
   useAddRecentTransaction,
 } from "@rainbow-me/rainbowkit";
+import useNouns from "./hooks/useNouns";
 import styles from "./App.module.css";
 
-function App() {
-  const recipientName = "Recipient Name";
-  const recipientAddress = "0xF7129631f...e341e2161C4";
+export interface Props {
+  type: number;
+  color: string;
+  name: string;
+  address: string;
+}
+
+function App(props: Props) {
   const addRecentTransaction = useAddRecentTransaction();
   const { openConnectModal } = useConnectModal();
   const { openAccountModal } = useAccountModal();
   const { openChainModal } = useChainModal();
+  const base64Hash = useNouns(props.address);
   return (
     <div className={styles.App}>
       <header className={styles.AppHeader}>
         <div className={styles.AppHeaderRecipientInfo}>
-          <div>Donate to {recipientName}</div>
-          <div>To:{recipientAddress}</div>
+          <div>Donate to {props.name}</div>
+          <div>To:{props.address}</div>
         </div>
         <div>
-          <img src={avatar} className="App-avatar" alt="avatar" />
+          {base64Hash ? (
+            <img
+              className={styles.AppHeaderAvatar}
+              alt="avatar"
+              src={`data:image/svg+xml;base64,${base64Hash}`}
+            />
+          ) : (
+            <img src={avatar} className={styles.AppHeaderAvatar} alt="avatar" />
+          )}
         </div>
       </header>
       <section className={styles.AppContent}>

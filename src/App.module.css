@@ -40,6 +40,7 @@ div{
 .AppHeaderAvatar{
   height: 65px;
   width: 65px;
+  border-radius: 65px;
   margin: 0px 13px;
 }
 
