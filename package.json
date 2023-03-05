@@ -1,7 +1,7 @@
 {
   "name": "donate3-sdk",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@nouns/assets": "^0.4.2",
     "@nouns/sdk": "^0.4.0",

@@ -123,7 +123,7 @@ renderDonate3(document.getElementById("donate3_root"), {
   type: 1,
   color: "#396AFF",
   name: "Charity3",
-  address: "0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5",
+  address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 });
 
 // If you want to start measuring performance in your app, pass a function

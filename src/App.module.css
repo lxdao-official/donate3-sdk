@@ -9,7 +9,42 @@
   justify-content: space-between;
   flex-direction: column;
   padding: 30px;
+  position: fixed;
 }
+
+.tinyMode{
+  position: absolute;
+  width: 173px;
+  height: 65px;
+  right: 20px;
+  bottom: 20px;
+  background: #396AFF;
+  box-shadow: 0px 8px 24px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tinyImg{
+  width: 25px;
+  height: 25px;
+  color: #FFFFFF;
+  margin-right: 12px;
+}
+
+.tinyTxt{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  color: #FFFFFF;
+}
+
+
+
 
 div{
   font-style: normal;
@@ -24,192 +59,6 @@ div{
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.AppHeader {
-  /* background-color: #282c34; */
-  /* min-height: 100vh; */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.AppHeaderAvatar{
-  height: 65px;
-  width: 65px;
-  border-radius: 65px;
-  margin: 0px 13px;
-}
-
-.AppHeaderRecipientInfo{
-  width: 80%;
-  text-align: start;
-}
-.AppHeaderRecipientInfo div:nth-child(1){
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 22px;
-  color: #3E4343;
-}
-.AppHeaderRecipientInfo div:nth-child(2){
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
-  color: #929F9E;
-}
-
-
-.AppContent {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.Title{
-  margin: 8px 0px;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #3E4343;
-  text-align: initial;
-}
-
-
-
-.MethodInput{
-  display: flex;
-  flex-direction: row;
-  height: 40px;
-  align-items: center;
-  justify-content: space-between;
-  border-radius: 4px;
-}
-.MethodInput div{
-  background: rgba(26, 56, 96, 0.08);
-  height: 40px;
-  line-height: 40px;
-  flex: 1;
-}
-
-.MethodInput div:nth-child(1){
-  
-}
-.MethodInput div:nth-child(2){
-}
-.MethodInput div:nth-child(3){
-}
-.MethodInput input{
-  height: 40px; 
-  padding: 0px 12px;
-  border: 0px;
-  background: rgba(26, 56, 96, 0.08);
-}
-
-
-
-.FooterMark{
-  display: flex;
-  flex-direction: row;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 120%;
-  color: #929F9E;
-  justify-content: space-around;
-}
-
-.ShortcutOption{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.ShortcutOption div{
-    width: 30%;
-    background: #F5F5F5;
-    height: 40px;
-    background: #ECECEF;
-    border-radius: 4px;
-    align-items: center;
-    line-height: 40px;
-}
-
-fieldset {
-  border: none;
-  padding: 0;
-  border-top: 0.5px #ECECEF solid;
-  text-align: center;
-}
-
-legend {
-  padding: 0 10px;
-  color:#ECECEF;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
-}
-
-.PriceBtn{
-  background: rgba(26, 56, 96, 0.08);
-  border-radius: 4px;
-  height: 40px;
-  font-weight: 400;
-  font-size: 16px;
-  color: #C1CBCA;
-  border: 0px;
-  width: 100%;
-  text-align: center;
-}
-
-.Msg div{
-  text-align: initial;
-  
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
-  color: #3E4343;
-}
-
-
-
-.Msg input{
-  height: 96px;
-  width: 100%;
-  border: 0px;
-  background: rgba(26, 56, 96, 0.08);
-  border-radius: 4px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-}
-
-.Donate3Btn{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 41px;
-  background: #396AFF;
-  border-radius: 4px;
-}
-
-.Donate3Btn div:nth-child(1){
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: center;
-  color: #FFFFFF;
-}
-
-.Donate3Btn div:nth-child(2){
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -239,4 +88,23 @@ legend {
 input::placeholder {
   color: #C1CBCA;
   opacity: 1;
+}
+
+.close{
+  width: 65px;
+  height: 65px;
+  background: #396AFF;
+  box-shadow: 0px 8px 24px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  border-radius: 100px;
+  position: absolute;
+  left: 83%;
+  top: 102%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closeImg{
+  width: 21px;
+  height: 21px;
 }
