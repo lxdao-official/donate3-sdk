@@ -1,9 +1,9 @@
-.App {
+.app {
   text-align: center;
   width: 366px;
   height: 608px;
-  background: #FEFCFB;
-  box-shadow: 0px 8px 24px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  background: #fefcfb;
+  box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
   border-radius: 12px;
   display: flex;
   justify-content: space-between;
@@ -12,14 +12,14 @@
   position: fixed;
 }
 
-.tinyMode{
+.tinymode {
   position: absolute;
   width: 173px;
   height: 65px;
   right: 20px;
   bottom: 20px;
-  background: #396AFF;
-  box-shadow: 0px 8px 24px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  background: #396aff;
+  box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
   border-radius: 100px;
   display: flex;
   justify-content: center;
@@ -27,74 +27,71 @@
   cursor: pointer;
 }
 
-.tinyImg{
+.tinyimg {
   width: 25px;
   height: 25px;
-  color: #FFFFFF;
+  color: #fff;
   margin-right: 12px;
 }
 
-.tinyTxt{
-  font-family: 'Inter';
+.tinytxt {
+  font-family: Inter;
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 18px;
-  color: #FFFFFF;
+  color: #fff;
 }
 
-
-
-
-div{
+div {
   font-style: normal;
 }
 
-.App-logo {
+.applogo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  .applogo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-
-.AppFooter {
+.appfooter {
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
   text-align: center;
-  color: #929F9E;
+  color: #929f9e;
   display: flex;
   justify-content: center;
 }
 
-.App-link {
+.applink {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes app-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 input::placeholder {
-  color: #C1CBCA;
+  color: #c1cbca;
   opacity: 1;
 }
 
-.close{
+.close {
   width: 65px;
   height: 65px;
-  background: #396AFF;
-  box-shadow: 0px 8px 24px -6px rgba(0, 0, 0, 0.16), 0px 0px 1px rgba(0, 0, 0, 0.4);
+  background: #396aff;
+  box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
   border-radius: 100px;
   position: absolute;
   left: 83%;
@@ -104,7 +101,7 @@ input::placeholder {
   align-items: center;
 }
 
-.closeImg{
+.closeimg {
   width: 21px;
   height: 21px;
 }

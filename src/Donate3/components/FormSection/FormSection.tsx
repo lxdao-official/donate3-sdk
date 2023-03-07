@@ -1,25 +1,23 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import React from "react";
-import styles from "./FormSection.module.css";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import React from 'react';
+import styles from './FormSection.module.css';
 
-export interface FormSectionProps {}
-
-function FormSection(props: FormSectionProps) {
+function FormSection(props: any) {
   return (
-    <section className={styles.AppContent}>
-      <div className={styles.Title}>Payment Method</div>
-      <div className={styles.MethodInput}>
+    <section className={styles.appcontent}>
+      <div className={styles.title}>Payment Method</div>
+      <div className={styles.methodinput}>
         <div>images</div>
         <div>ETH</div>
         <input placeholder="Ethereum"></input>
         <div>切换</div>
       </div>
-      <div className={styles.FooterMark}>
+      <div className={styles.footermark}>
         <div>icon</div>
         <div>21.11ETH</div>
         <div>0.01E = $127; 31GWEI = $0.75</div>
       </div>
-      <div className={styles.ShortcutOption}>
+      <div className={styles.shortcutoption}>
         <div>0.001 ETH</div>
         <div>0.001 ETH</div>
         <div>0.001 ETH</div>
@@ -30,21 +28,21 @@ function FormSection(props: FormSectionProps) {
         </legend>
       </fieldset>
       <input
-        className={styles.PriceBtn}
+        className={styles.pricebtn}
         placeholder="Enter Price Manually"
       ></input>
-      <div className={styles.Msg}>
+      <div className={styles.msg}>
         <div>Message</div>
         <input placeholder="Will be published on chain" multiple></input>
       </div>
-      <div className={styles.Donate3Btn}>
+      <div className={styles.donate3btn}>
         <div>DONATE3</div>
         <div>≈$875.32</div>
         <ConnectButton
           label="Sign in"
           accountStatus={{
-            smallScreen: "avatar",
-            largeScreen: "full",
+            smallScreen: 'avatar',
+            largeScreen: 'full',
           }}
           chainStatus="none"
           showBalance={{

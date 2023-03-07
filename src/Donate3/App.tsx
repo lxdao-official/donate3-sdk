@@ -1,17 +1,17 @@
-import logo from "./images/logo.svg";
-import logowhite from "./images/logowhite.svg";
-import close from "./images/close.svg";
 import {
   ConnectButton,
-  useConnectModal,
   useAccountModal,
-  useChainModal,
   useAddRecentTransaction,
-} from "@rainbow-me/rainbowkit";
-import styles from "./App.module.css";
-import Header from "./components/Header/Header";
-import FormSection from "./components/FormSection/FormSection";
-import { useRef, useState } from "react";
+  useChainModal,
+  useConnectModal,
+} from '@rainbow-me/rainbowkit';
+import React, { useState } from 'react';
+import styles from './App.module.css';
+import FormSection from './components/FormSection/FormSection';
+import Header from './components/Header/Header';
+import close from './images/close.svg';
+import logo from './images/logo.svg';
+import logowhite from './images/logowhite.svg';
 
 export interface Props {
   type: number;
@@ -45,10 +45,10 @@ function App(props: Props) {
   return (
     <>
       {showForm ? (
-        <div className={styles.App} style={{ left, top }}>
+        <div className={styles.app} style={{ left, top }}>
           <Header address={props.address} name={props.name}></Header>
           <FormSection></FormSection>
-          <footer className={styles.AppFooter}>
+          <footer className={styles.appfooter}>
             <span>Power by</span>
             <span>
               <img src={logo} alt="logo"></img>
@@ -62,16 +62,17 @@ function App(props: Props) {
             }}
           >
             <img
-              className={styles.closeImg}
+              className={styles.closeimg}
               src={close}
               alt="donate close"
             ></img>
           </div>
           <button
+            type="button"
             onClick={() => {
               addRecentTransaction({
-                hash: "0x...",
-                description: "...",
+                hash: '0x...',
+                description: '...',
               });
             }}
           >
@@ -82,13 +83,11 @@ function App(props: Props) {
               Open Connect Modal
             </button>
           )}
-
           {openAccountModal && (
             <button onClick={openAccountModal} type="button">
               Open Account Modal
             </button>
           )}
-
           {openChainModal && (
             <button onClick={openChainModal} type="button">
               Open Chain Modal
@@ -106,22 +105,22 @@ function App(props: Props) {
             }) => {
               // Note: If your app doesn't use authentication, you
               // can remove all 'authenticationStatus' checks
-              const ready = mounted && authenticationStatus !== "loading";
+              const ready = mounted && authenticationStatus !== 'loading';
               const connected =
                 ready &&
                 account &&
                 chain &&
                 (!authenticationStatus ||
-                  authenticationStatus === "authenticated");
+                  authenticationStatus === 'authenticated');
 
               return (
                 <div
                   {...(!ready && {
-                    "aria-hidden": true,
+                    'aria-hidden': true,
                     style: {
                       opacity: 0,
-                      pointerEvents: "none",
-                      userSelect: "none",
+                      pointerEvents: 'none',
+                      userSelect: 'none',
                     },
                   })}
                 >
@@ -143,10 +142,10 @@ function App(props: Props) {
                     }
 
                     return (
-                      <div style={{ display: "flex", gap: 12 }}>
+                      <div style={{ display: 'flex', gap: 12 }}>
                         <button
                           onClick={openChainModal}
-                          style={{ display: "flex", alignItems: "center" }}
+                          style={{ display: 'flex', alignItems: 'center' }}
                           type="button"
                         >
                           {chain.hasIcon && (
@@ -156,13 +155,13 @@ function App(props: Props) {
                                 width: 12,
                                 height: 12,
                                 borderRadius: 999,
-                                overflow: "hidden",
+                                overflow: 'hidden',
                                 marginRight: 4,
                               }}
                             >
                               {chain.iconUrl && (
                                 <img
-                                  alt={chain.name ?? "Chain icon"}
+                                  alt={chain.name ?? 'Chain icon'}
                                   src={chain.iconUrl}
                                   style={{ width: 12, height: 12 }}
                                 />
@@ -176,7 +175,7 @@ function App(props: Props) {
                           {account.displayName}
                           {account.displayBalance
                             ? ` (${account.displayBalance})`
-                            : ""}
+                            : ''}
                         </button>
                       </div>
                     );
@@ -188,10 +187,10 @@ function App(props: Props) {
         </div>
       ) : (
         <div
-          className={styles.tinyMode}
+          className={styles.tinymode}
           onClick={(event) => {
             const { elementTop, elementLeft } = getElementPosition(
-              event?.currentTarget
+              event?.currentTarget,
             );
 
             setLeft(elementLeft - 426);
@@ -200,8 +199,8 @@ function App(props: Props) {
             setShowForm(!showForm);
           }}
         >
-          <img className={styles.tinyImg} src={logowhite} alt="Donate3 Logo" />
-          <span className={styles.tinyTxt}>Donate3</span>
+          <img className={styles.tinyimg} src={logowhite} alt="Donate3 Logo" />
+          <span className={styles.tinytxt}>Donate3</span>
         </div>
       )}
     </>
