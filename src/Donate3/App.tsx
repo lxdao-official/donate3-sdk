@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import styles from './App.module.css';
 import Footer from './components/Footer/Footer';
 import FormSection from './components/FormSection/FormSection';
-// import Header from './components/Header/Header';
+import Header from './components/Header/Header';
 import { ReactComponent as Close } from './images/close.svg';
 import { ReactComponent as LogoWhite } from './images/logowhite.svg';
 import { getElementPosition } from './utils/index';
@@ -30,7 +30,7 @@ function App(props: Props) {
         style={{ ...mobileStyle, bottom, right }}
         ref={dialogRef}
       >
-        {/* <Header address={props.address} name={props.name}></Header> */}
+        <Header address={props.address} name={props.name}></Header>
         <FormSection></FormSection>
         <Footer></Footer>
       </div>
