@@ -1,6 +1,6 @@
 import React from 'react';
 import useNouns from '../../hooks/useNouns';
-import avatar from '../../images/avatar.svg';
+import { ReactComponent as Avatar } from '../../images/avatar.svg';
 import styles from './Header.module.css';
 
 export interface HeaderProps {
@@ -24,7 +24,7 @@ function Header(props: HeaderProps) {
             src={`data:image/svg+xml;base64,${base64Hash}`}
           />
         ) : (
-          <img src={avatar} className={styles.avatar} alt="avatar" />
+          <Avatar className={styles.avatar}></Avatar>
         )}
       </div>
     </header>
