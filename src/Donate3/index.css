@@ -11,6 +11,27 @@ code {
     monospace;
 }
 
+@keyframes donate3show{
+  from {
+      transform: translateY(110%);
+  }
+  to {
+      transform: translateY(0%);
+  }
+}
+
+@keyframes moveInBottom {
+  0% {
+      opacity: 0;
+      transform: translateY(30px);
+  }
+
+  100% {
+      opacity: 1;
+      transform: translateY(0px);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .dialogAnimation {
     animation: slide-in-up .5s cubic-bezier(.25,0,.3,1) forwards;

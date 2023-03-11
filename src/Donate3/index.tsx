@@ -75,19 +75,6 @@ const Donate3 = (props: any) => {
             disclaimer: Disclaimer,
           }}
           avatar={CustomAvatar}
-          // theme={myCustomTheme}
-          // theme={midnightTheme({
-          //   // accentColor: "#7b3fe4",
-          //   // ...darkTheme.accentColors.green,
-          //   // accentColorForeground: "white",
-          //   // borderRadius: "small",
-          //   // fontStack: "system",
-          //   // overlayBlur: "small",
-          // })}
-          // theme={{
-          //   lightMode: lightTheme(),
-          //   darkMode: darkTheme(),
-          // }}
           chains={chains}
           showRecentTransactions={true}
         >
@@ -98,8 +85,4 @@ const Donate3 = (props: any) => {
   );
 };
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-// reportWebVitals();
 export default Donate3;
