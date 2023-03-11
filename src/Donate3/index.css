@@ -10,3 +10,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .dialogAnimation {
+    animation: slide-in-up .5s cubic-bezier(.25,0,.3,1) forwards;
+    animation-timing-function: ease;
+    animation-name: donate3show;
+  }
+
+  .dialogAnimation[open] {
+    animation: 2 forwards;
+  }
+}

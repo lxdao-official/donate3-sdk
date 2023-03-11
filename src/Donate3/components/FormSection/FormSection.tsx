@@ -80,46 +80,36 @@ function FormSection(props: any) {
       <div className={styles.donate3btn} onClick={handleDonate}>
         <div>DONATE3</div>
         <div>≈$875.32</div>
-        {/* <ConnectButton
-          label="Sign in"
-          accountStatus={{
-            smallScreen: 'avatar',
-            largeScreen: 'full',
-          }}
-          chainStatus="none"
-          showBalance={{
-            smallScreen: false,
-            largeScreen: true,
-          }}
-        />*/}
       </div>
-      <div
-        className={cx(
-          styles.semiModal,
-          { in: !isConnected || showSemiModal },
-          { out: isConnected || !showSemiModal },
-        )}
-      >
+      {showSemiModal ? (
         <div
-          className={styles.bgmask}
-          onClick={() => {
-            setShowSemiModal(false);
-          }}
-        ></div>
-        <div className={styles.semiwrap}>
-          <div className={styles.semilogo}>
-            <SemiLogo></SemiLogo>
+          className={cx(
+            styles.semiModal,
+            { in: !isConnected || showSemiModal },
+            { out: isConnected || !showSemiModal },
+          )}
+        >
+          <div
+            className={styles.bgmask}
+            onClick={() => {
+              setShowSemiModal(false);
+            }}
+          ></div>
+          <div className={styles.semiwrap}>
+            <div className={styles.semilogo}>
+              <SemiLogo></SemiLogo>
+            </div>
+            <div>
+              <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
+              <div className={styles.donateuserdec}>已有198人向他捐赠</div>
+            </div>
+            <div className={styles.semidonatebtn} onClick={openConnectModal}>
+              Connect wallet for donation
+            </div>
+            <Footer></Footer>
           </div>
-          <div>
-            <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
-            <div className={styles.donateuserdec}>已有198人向他捐赠</div>
-          </div>
-          <div className={styles.semidonatebtn} onClick={openConnectModal}>
-            Connect wallet for donation
-          </div>
-          <Footer></Footer>
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }
