@@ -12,6 +12,7 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import useNouns from './hooks/useNouns';
+import { ReactComponent as Avatar } from './images/avatar.svg';
 import Close1, { ReactComponent as Close2 } from './images/close.svg';
 // import { ReactComponent as Close2 } from './images/close.svg';
 import ufo from './images/ufo.jpg';
@@ -88,6 +89,15 @@ const Donate3 = (props: any) => {
           {/* <Close1></Close1>4 */}4
           <div style={{ backgroundColor: 'red' }}>
             <Close2 fill="red"></Close2>
+          </div>
+          <div style={{ backgroundColor: 'red' }}>
+            avatar1<Avatar></Avatar>
+          </div>
+          <div style={{ backgroundColor: 'red' }}>
+            avatar2<Avatar></Avatar>
+          </div>
+          <div style={{ backgroundColor: 'red' }}>
+            avatar3<Avatar></Avatar>
           </div>
         </RainbowKitProvider>
       </WagmiConfig>
