@@ -49,7 +49,7 @@ function App(props: Props) {
   };
 
   const renderDonate3Button = (type: string) => {
-    if (type === 1) {
+    if (type === '1') {
       return (
         <div
           className={cx(
@@ -110,7 +110,7 @@ function App(props: Props) {
           name={props.name}
           type={props.type}
         ></Header>
-        <FormSection></FormSection>
+        <FormSection type={props.type}></FormSection>
         <Footer></Footer>
       </div>
       {renderDonate3Button(props.type)}

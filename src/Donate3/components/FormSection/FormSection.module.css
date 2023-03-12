@@ -149,6 +149,10 @@
   background: #396aff;
   border-radius: 4px;
   cursor: pointer;
+  border: 0px;
+}
+.donate3btn:hover{
+  background: #1f93ff;
 }
 
 .donate3btn div:nth-child(1) {
