@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import useNouns from '../../hooks/useNouns';
-import { ReactComponent as Avatar } from '../../images/avatar.svg';
+// import { ReactComponent as Avatar } from '../../images/avatar.svg';
 import styles from './Header.module.css';
 
 export interface HeaderProps {
@@ -29,7 +29,8 @@ function Header(props: HeaderProps) {
           />
         ) : (
           // <Image src={Avatar} alt="xxxx"></Image>
-          <Avatar className={styles.avatar}></Avatar>
+          <img src="https://i.328888.xyz/2023/03/12/vk3wZ.png"></img>
+          // <Avatar className={styles.avatar}></Avatar>
         )}
       </div>
     </header>

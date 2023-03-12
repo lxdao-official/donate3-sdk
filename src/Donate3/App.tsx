@@ -1,3 +1,4 @@
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
 import React, { useRef, useState } from 'react';
 import styles from './App.module.css';
@@ -19,6 +20,7 @@ export interface Props {
 function App(props: Props) {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
+  const { openConnectModal } = useConnectModal();
   const dialogRef = useRef(null);
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
@@ -100,6 +102,9 @@ function App(props: Props) {
         ></Header>
         <FormSection></FormSection>
         <Footer></Footer>
+        <button type="button" onClick={openConnectModal}>
+          open x
+        </button>
       </div>
       {renderDonate3Button(props.type)}
     </>

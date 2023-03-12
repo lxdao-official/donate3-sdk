@@ -196,8 +196,18 @@
   flex-direction: column;
 }
 
-.semilogo{
+.walleticon{
+  margin-right: -200px;
+  width: 124px;
+  height: 138px;
+}
+.btcicon{
+  width: 129px;
+  height: 103px;
+}
 
+.semiimg{
+  height: 114px;
 }
 
 .semidonatebtn{

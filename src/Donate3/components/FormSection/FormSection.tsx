@@ -2,10 +2,15 @@ import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
 import React, { useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
-import { ReactComponent as SemiLogo } from '../../images/semilogo.svg';
+// import { ReactComponent as SemiLogo } from '../../images/semilogo';
+import wallet from '../../images/wallet.png';
 import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
+
+// https://imgloc.com/i/vk3wZ  https://i.328888.xyz/2023/03/12/vk3wZ.png  avatar
+// https://imgloc.com/i/vkRxF  https://i.328888.xyz/2023/03/12/vkRxF.png  btc
+// https://imgloc.com/i/vkcMH  https://i.328888.xyz/2023/03/12/vkcMH.png  wallet
 
 function FormSection(props: any) {
   const { openConnectModal } = useConnectModal();
@@ -78,10 +83,18 @@ function FormSection(props: any) {
             }}
           ></div>
           <div className={styles.semiwrap}>
-            <div className={styles.semilogo}>
-              <SemiLogo></SemiLogo>
+            <div className={styles.semiimg}>
+              <img
+                className={styles.walleticon}
+                // src="https://i.328888.xyz/2023/03/12/vkcMH.png"
+                src={wallet}
+              ></img>
+              <img
+                className={styles.btcicon}
+                src="https://i.328888.xyz/2023/03/12/vkRxF.png"
+              ></img>
             </div>
-            <UserAvatar></UserAvatar>
+            <UserAvatar type={props.type}></UserAvatar>
             <div className={styles.semidonatebtn} onClick={openConnectModal}>
               Connect wallet for donation
             </div>
