@@ -1,6 +1,6 @@
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import wallet from '../../images/wallet.png';
@@ -20,9 +20,15 @@ function FormSection(props: any) {
   const { connector: activeConnector, isConnected } = useAccount();
   const [showSemiModal, setShowSemiModal] = useState(false);
   let cx = classNames.bind(styles);
+  useEffect(() => {
+    if (isConnected) {
+      setShowSemiModal(false);
+    } else {
+      setShowSemiModal(true);
+    }
+  }, []);
 
   const handleDonate = (event: any) => {
-    console.log('handleDonate', event, isConnected);
     if (isConnected) {
       setShowSemiModal(false);
       // TODO 调用合约

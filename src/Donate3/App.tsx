@@ -1,4 +1,3 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
 import React, { useRef, useState } from 'react';
 import styles from './App.module.css';
@@ -20,7 +19,6 @@ export interface Props {
 function App(props: Props) {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
-  const { openConnectModal } = useConnectModal();
   const dialogRef = useRef(null);
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
@@ -75,14 +73,18 @@ function App(props: Props) {
       );
     } else {
       return (
-        <div className={cx(styles.donate3btn)} onClick={handleSwitchDialog}>
+        <div className={cx(styles.donate3btn)}>
           <Header
             address={props.address}
             name={props.name}
             type={props.type}
+            normalmode={true}
           ></Header>
-          <DonateButton type={props.type}></DonateButton>
-          <UserAvatar type={props.type}></UserAvatar>
+          <div onClick={handleSwitchDialog}>
+            <DonateButton type={props.type}></DonateButton>
+          </div>
+
+          <UserAvatar type={props.type} normalmode={true}></UserAvatar>
         </div>
       );
     }
@@ -90,6 +92,14 @@ function App(props: Props) {
 
   return (
     <>
+      {props.type === 2 && showForm ? (
+        <div
+          className={styles.mask}
+          onClick={() => {
+            setShowForm(false);
+          }}
+        ></div>
+      ) : null}
       <div
         className={showForm ? `${styles.app} dialogAnimation` : styles.hidden}
         style={{ ...dialogStyle }}
@@ -102,9 +112,6 @@ function App(props: Props) {
         ></Header>
         <FormSection></FormSection>
         <Footer></Footer>
-        <button type="button" onClick={openConnectModal}>
-          open x
-        </button>
       </div>
       {renderDonate3Button(props.type)}
     </>

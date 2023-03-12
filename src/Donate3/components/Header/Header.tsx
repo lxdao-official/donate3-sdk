@@ -8,6 +8,7 @@ export interface HeaderProps {
   name: string;
   address: string;
   type: number;
+  normalmode?: boolean;
 }
 
 function Header(props: HeaderProps) {
@@ -15,23 +16,32 @@ function Header(props: HeaderProps) {
   let cx = classNames.bind(styles);
   console.log('header::', props);
   return (
-    <header className={cx(styles.header, { normalmode: props.type === 2 })}>
+    <header
+      className={cx(styles.header, {
+        normalmode: props.normalmode && props.type === 2,
+      })}
+    >
       <div className={styles.recipientinfo}>
         <div>Donate to {props.name}</div>
         <div>To:{props.address}</div>
       </div>
       <div>
-        {base64Hash ? (
-          <img
-            className={styles.avatar}
-            alt="avatar"
-            src={`data:image/svg+xml;base64,${base64Hash}`}
-          />
-        ) : (
-          // <Image src={Avatar} alt="xxxx"></Image>
-          <img src="https://i.328888.xyz/2023/03/12/vk3wZ.png"></img>
-          // <Avatar className={styles.avatar}></Avatar>
-        )}
+        <fieldset className={styles.fieldset}>
+          <legend>
+            {base64Hash ? (
+              <img
+                className={styles.avatar}
+                alt="avatar"
+                src={`data:image/svg+xml;base64,${base64Hash}`}
+              />
+            ) : (
+              <img
+                className={styles.avatar}
+                src="https://i.328888.xyz/2023/03/12/vk3wZ.png"
+              ></img>
+            )}
+          </legend>
+        </fieldset>
       </div>
     </header>
   );

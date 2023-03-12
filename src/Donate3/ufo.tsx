@@ -14,7 +14,6 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
-import App2 from './App2';
 import useNouns from './hooks/useNouns';
 // import { ReactComponent as Close2 } from './images/close.svg';
 
@@ -88,7 +87,6 @@ const Donate3 = (props: any) => {
           <App {...props.config} />
           <App3></App3>
           <ConnectButton></ConnectButton>
-          <App2 {...props.config} />
         </RainbowKitProvider>
       </WagmiConfig>
     </React.StrictMode>
