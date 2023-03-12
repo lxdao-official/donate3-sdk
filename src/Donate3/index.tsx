@@ -12,6 +12,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import useNouns from './hooks/useNouns';
+// import Close1, { ReactComponent as Close2 } from './images/close.svg';
+import { ReactComponent as Close2 } from './images/close.svg';
 import ufo from './images/ufo.jpg';
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
@@ -78,8 +80,12 @@ const Donate3 = (props: any) => {
           chains={chains}
           showRecentTransactions={true}
         >
-          {/* <App {...props.config} /> */}
-          <img src={ufo}></img>
+          {/* <App {...props.config} /> */}1<img src={ufo}></img>2
+          <img src="https://i.328888.xyz/2023/03/12/vDbWC.jpeg"></img>3
+          {/* <Close1></Close1> */}4
+          <div style={{ backgroundColor: 'red' }}>
+            <Close2 fill="red"></Close2>
+          </div>
         </RainbowKitProvider>
       </WagmiConfig>
     </React.StrictMode>
