@@ -73,6 +73,7 @@
   justify-content: space-between;
 }
 
+
 .shortcutoption div {
   width: 30%;
   height: 40px;
@@ -80,6 +81,17 @@
   border-radius: 4px;
   align-items: center;
   line-height: 40px;
+  box-sizing: border-box;
+}
+
+.shortcutoption div:hover {
+  border: 2px solid  #396AFF;
+  cursor: pointer;
+}
+
+.shortcutoption .active{
+  border: 2px solid  #396AFF;
+  cursor: pointer;
 }
 
 .fieldset {
@@ -136,6 +148,7 @@
   height: 41px;
   background: #396aff;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .donate3btn div:nth-child(1) {
@@ -224,5 +237,9 @@
   color:white;
   font-weight: 700;
   font-size: 14px;
-  }
+}
 
+.eth,.switch{
+  line-height: 50px !important;
+  cursor: pointer;
+}

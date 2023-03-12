@@ -7,7 +7,7 @@ import styles from './Header.module.css';
 export interface HeaderProps {
   name: string;
   address: string;
-  type: number;
+  type: string;
   normalmode?: boolean;
 }
 
@@ -18,7 +18,7 @@ function Header(props: HeaderProps) {
   return (
     <header
       className={cx(styles.header, {
-        normalmode: props.normalmode && props.type === 2,
+        normalmode: props.normalmode && props.type === '2',
       })}
     >
       <div className={styles.recipientinfo}>

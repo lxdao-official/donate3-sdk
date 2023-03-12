@@ -10,7 +10,7 @@ import { ReactComponent as Close } from './images/close.svg';
 import { getElementPosition } from './utils/index';
 
 export interface Props {
-  type: number;
+  type: string;
   color: string;
   name: string;
   address: string;
@@ -30,7 +30,7 @@ function App(props: Props) {
       margin: 'auto',
     };
 
-    if (props.type === 2) {
+    if (props.type === '2') {
       setDialogStyle(defaultStyle);
     } else {
       const { elementBottom, elementRight } = getElementPosition(
@@ -48,7 +48,7 @@ function App(props: Props) {
     setShowForm(!showForm);
   };
 
-  const renderDonate3Button = (type: number) => {
+  const renderDonate3Button = (type: string) => {
     if (type === 1) {
       return (
         <div
@@ -92,7 +92,7 @@ function App(props: Props) {
 
   return (
     <>
-      {props.type === 2 && showForm ? (
+      {props.type === '2' && showForm ? (
         <div
           className={styles.mask}
           onClick={() => {
