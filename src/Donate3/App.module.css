@@ -16,35 +16,22 @@
   box-sizing: border-box;
 }
 
-.tinymode {
-  position: absolute;
-  width: 173px;
-  height: 65px;
+.donate3btn{
+  position: fixed;
   right: 20px;
   bottom: 20px;
-  background: #396aff;
-  box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
-  border-radius: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  flex-direction: column;
 }
 
-.tinyimg {
-  width: 25px;
-  height: 25px;
-  color: #fff;
-  margin-right: 12px;
-}
+.floatmode {
 
-.tinytxt {
-  font-family: Inter;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 18px;
-  color: #fff;
+}
+.normalmode{
+
 }
 
 .applogo {
@@ -57,8 +44,6 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-
 
 .applink {
   color: #61dafb;
@@ -73,11 +58,6 @@
     transform: rotate(360deg);
   }
 }
-
-/* input::placeholder {
-  color: #c1cbca;
-  opacity: 1;
-} */
 
 .close {
   width: 65px;

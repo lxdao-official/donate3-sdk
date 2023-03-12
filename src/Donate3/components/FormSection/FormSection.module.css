@@ -199,9 +199,6 @@
 .semilogo{
 
 }
-.donateusers{
-  display: flex;
-}
 
 .semidonatebtn{
   box-sizing: border-box;
@@ -218,27 +215,4 @@
   font-weight: 700;
   font-size: 14px;
   }
-
-.donateuseravatar{
-  box-sizing: border-box;
-  width: 30px;
-  height: 30px;
-  border-radius: 130px;
-  margin-right: -12px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
-  border: 2px solid #FFFFFF;
-  border-radius: 130px;
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 26px;
-  color: #FFFFFF;
-}
-
-.donateuserdec{
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 12px;
-  color: #929F9E;
-  margin-top: 15px;
-}
 

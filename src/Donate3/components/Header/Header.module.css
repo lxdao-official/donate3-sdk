@@ -1,7 +1,4 @@
 .header {
-  /* background-color: #282c34; */
-
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -34,4 +31,14 @@
   font-size: 12px;
   line-height: 15px;
   color: #929f9e;
+}
+
+
+.normalmode {
+  flex-direction: column !important;
+}
+.normalmode :nth-child(1) { order: 2; }
+.normalmode :nth-child(2) { order: 1; }
+.normalmode .recipientinfo{
+  margin-bottom: 45px;
 }

@@ -11,8 +11,8 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-import App from './App';
 import useNouns from './hooks/useNouns';
+import ufo from './images/ufo.jpg';
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
@@ -78,7 +78,8 @@ const Donate3 = (props: any) => {
           chains={chains}
           showRecentTransactions={true}
         >
-          <App {...props.config} />
+          {/* <App {...props.config} /> */}
+          <img src={ufo}></img>
         </RainbowKitProvider>
       </WagmiConfig>
     </React.StrictMode>

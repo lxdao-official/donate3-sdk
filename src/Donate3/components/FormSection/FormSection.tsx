@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAccount, useConnect } from 'wagmi';
 import { ReactComponent as SemiLogo } from '../../images/semilogo.svg';
 import Footer from '../Footer/Footer';
+import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
 
 function FormSection(props: any) {
@@ -25,25 +26,6 @@ function FormSection(props: any) {
     }
   };
 
-  const makeDonateUserAvatar = () => {
-    let dom = [];
-    const url = 'https://i.imgur.com/RbcuN95.jpeg';
-    const myStyle = {
-      backgroundImage: `url('${url}')`,
-      height: '30px',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-    };
-    dom = ['aa', 'bb', 'cc'].map((item) => (
-      <div key={item} className={styles.donateuseravatar} style={myStyle}></div>
-    ));
-    dom.push(
-      <div key={'lastitem'} className={styles.donateuseravatar}>
-        190
-      </div>,
-    );
-    return dom;
-  };
   return (
     <section className={styles.appcontent}>
       <div className={styles.title}>Payment Method</div>
@@ -99,10 +81,7 @@ function FormSection(props: any) {
             <div className={styles.semilogo}>
               <SemiLogo></SemiLogo>
             </div>
-            <div>
-              <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
-              <div className={styles.donateuserdec}>已有198人向他捐赠</div>
-            </div>
+            <UserAvatar></UserAvatar>
             <div className={styles.semidonatebtn} onClick={openConnectModal}>
               Connect wallet for donation
             </div>

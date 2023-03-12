@@ -1,6 +1,6 @@
 {
   "name": "donate3-sdk",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Donate3 from LXDAO",
   "license": "MIT",
   "module": "dist/index.js",
@@ -51,6 +51,7 @@
     "ahooks": "^3.7.5",
     "classnames": "^2.3.2",
     "ethers": "^5.5.1",
+    "next": "^13.2.4",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "source-map-explorer": "^2.5.3",

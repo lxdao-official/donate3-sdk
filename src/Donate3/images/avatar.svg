@@ -6,7 +6,7 @@
   xmlns="http://www.w3.org/2000/svg"
   xmlns:xlink="http://www.w3.org/1999/xlink"
 >
-<rect width="65" height="65" rx="32.5" fill="url(#pattern0)" />
+<rect width="65" height="65" rx="32.5" fill={ufo} />
 <defs>
 <pattern
       id="pattern0"
