@@ -12,8 +12,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import useNouns from './hooks/useNouns';
-// import Close1, { ReactComponent as Close2 } from './images/close.svg';
-import { ReactComponent as Close2 } from './images/close.svg';
+import Close1, { ReactComponent as Close2 } from './images/close.svg';
+// import { ReactComponent as Close2 } from './images/close.svg';
 import ufo from './images/ufo.jpg';
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
@@ -67,6 +67,9 @@ const wagmiClient = createClient({
 });
 
 const Donate3 = (props: any) => {
+  console.log('ufo', ufo);
+  console.log('Close1', Close1);
+  console.log('Close2', Close2);
   return (
     <React.StrictMode>
       <WagmiConfig client={wagmiClient}>
@@ -82,7 +85,7 @@ const Donate3 = (props: any) => {
         >
           {/* <App {...props.config} /> */}1<img src={ufo}></img>2
           <img src="https://i.328888.xyz/2023/03/12/vDbWC.jpeg"></img>3
-          {/* <Close1></Close1> */}4
+          {/* <Close1></Close1>4 */}4
           <div style={{ backgroundColor: 'red' }}>
             <Close2 fill="red"></Close2>
           </div>
