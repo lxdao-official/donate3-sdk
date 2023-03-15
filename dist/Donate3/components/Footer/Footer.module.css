@@ -1,0 +1,9 @@
+.appfooter {
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #929f9e;
+  display: flex;
+  justify-content: center;
+}

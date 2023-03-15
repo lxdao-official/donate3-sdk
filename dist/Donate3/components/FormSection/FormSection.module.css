@@ -1,0 +1,249 @@
+@keyframes blowUpModal {
+  0% {
+    transform:scale(0);
+  }
+  100% {
+    transform:scale(1);
+  }
+}
+
+@keyframes blowUpModalTwo {
+  0% {
+    transform:scale(1);
+    opacity:1;
+  }
+  100% {
+    transform:scale(0);
+    opacity:0;
+  }
+}
+
+.appcontent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.title {
+  margin: 8px 0;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #3e4343;
+  text-align: initial;
+}
+
+.methodinput {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px;
+}
+
+.methodinput div {
+  background: rgb(26 56 96 / 8%);
+  height: 40px;
+  line-height: 40px;
+  flex: 1;
+}
+
+.methodinput input {
+  height: 40px;
+  padding: 0 12px;
+  border: 0;
+  background: rgb(26 56 96 / 8%);
+}
+
+.footermark {
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 120%;
+  color: #929f9e;
+  justify-content: space-around;
+}
+
+.shortcutoption {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
+.shortcutoption div {
+  width: 30%;
+  height: 40px;
+  background: #ececef;
+  border-radius: 4px;
+  align-items: center;
+  line-height: 40px;
+  box-sizing: border-box;
+}
+
+.shortcutoption div:hover {
+  border: 2px solid  #396AFF;
+  cursor: pointer;
+}
+
+.shortcutoption .active{
+  border: 2px solid  #396AFF;
+  cursor: pointer;
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  border-top: 0.5px #ececef solid;
+  text-align: center;
+}
+
+.fieldset legend {
+  padding: 0 10px;
+  color: #ececef;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.pricebtn {
+  background: rgb(26 56 96 / 8%);
+  border-radius: 4px;
+  height: 40px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #c1cbca;
+  border: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.msg div {
+  text-align: initial;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15px;
+  color: #3e4343;
+}
+
+.msg input {
+  height: 96px;
+  width: 100%;
+  border: 0;
+  background: rgb(26 56 96 / 8%);
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.donate3btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 41px;
+  background: #396aff;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 0px;
+}
+.donate3btn:hover{
+  background: #1f93ff;
+}
+
+.donate3btn div:nth-child(1) {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #fff;
+}
+
+.donate3btn div:nth-child(2) {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: rgb(255 255 255 / 50%);
+}
+
+.semiModal{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+}
+
+.in{
+  animation: blowUpModal .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+.out{
+  animation: blowUpModalTwo .5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+
+.bgmask{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(2px);
+}
+.semiwrap{
+  display: flex;
+  position: absolute;
+  width: 350px;
+  height: 363px;
+  bottom: 7px;
+  right: 0px;
+  left: 0px;
+  margin:0 auto;
+  background: #FEFDFD;
+  border: 1px solid #D7D7E0;
+  border-radius: 12px;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.walleticon{
+  margin-right: -200px;
+  width: 124px;
+  height: 138px;
+}
+.btcicon{
+  width: 129px;
+  height: 103px;
+}
+
+.semiimg{
+  height: 114px;
+}
+
+.semidonatebtn{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0px;
+  width: 292px;
+  height: 41px;
+  background: #396AFF;
+  border-radius: 4px;
+  color:white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.eth,.switch{
+  line-height: 50px !important;
+  cursor: pointer;
+}
