@@ -1,5 +1,6 @@
 import React from 'react';
 import './index.css';
+import './rainbow.css';
 
 import {
   AvatarComponent,
@@ -9,7 +10,7 @@ import {
   RainbowKitProvider,
   useConnectModal,
 } from '@rainbow-me/rainbowkit';
-import '@rainbow-me/rainbowkit/styles.css';
+// import '@rainbow-me/rainbowkit/styles.css';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';

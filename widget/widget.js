@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '../src/rainbow.css';
+// import '../src/rainbow.css';
 // import '@rainbow-me/rainbowkit/styles.css';
 // todo copy from above, webpack issue
 // import '../components/Donate/index.css';
