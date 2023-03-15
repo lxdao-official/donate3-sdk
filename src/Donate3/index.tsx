@@ -1,7 +1,3 @@
-import React from 'react';
-import './index.css';
-import './rainbow.css';
-
 import {
   AvatarComponent,
   ConnectButton,
@@ -10,6 +6,8 @@ import {
   RainbowKitProvider,
   useConnectModal,
 } from '@rainbow-me/rainbowkit';
+import React from 'react';
+import './global.css';
 // import '@rainbow-me/rainbowkit/styles.css';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
