@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 // import '../src/rainbow.css';
 // import '@rainbow-me/rainbowkit/styles.css';
 // todo copy from above, webpack issue
-import '../src/Donate3Pure/global.css';
-import Donate3 from '../src/Donate3Pure/index';
+// import '../src/Donate3Pure/global.css';
+import '../src/Donate3UI/Index.module.css';
+import Donate3 from '../src/Donate3/index';
 
 const donate3Roots = document.querySelectorAll('[data-donate-to]');
 donate3Roots.forEach((root) => {

@@ -29,12 +29,15 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.tsx
 var src_exports = {};
 __export(src_exports, {
-  Donate3: () => import_Donate3.default
+  Donate3: () => import_Donate3Pure.default,
+  Donate3UI: () => import_Donate3UI.default
 });
 module.exports = __toCommonJS(src_exports);
-var import_Donate3 = __toESM(require("./Donate3"));
+var import_Donate3Pure = __toESM(require("./Donate3Pure"));
+var import_Donate3UI = __toESM(require("./Donate3UI"));
 "use client";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  Donate3
+  Donate3,
+  Donate3UI
 });
