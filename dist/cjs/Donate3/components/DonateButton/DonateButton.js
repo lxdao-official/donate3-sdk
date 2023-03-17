@@ -26,15 +26,29 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/index.tsx
-var src_exports = {};
-__export(src_exports, {
-  Donate3: () => import_Donate3.default
+// src/Donate3/components/DonateButton/DonateButton.tsx
+var DonateButton_exports = {};
+__export(DonateButton_exports, {
+  default: () => DonateButton_default
 });
-module.exports = __toCommonJS(src_exports);
-var import_Donate3 = __toESM(require("./Donate3"));
-"use client";
+module.exports = __toCommonJS(DonateButton_exports);
+var import_bind = __toESM(require("classnames/bind"));
+var import_react = __toESM(require("react"));
+var import_logowhite = require("../../images/logowhite.svg");
+var import_DonateButton_module = __toESM(require("./DonateButton.module.css"));
+function DonateButton(props) {
+  let cx = import_bind.default.bind(import_DonateButton_module.default);
+  let wrapStyles = cx(
+    import_DonateButton_module.default.wrap,
+    {
+      largewrap: props.type === "2"
+    },
+    {
+      tinywrap: props.type === "1"
+    }
+  );
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: wrapStyles }, /* @__PURE__ */ import_react.default.createElement(import_logowhite.ReactComponent, { className: import_DonateButton_module.default.img }), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"), props.type === "2" ? /* @__PURE__ */ import_react.default.createElement("span", null, "address todo") : null);
+}
+var DonateButton_default = DonateButton;
 // Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  Donate3
-});
+0 && (module.exports = {});

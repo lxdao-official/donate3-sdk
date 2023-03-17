@@ -26,15 +26,18 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/index.tsx
-var src_exports = {};
-__export(src_exports, {
-  Donate3: () => import_Donate3.default
+// src/Donate3/components/Footer/Footer.tsx
+var Footer_exports = {};
+__export(Footer_exports, {
+  default: () => Footer_default
 });
-module.exports = __toCommonJS(src_exports);
-var import_Donate3 = __toESM(require("./Donate3"));
-"use client";
+module.exports = __toCommonJS(Footer_exports);
+var import_react = __toESM(require("react"));
+var import_logo = require("../../images/logo.svg");
+var import_Footer_module = __toESM(require("./Footer.module.css"));
+function Footer() {
+  return /* @__PURE__ */ import_react.default.createElement("footer", { className: import_Footer_module.default.appfooter }, /* @__PURE__ */ import_react.default.createElement("span", null, "Power by"), /* @__PURE__ */ import_react.default.createElement("span", null, /* @__PURE__ */ import_react.default.createElement(import_logo.ReactComponent, null)), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"));
+}
+var Footer_default = Footer;
 // Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  Donate3
-});
+0 && (module.exports = {});
