@@ -62,6 +62,7 @@ const wagmiClient = createClient({
 });
 
 const Donate3 = (props: any) => {
+  console.log('-----Donate3');
   return (
     <React.StrictMode>
       <WagmiConfig client={wagmiClient}>
@@ -71,7 +72,7 @@ const Donate3 = (props: any) => {
             learnMoreUrl: 'https://donate3.xyz',
             disclaimer: Disclaimer,
           }}
-          avatar={CustomAvatar}
+          // avatar={CustomAvatar}
           chains={chains}
           showRecentTransactions={true}
         >
@@ -84,4 +85,4 @@ const Donate3 = (props: any) => {
   );
 };
 
-export default Donate3;
+export default React.memo(Donate3);

@@ -1,5 +1,6 @@
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
+import useDonate from 'donate3-sdk/Donate3/hooks/useDonate';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import {
   useAccount,
@@ -21,27 +22,39 @@ import styles from './FormSection.module.css';
 // https://imgloc.com/i/vkRxF  https://i.328888.xyz/2023/03/12/vkRxF.png  btc
 // https://imgloc.com/i/vkcMH  https://i.328888.xyz/2023/03/12/vkcMH.png  wallet
 
-function FormSection(props: { type: string }) {
+function FormSection(props: { type: string; toAddress: string }) {
   const { openConnectModal } = useConnectModal();
   const { openChainModal } = useChainModal();
   const { chain, chains } = useNetwork();
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const [showSemiModal, setShowSemiModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
   const provider = useProvider();
+  const createDonate = useDonate();
   const contract = useContract({
-    address: '0xb3E988ec1b8c53cd4915Ec20C95F3103d984ebE7',
+    address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
     signerOrProvider: provider,
   });
 
+  let donateToken = 'ETH';
+  let pid = '';
+  let _merkleProof = '';
+
   const { config } = usePrepareContractWrite({
-    address: '0xb3E988ec1b8c53cd4915Ec20C95F3103d984ebE7',
+    address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
-    functionName: 'mint',
+    functionName: 'donateToken',
+    args: [pid, amount, props.toAddress, message, _merkleProof],
   });
-  const { data, isLoading, isSuccess, write } = useContractWrite(config);
+
+  const {
+    data: transactionData,
+    isLoading,
+    isSuccess,
+    write,
+  } = useContractWrite(config);
   let cx = classNames.bind(styles);
   useEffect(() => {
     if (isConnected) {
@@ -51,9 +64,26 @@ function FormSection(props: { type: string }) {
     }
   }, []);
 
-  useEffect(() => {
-    console.log('合约数据变更', data, isLoading, isSuccess);
-  }, [data, isLoading, isSuccess]);
+  const asyncFunc = async () => {
+    console.log('合约数据变更', transactionData, isLoading, isSuccess);
+    const createDonateArgs = {
+      chainType: chain?.name || 'unknow',
+      coinType: 0,
+      createTime: Date.now(),
+      fromAddress: address,
+      hash: transactionData?.hash,
+      id: transactionData?.hash,
+      message: message,
+      status: 0, // TODO
+      toAddress: props.toAddress,
+      updateTime: Date.now(),
+      usdValue: amount,
+      userId: address,
+      value: amount,
+    };
+    const result = await createDonate(createDonateArgs);
+    console.log(result);
+  };
 
   const handleDonate = () => {
     if (isConnected) {
@@ -65,6 +95,8 @@ function FormSection(props: { type: string }) {
       console.log(data, chain, chains, contract);
       debugger;
       write?.();
+      asyncFunc();
+
       // TODO 调用合约
     } else {
       setShowSemiModal(true);
@@ -134,7 +166,7 @@ function FormSection(props: { type: string }) {
       <button
         type="button"
         className={styles.donate3btn}
-        // disabled={!write}
+        disabled={!write}
         onClick={handleDonate}
       >
         <div>DONATE3</div>
@@ -180,4 +212,4 @@ function FormSection(props: { type: string }) {
 
 //
 
-export default FormSection;
+export default React.memo(FormSection);

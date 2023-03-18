@@ -1,15 +1,20 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './widget/widget.js',
   output: {
     filename: './webpack/bundle.js',
   },
 
-  devtool: 'source-map',
+  // devtool: 'source-map',
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
+  plugins: [
+    new BundleAnalyzerPlugin()
+  ],
   module: {
     rules: [
       {

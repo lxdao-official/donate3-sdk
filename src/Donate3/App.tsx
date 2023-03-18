@@ -17,6 +17,7 @@ export interface Props {
 }
 
 function App(props: Props) {
+  console.log('-------App');
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
   const dialogRef = useRef(null);
@@ -110,7 +111,7 @@ function App(props: Props) {
           name={props.name}
           type={props.type}
         ></Header>
-        <FormSection type={props.type}></FormSection>
+        <FormSection type={props.type} toAddress={props.address}></FormSection>
         <Footer></Footer>
       </div>
       {renderDonate3Button(props.type)}
@@ -118,4 +119,4 @@ function App(props: Props) {
   );
 }
 
-export default App;
+export default React.memo(App);
