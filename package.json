@@ -1,6 +1,6 @@
 {
   "name": "donate3-sdk",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "description": "Donate3 from LXDAO",
   "license": "MIT",
   "module": "dist/index.js",
@@ -51,8 +51,9 @@
     "@rainbow-me/rainbowkit": "^0.11.0",
     "@testing-library/jest-dom": "^5.16.5",
     "ahooks": "^3.7.5",
+    "bignumber.js": "^9.1.1",
     "classnames": "^2.3.2",
-    "ethers": "^5.5.1",
+    "ethers": "^5.7.2",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
     "source-map-explorer": "^2.5.3",

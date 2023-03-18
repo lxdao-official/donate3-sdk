@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-
 const BASE_URL = 'https://api.donate3.xyz';
 
 interface Args {
@@ -13,13 +12,12 @@ interface Args {
   status: number;
   toAddress: string;
   updateTime: number;
-  usdValue: number;
+  usdValue: string;
   userId: `0x${string}` | undefined;
-  value: number;
+  value: string;
 }
 
 const useDonate = () => {
-  // console.log(args);
   const createDonate = useCallback(async (args: Args) => {
     console.log('inner', args);
     const res = await fetch(`${BASE_URL}/api/v1/donate/create`, {
@@ -37,4 +35,5 @@ const useDonate = () => {
   }, []);
   return createDonate;
 };
+
 export default useDonate;

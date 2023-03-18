@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 export interface Props {
     type: string;
     color: string;
@@ -6,4 +6,5 @@ export interface Props {
     address: string;
 }
 declare function App(props: Props): JSX.Element;
-export default App;
+declare const _default: React.MemoExoticComponent<typeof App>;
+export default _default;

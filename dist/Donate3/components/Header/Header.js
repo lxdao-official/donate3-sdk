@@ -1,7 +1,6 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import useNouns from "../../hooks/useNouns";
-// import { ReactComponent as Avatar } from '../../images/avatar.svg';
 import styles from "./Header.module.css";
 function Header(props) {
   var base64Hash = useNouns(props.address);

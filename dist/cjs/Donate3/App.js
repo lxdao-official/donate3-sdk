@@ -43,6 +43,7 @@ var import_UserAvatar = __toESM(require("./components/UserAvatar/UserAvatar"));
 var import_close = require("./images/close.svg");
 var import_utils = require("./utils/index");
 function App(props) {
+  console.log("-------App");
   const [showForm, setShowForm] = (0, import_react.useState)(false);
   const [dialogStyle, setDialogStyle] = (0, import_react.useState)({});
   const dialogRef = (0, import_react.useRef)(null);
@@ -123,10 +124,10 @@ function App(props) {
         type: props.type
       }
     ),
-    /* @__PURE__ */ import_react.default.createElement(import_FormSection.default, { type: props.type }),
+    /* @__PURE__ */ import_react.default.createElement(import_FormSection.default, { type: props.type, toAddress: props.address }),
     /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null)
   ), renderDonate3Button(props.type));
 }
-var App_default = App;
+var App_default = import_react.default.memo(App);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

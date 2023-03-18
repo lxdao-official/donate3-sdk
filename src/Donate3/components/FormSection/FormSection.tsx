@@ -1,6 +1,6 @@
 import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
-import useDonate from 'donate3-sdk/Donate3/hooks/useDonate';
+import { ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import {
   useAccount,
@@ -8,8 +8,9 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useProvider,
+  useSigner,
 } from 'wagmi';
+import useDonate from '../../hooks/useDonate';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from '../../abi.json';
 import { ReactComponent as Eth } from '../../images/eth.svg';
@@ -17,7 +18,6 @@ import { ReactComponent as Switch } from '../../images/switch.svg';
 import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
-
 // https://imgloc.com/i/vk3wZ  https://i.328888.xyz/2023/03/12/vk3wZ.png  avatar
 // https://imgloc.com/i/vkRxF  https://i.328888.xyz/2023/03/12/vkRxF.png  btc
 // https://imgloc.com/i/vkcMH  https://i.328888.xyz/2023/03/12/vkcMH.png  wallet
@@ -28,26 +28,51 @@ function FormSection(props: { type: string; toAddress: string }) {
   const { chain, chains } = useNetwork();
   const { address, isConnected } = useAccount();
   const [showSemiModal, setShowSemiModal] = useState(false);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
-  const provider = useProvider();
+  // const provider = useProvider();
   const createDonate = useDonate();
+  const { data: signer } = useSigner();
   const contract = useContract({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
-    signerOrProvider: provider,
+    signerOrProvider: signer,
   });
 
-  let donateToken = 'ETH';
-  let pid = '';
-  let _merkleProof = '';
+  // contract.off('MintEvent', mintEventListener);
+  // contract.on('MintEvent', mintEventListener);
 
+  let pid = 3;
+  // let _merkleProof = '';
+  // const amountIn = new BigNumber(amount * Math.pow(10, 18));
+  const amountIn = amount && ethers.utils.parseEther(amount);
+  const bytesMsg = ethers.utils.toUtf8Bytes(message);
+  let donateTokenArgs = [
+    pid,
+    amountIn,
+    '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
+    // props.toAddress,
+    bytesMsg,
+    [],
+    {
+      value: amountIn,
+    },
+  ];
+  // let mintArgs = [address, pid, address];
+
+  console.log('donateTokenArgs', donateTokenArgs);
   const { config } = usePrepareContractWrite({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
     functionName: 'donateToken',
-    args: [pid, amount, props.toAddress, message, _merkleProof],
+    args: donateTokenArgs,
   });
+  // const { config: mintConfig } = usePrepareContractWrite({
+  //   address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
+  //   abi: abi,
+  //   functionName: 'mint',
+  //   args: mintArgs,
+  // });
 
   const {
     data: transactionData,
@@ -55,6 +80,7 @@ function FormSection(props: { type: string; toAddress: string }) {
     isSuccess,
     write,
   } = useContractWrite(config);
+  // console.log('-------::', isLoading, isSuccess, transactionData);
   let cx = classNames.bind(styles);
   useEffect(() => {
     if (isConnected) {
@@ -85,7 +111,7 @@ function FormSection(props: { type: string; toAddress: string }) {
     console.log(result);
   };
 
-  const handleDonate = () => {
+  const handleDonate = async () => {
     if (isConnected) {
       setShowSemiModal(false);
       const data = {
@@ -93,11 +119,22 @@ function FormSection(props: { type: string; toAddress: string }) {
         message,
       };
       console.log(data, chain, chains, contract);
-      debugger;
+      // const res = await contract.mint(
+      //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
+      //   7,
+      //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
+      //   // {
+      //   //   value: 100000,
+      //   // },
+      // );
+
+      // console.log('-----', res);
       write?.();
       asyncFunc();
+      console.log(transactionData);
 
       // TODO 调用合约
+      // TODO toast
     } else {
       setShowSemiModal(true);
     }
@@ -114,7 +151,7 @@ function FormSection(props: { type: string; toAddress: string }) {
   };
 
   const handleManualAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(event.target.value));
+    setAmount(event.target.value);
   };
 
   return (
@@ -166,7 +203,7 @@ function FormSection(props: { type: string; toAddress: string }) {
       <button
         type="button"
         className={styles.donate3btn}
-        disabled={!write}
+        // disabled={!write}
         onClick={handleDonate}
       >
         <div>DONATE3</div>

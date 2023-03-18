@@ -42,20 +42,6 @@ var import_App = __toESM(require("./App"));
 var import_globalcss = __toESM(require("./globalcss"));
 var import_useNouns = __toESM(require("./hooks/useNouns"));
 var Disclaimer = ({ Text, Link }) => /* @__PURE__ */ import_react.default.createElement(Text, null, "这里是 Donate3 的免责声明，待补充", " ", /* @__PURE__ */ import_react.default.createElement(Link, { href: "https://termsofservice.xyz" }, "Terms of Service"), " and 这里是 Donate3 的免责声明，待补充", " ", /* @__PURE__ */ import_react.default.createElement(Link, { href: "https://disclaimer.xyz" }, "Disclaimer"));
-var CustomAvatar = ({ address, ensImage, size }) => {
-  console.log(address, ensImage, size);
-  const base64Hash = (0, import_useNouns.default)("0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4");
-  return ensImage ? /* @__PURE__ */ import_react.default.createElement(
-    "img",
-    {
-      src: ensImage,
-      width: size,
-      height: size,
-      alt: "ENS img",
-      style: { borderRadius: 999 }
-    }
-  ) : /* @__PURE__ */ import_react.default.createElement("img", { src: `data:image/svg+xml;base64,${base64Hash}` });
-};
 var { chains, provider, webSocketProvider } = (0, import_wagmi.configureChains)(
   [import_chains.mainnet, import_chains.goerli, import_chains.polygon, import_chains.polygonMumbai],
   [(0, import_public.publicProvider)()]
@@ -71,6 +57,7 @@ var wagmiClient = (0, import_wagmi.createClient)({
   webSocketProvider
 });
 var Donate3 = (props) => {
+  console.log("-----Donate3");
   return /* @__PURE__ */ import_react.default.createElement(import_react.default.StrictMode, null, /* @__PURE__ */ import_react.default.createElement(import_wagmi.WagmiConfig, { client: wagmiClient }, /* @__PURE__ */ import_react.default.createElement(
     import_rainbowkit.RainbowKitProvider,
     {
@@ -79,7 +66,6 @@ var Donate3 = (props) => {
         learnMoreUrl: "https://donate3.xyz",
         disclaimer: Disclaimer
       },
-      avatar: CustomAvatar,
       chains,
       showRecentTransactions: true
     },
@@ -87,6 +73,6 @@ var Donate3 = (props) => {
     /* @__PURE__ */ import_react.default.createElement(import_App.default, { ...props.config })
   )));
 };
-var Donate3_default = Donate3;
+var Donate3_default = import_react.default.memo(Donate3);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

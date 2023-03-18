@@ -151,6 +151,9 @@
   cursor: pointer;
   border: 0px;
 }
+.donate3btn:disabled{
+  background-color: #D7D7E0;
+}
 .donate3btn:hover{
   background: #1f93ff;
 }

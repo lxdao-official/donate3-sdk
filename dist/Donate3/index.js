@@ -55,6 +55,7 @@ var wagmiClient = createClient({
   webSocketProvider: webSocketProvider
 });
 var Donate3 = function Donate3(props) {
+  console.log('-----Donate3');
   return /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(WagmiConfig, {
     client: wagmiClient
   }, /*#__PURE__*/React.createElement(RainbowKitProvider, {
@@ -62,12 +63,13 @@ var Donate3 = function Donate3(props) {
       appName: 'Donate3',
       learnMoreUrl: 'https://donate3.xyz',
       disclaimer: Disclaimer
-    },
-    avatar: CustomAvatar,
+    }
+    // avatar={CustomAvatar}
+    ,
     chains: chains,
     showRecentTransactions: true
   }, /*#__PURE__*/React.createElement(Global, {
     styles: globalcss
   }), /*#__PURE__*/React.createElement(App, props.config))));
 };
-export default Donate3;
+export default /*#__PURE__*/React.memo(Donate3);

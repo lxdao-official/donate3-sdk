@@ -21,6 +21,7 @@ import UserAvatar from "./components/UserAvatar/UserAvatar";
 import { ReactComponent as Close } from "./images/close.svg";
 import { getElementPosition } from "./utils/index";
 function App(props) {
+  console.log('-------App');
   var _useState = useState(false),
     _useState2 = _slicedToArray(_useState, 2),
     showForm = _useState2[0],
@@ -104,7 +105,8 @@ function App(props) {
     name: props.name,
     type: props.type
   }), /*#__PURE__*/React.createElement(FormSection, {
-    type: props.type
+    type: props.type,
+    toAddress: props.address
   }), /*#__PURE__*/React.createElement(Footer, null)), renderDonate3Button(props.type));
 }
-export default App;
+export default /*#__PURE__*/React.memo(App);
