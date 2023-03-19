@@ -4,11 +4,9 @@ import { ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import {
   useAccount,
-  useContract,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useSigner,
 } from 'wagmi';
 import useDonate from '../../hooks/useDonate';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
@@ -28,38 +26,25 @@ function FormSection(props: { type: string; toAddress: string }) {
   const { chain, chains } = useNetwork();
   const { address, isConnected } = useAccount();
   const [showSemiModal, setShowSemiModal] = useState(false);
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
-  // const provider = useProvider();
   const createDonate = useDonate();
-  const { data: signer } = useSigner();
-  const contract = useContract({
-    address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
-    abi: abi,
-    signerOrProvider: signer,
-  });
-
-  // contract.off('MintEvent', mintEventListener);
-  // contract.on('MintEvent', mintEventListener);
 
   let pid = 3;
   // let _merkleProof = '';
   // const amountIn = new BigNumber(amount * Math.pow(10, 18));
-  const amountIn = amount && ethers.utils.parseEther(amount);
+  const amountIn = amount && ethers.utils.parseEther(amount.toString());
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
   let donateTokenArgs = [
     pid,
     amountIn,
     '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-    // props.toAddress,
     bytesMsg,
     [],
     {
       value: amountIn,
     },
   ];
-  // let mintArgs = [address, pid, address];
-
   console.log('donateTokenArgs', donateTokenArgs);
   const { config } = usePrepareContractWrite({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
@@ -67,12 +52,6 @@ function FormSection(props: { type: string; toAddress: string }) {
     functionName: 'donateToken',
     args: donateTokenArgs,
   });
-  // const { config: mintConfig } = usePrepareContractWrite({
-  //   address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
-  //   abi: abi,
-  //   functionName: 'mint',
-  //   args: mintArgs,
-  // });
 
   const {
     data: transactionData,
@@ -93,8 +72,8 @@ function FormSection(props: { type: string; toAddress: string }) {
   const asyncFunc = async () => {
     console.log('合约数据变更', transactionData, isLoading, isSuccess);
     const createDonateArgs = {
-      chainType: chain?.name || 'unknow',
-      coinType: 0,
+      chainType: chain?.id || 0,
+      coinType: 0, //TODO
       createTime: Date.now(),
       fromAddress: address,
       hash: transactionData?.hash,
@@ -118,7 +97,7 @@ function FormSection(props: { type: string; toAddress: string }) {
         amount,
         message,
       };
-      console.log(data, chain, chains, contract);
+      console.log(data, chain, chains);
       // const res = await contract.mint(
       //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
       //   7,

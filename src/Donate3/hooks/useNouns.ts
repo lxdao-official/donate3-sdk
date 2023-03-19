@@ -1,20 +1,22 @@
 import { useEffect, useState } from 'react';
+import { getNounsBase64 } from '../utils/nouns';
 
 const useNouns = (address: string) => {
   const [nounsBase64, setnounsBase64] = useState('');
   useEffect(() => {
     const fetchData = async () => {
-      const getData = async (address: string) => {
-        const res = await fetch(
-          `http://localhost:3000/api/getnouns/${address}`,
-        );
-        const json = await res.json();
-        const { code, base64 } = json;
-        console.log(code);
-        return base64;
-      };
+      // const getData = async (address: string) => {
+      //   const res = await fetch(
+      //     `http://localhost:3000/api/getnouns/${address}`,
+      //   );
+      //   const json = await res.json();
+      //   const { code, base64 } = json;
+      //   console.log(code);
+      //   return base64;
+      // };
 
-      const base64 = await getData(address);
+      // const base64 = await getData(address);
+      const base64 = getNounsBase64(address);
       setnounsBase64(base64);
     };
 

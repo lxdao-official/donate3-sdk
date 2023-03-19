@@ -12,6 +12,7 @@ export interface HeaderProps {
 
 function Header(props: HeaderProps) {
   const base64Hash = useNouns(props.address);
+
   let cx = classNames.bind(styles);
   console.log('header::', props);
   return (

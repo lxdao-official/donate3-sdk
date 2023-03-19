@@ -8,6 +8,7 @@ specifiers:
   '@commitlint/cli': ^17.1.2
   '@commitlint/config-conventional': ^17.1.0
   '@emotion/react': ^11.10.6
+  '@ethersproject/solidity': ^5.7.0
   '@nouns/assets': ^0.4.2
   '@nouns/sdk': ^0.4.0
   '@rainbow-me/rainbowkit': ^0.11.0
@@ -53,6 +54,7 @@ specifiers:
 
 dependencies:
   '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
+  '@ethersproject/solidity': 5.7.0
   '@nouns/assets': 0.4.2
   '@nouns/sdk': 0.4.0_ethers@5.7.2
   '@rainbow-me/rainbowkit': 0.11.1_n6t5aahpmtkwjlwfqif42jvo7q

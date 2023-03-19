@@ -5,7 +5,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 import { useCallback } from 'react';
 var BASE_URL = 'https://api.donate3.xyz';
 var useDonate = function useDonate() {
-  // console.log(args);
   var createDonate = useCallback( /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(args) {
       var res, json, code, result;

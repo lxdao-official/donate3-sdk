@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 const BASE_URL = 'https://api.donate3.xyz';
 
 interface Args {
-  chainType: string;
+  chainType: number;
   coinType: number;
   createTime: number;
   fromAddress: `0x${string}` | undefined;
