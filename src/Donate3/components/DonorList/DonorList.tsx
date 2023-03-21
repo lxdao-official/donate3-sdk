@@ -13,11 +13,8 @@ function DonorList(props: DonorListProps) {
   let cx = classNames.bind(styles);
   console.log('DonorList::', props);
   return (
-    <div
-      className={cx(styles.DonorList, {
-        normalmode: props.normalmode && props.type === '2',
-      })}
-    >
+    <div className={cx(styles.wrap)}>
+      <div></div>
       <div className={styles.recipientinfo}>
         <div>Donate to {props.name}</div>
         <div>To:{props.address}</div>

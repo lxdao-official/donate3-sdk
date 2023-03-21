@@ -14,6 +14,7 @@ import abi from '../../abi.json';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import Footer from '../Footer/Footer';
+import Success from '../Success/Success';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
 // https://imgloc.com/i/vk3wZ  https://i.328888.xyz/2023/03/12/vk3wZ.png  avatar
@@ -28,7 +29,9 @@ function FormSection(props: { type: string; toAddress: string }) {
   const [showSemiModal, setShowSemiModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
+  const [donateSuccess, setDonateSuccess] = useState(true);
   const createDonate = useDonate();
+  const timeout = 5; // s
 
   let pid = 3;
   // let _merkleProof = '';
@@ -69,24 +72,31 @@ function FormSection(props: { type: string; toAddress: string }) {
     }
   }, []);
 
+  useEffect(() => {
+    if (donateSuccess) {
+      setTimeout(() => {
+        setDonateSuccess(false);
+      }, timeout * 1000);
+    }
+  }, [donateSuccess]);
+
   const asyncFunc = async () => {
     console.log('合约数据变更', transactionData, isLoading, isSuccess);
     const createDonateArgs = {
-      chainType: chain?.id || 0,
-      coinType: 0, //TODO
-      createTime: Date.now(),
+      chainType: 4 || chain?.id || 0,
+      coinType: 0, //TODO, 这里我应该传什么？有哪些值？
       fromAddress: address,
-      hash: transactionData?.hash,
-      id: transactionData?.hash,
+      hash: transactionData?.hash, // 这里我取 transaction hash
+      // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
       message: message,
-      status: 0, // TODO
+      // status: 0, // TODO 这里的状态有哪些值？
       toAddress: props.toAddress,
-      updateTime: Date.now(),
-      usdValue: amount,
-      userId: address,
-      value: amount,
+      usdValue: amount, // 这里是否可以支持 int 和 string 两种类型？
+      userId: props.toAddress, // 用户 ID 怎么拿？是否可以用他的钱包地址？
+      value: amount, // 这里是否可以支持 int 和 string 两种类型？
     };
     const result = await createDonate(createDonateArgs);
+    setDonateSuccess(true);
     console.log(result);
   };
 
@@ -222,6 +232,7 @@ function FormSection(props: { type: string; toAddress: string }) {
           </div>
         </div>
       ) : null}
+      {donateSuccess ? <Success timeout={timeout} /> : null}
     </section>
   );
 }
