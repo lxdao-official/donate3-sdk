@@ -13,6 +13,7 @@ import useDonate from '../../hooks/useDonate';
 import abi from '../../abi.json';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
+import DonorList from '../DonorList/DonorList';
 import Footer from '../Footer/Footer';
 import Success from '../Success/Success';
 import UserAvatar from '../UserAvatar/UserAvatar';
@@ -30,6 +31,7 @@ function FormSection(props: { type: string; toAddress: string }) {
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
   const [donateSuccess, setDonateSuccess] = useState(true);
+  const [showDonorList, setShowDonorList] = useState(true);
   const createDonate = useDonate();
   const timeout = 5; // s
 
@@ -233,6 +235,7 @@ function FormSection(props: { type: string; toAddress: string }) {
         </div>
       ) : null}
       {donateSuccess ? <Success timeout={timeout} /> : null}
+      {showDonorList ? <DonorList /> : null}
     </section>
   );
 }
