@@ -1,122 +1,29 @@
 import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { DonorRecord, DonorResult } from '../../App';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as SortBg } from '../../images/sortbg.svg';
 import Avatar from '../Avatar/Avatar';
 import styles from './DonorList.module.css';
 
-export interface DonorListProps {}
-export interface Data {
-  address: string;
-  key: string;
-  desc: string;
-}
-export interface TopData {
-  address: string;
-  amount: number;
-  count: number;
+export interface DonorListProps {
+  setShowDonorList: any;
+  toAddress: string;
+  donorResult: DonorResult | undefined;
 }
 
 function DonorList(props: DonorListProps) {
   let cx = classNames.bind(styles);
-  console.log('DonorList::', props);
-  const [donorList, setDonorList] = useState<Data[]>([]);
 
-  useEffect(() => {
-    setDonorList([
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-      {
-        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-        key: '1',
-        desc: 'desc',
-      },
-    ]);
-  }, []);
-
-  const mockTopData = [
-    {
-      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      amount: 433.21,
-      count: 3,
-    },
-    {
-      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      amount: 432.21,
-      count: 4,
-    },
-    {
-      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      amount: 132.21,
-      count: 1,
-    },
-  ];
-
-  const makeDonateUserAvatar = (datas: Data[]) => {
+  const makeDonateDonorAvatar = (datas: DonorResult | undefined) => {
+    if (!datas) return;
     let dom = [];
-    dom = datas.map((item: Data, index: number) => {
+    const records = datas?.result?.records;
+    dom = records?.map((item: DonorRecord, index: number) => {
       return (
         <Avatar
           key={index}
-          address={item.address}
+          address={item.fromAddress}
           className={styles.listavatar}
         ></Avatar>
       );
@@ -125,16 +32,18 @@ function DonorList(props: DonorListProps) {
     return dom;
   };
 
-  const makeTopDom = (datas: TopData[]) => {
+  const makeTopDom = (datas: DonorResult | undefined) => {
+    if (!datas) return;
     let dom = [];
-    dom = datas.map((item: TopData, index: number) => {
+    const records = datas?.result?.records?.slice(0, 3);
+    dom = records?.map((item: DonorRecord, index: number) => {
       return (
         <div key={index} className={styles.topitem}>
           <div className={styles.topimg}>
-            <Avatar address={item.address} width={'60px'}></Avatar>
+            <Avatar address={item.fromAddress} width={'60px'}></Avatar>
           </div>
-          <div className={styles.amount}>${item.amount}</div>
-          <div className={styles.count}>捐赠{3}次</div>
+          <div className={styles.amount}>${item.usdValue}</div>
+          <div className={styles.count}>捐赠{item.value}次</div>
         </div>
       );
     });
@@ -147,19 +56,26 @@ function DonorList(props: DonorListProps) {
         <div className={styles.header}>
           <div className={styles.title}>
             <span className={styles.titletxt}>Donor</span>
-            <Close style={{ transform: 'scale(0.5)' }}></Close>
+            <Close
+              style={{ transform: 'scale(0.5)' }}
+              onClick={() => {
+                props.setShowDonorList(false);
+              }}
+            ></Close>
           </div>
           <div className={styles.top}>
-            {makeTopDom(mockTopData)}
+            {makeTopDom(props.donorResult)}
             <div className={styles.bg}>
               <SortBg></SortBg>
             </div>
           </div>
         </div>
-        <div className={styles.list}>{makeDonateUserAvatar(donorList)}</div>
+        <div className={styles.list}>
+          {makeDonateDonorAvatar(props.donorResult)}
+        </div>
       </div>
     </div>
   );
 }
 
-export default DonorList;
+export default React.memo(DonorList);

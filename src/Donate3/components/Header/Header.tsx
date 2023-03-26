@@ -8,13 +8,13 @@ export interface HeaderProps {
   address: string;
   type: string;
   normalmode?: boolean;
+  total: number | undefined;
 }
 
 function Header(props: HeaderProps) {
   const base64Hash = useNouns(props.address);
 
   let cx = classNames.bind(styles);
-  console.log('header::', props);
   return (
     <header
       className={cx(styles.header, {
@@ -25,7 +25,7 @@ function Header(props: HeaderProps) {
         <div>Donate to {props.name}</div>
         <div>To:{props.address}</div>
       </div>
-      <div>
+      <div className={styles.avatarwrap}>
         <fieldset className={styles.fieldset}>
           <legend>
             {base64Hash ? (
@@ -42,6 +42,7 @@ function Header(props: HeaderProps) {
             )}
           </legend>
         </fieldset>
+        <div className={styles.total}>{props.total}</div>
       </div>
     </header>
   );
@@ -49,4 +50,4 @@ function Header(props: HeaderProps) {
 
 //
 
-export default Header;
+export default React.memo(Header);

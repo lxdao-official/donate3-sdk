@@ -1,47 +1,41 @@
 import classNames from 'classnames/bind';
 import React from 'react';
+import { DonorRecord, DonorResult } from '../../App';
 import Avatar from '../Avatar/Avatar';
 import styles from './UserAvatar.module.css';
 
-function UserAvatar(props: { type: string; normalmode?: boolean }) {
+function UserAvatar(props: {
+  type: string;
+  normalmode?: boolean;
+  donorResult: DonorResult | undefined;
+}) {
+  let cx = classNames.bind(styles);
+  const donorTotal = props?.donorResult?.result?.records?.length || 0;
   const makeDonateUserAvatar = () => {
+    if (!props.donorResult) return;
     let dom = [];
-    // const url = 'https://i.imgur.com/RbcuN95.jpeg';
-    // const myStyle = {
-    //   backgroundImage: `url('${url}')`,
-    //   backgroundSize: 'cover',
-    //   backgroundRepeat: 'no-repeat',
-    // };
-    dom = [
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-      '0xd332DCa2B5681Cc5e7E69C44B00182EbA2A6dcF5',
-    ].map((item) => {
-      return <Avatar key={item} address={item} width={'30px'}></Avatar>;
+    const records = props.donorResult?.result?.records.slice(0, 5);
+    dom = records.map((item: DonorRecord, index: number) => {
+      return (
+        <Avatar key={index} address={item.fromAddress} width={'40px'}></Avatar>
+      );
     });
     dom.push(
-      <div key={'lastitem'} className={styles.donateuseravatar}>
-        190
+      <div key={'lastitem'} className={styles.total}>
+        {donorTotal}
       </div>,
     );
     return dom;
   };
-  let cx = classNames.bind(styles);
 
   return (
     <div className={cx({ normalmode: props.normalmode && props.type === '2' })}>
       <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
       {props.type === '1' ? (
-        <div className={styles.donateuserdec}>已有198人向他捐赠</div>
+        <div className={styles.donateuserdec}>已有{donorTotal}人向他捐赠</div>
       ) : null}
     </div>
   );
 }
 
-export default UserAvatar;
+export default React.memo(UserAvatar);

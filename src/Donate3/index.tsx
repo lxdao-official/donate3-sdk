@@ -78,7 +78,6 @@ const Donate3 = (props: any) => {
         >
           <Global styles={globalcss} />
           <App {...props.config} />
-          {/* <ConnectButton></ConnectButton> */}
         </RainbowKitProvider>
       </WagmiConfig>
     </React.StrictMode>
@@ -86,3 +85,23 @@ const Donate3 = (props: any) => {
 };
 
 export default React.memo(Donate3);
+
+{
+  /* <React.StrictMode>
+<WagmiConfig client={wagmiClient}>
+  <RainbowKitProvider
+    appInfo={{
+      appName: 'Donate3',
+      learnMoreUrl: 'https://donate3.xyz',
+      disclaimer: Disclaimer,
+    }}
+    // avatar={CustomAvatar}
+    chains={chains}
+    showRecentTransactions={true}
+  >
+    <Global styles={globalcss} />
+    <App {...props.config} />
+  </RainbowKitProvider>
+</WagmiConfig>
+</React.StrictMode> */
+}

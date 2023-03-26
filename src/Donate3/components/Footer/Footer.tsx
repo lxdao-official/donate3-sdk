@@ -6,7 +6,7 @@ function Footer() {
   return (
     <footer className={styles.appfooter}>
       <span>Power by</span>
-      <span>
+      <span className={styles.logo}>
         <Logo />
       </span>
       <span>Donate3</span>
@@ -16,4 +16,4 @@ function Footer() {
 
 //
 
-export default Footer;
+export default React.memo(Footer);

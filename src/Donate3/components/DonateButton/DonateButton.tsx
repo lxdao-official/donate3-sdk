@@ -23,4 +23,4 @@ function DonateButton(props: { type: string }) {
   );
 }
 
-export default DonateButton;
+export default React.memo(DonateButton);

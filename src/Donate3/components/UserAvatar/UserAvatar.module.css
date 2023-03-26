@@ -1,13 +1,15 @@
-
-.normalmode .donateuseravatar{
+.normalmode .total{
   width: 40px;
   height: 40px;
   margin-right: -14px;
-  line-height: 36px;
+  line-height: 40px;
   text-align: center;
   background-size: cover;
   background-repeat: no-repeat;
-
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  border: 2px solid #FFFFFF;
+  border-radius: 130px;
+  color: white;
 }
 
 .donateuserdec{

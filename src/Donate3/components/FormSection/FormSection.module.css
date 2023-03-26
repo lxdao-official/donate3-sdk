@@ -41,6 +41,7 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 4px;
+  overflow: hidden;
 }
 
 .methodinput div {
@@ -55,6 +56,35 @@
   padding: 0 12px;
   border: 0;
   background: rgb(26 56 96 / 8%);
+}
+
+.cointxt{
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  flex:5 !important;
+}
+
+.cointxt svg{
+  margin: 0 15px;
+}
+
+.cointxt span:nth-child(2){
+  font-weight: 500;
+  color: #3E4343;
+}
+
+.cointxt span:nth-child(3){
+  font-weight: 400;
+  color: #C1CBCA;
+  margin: 0 15px;
+}
+
+.switch{
+  flex:1 !important;
+  line-height: 47px !important;
+  cursor: pointer;
 }
 
 .footermark {
@@ -127,6 +157,7 @@
   font-size: 12px;
   line-height: 15px;
   color: #3e4343;
+  margin-bottom: 8px;
 }
 
 .msg input {
@@ -138,12 +169,14 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .donate3btn {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-evenly;;
   align-items: center;
   height: 41px;
   background: #396aff;
@@ -180,7 +213,6 @@
   right: 0;
   top: 0;
   bottom: 0;
-
 }
 
 .in{
@@ -233,8 +265,8 @@
 .semidonatebtn{
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-evenly;;
   align-items: center;
   padding: 10px 0px;
   width: 292px;
@@ -246,7 +278,15 @@
   font-size: 14px;
 }
 
-.eth,.switch{
-  line-height: 50px !important;
-  cursor: pointer;
+.semidonatebtn,.donate3btn svg{
+  animation: loading 3s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }

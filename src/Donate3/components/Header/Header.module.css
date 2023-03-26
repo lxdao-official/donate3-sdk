@@ -7,6 +7,24 @@
   color: white;
 }
 
+.avatarwrap{
+  position: relative;
+}
+
+.avatarwrap .total{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 40px;
+  top: 40px;
+  background: linear-gradient(0deg, rgba(40, 50, 49, 0.9), rgba(40, 50, 49, 0.9));
+  border: 2px solid #FEFCFB;
+  border-radius: 130px;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 30px;
+}
+
 .avatar {
   height: 65px;
   width: 65px;

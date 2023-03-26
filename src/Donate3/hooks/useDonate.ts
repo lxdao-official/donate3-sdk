@@ -1,23 +1,24 @@
+import { useRequest } from 'ahooks';
 import { useCallback } from 'react';
 const BASE_URL = 'https://api.donate3.xyz';
 
 interface Args {
   chainType: number;
-  coinType: number;
-  createTime: number;
   fromAddress: `0x${string}` | undefined;
-  hash: `0x${string}` | undefined;
-  id: `0x${string}` | undefined;
   message: string;
-  status: number;
   toAddress: string;
-  updateTime: number;
-  usdValue: string;
-  userId: `0x${string}` | undefined;
   value: string;
+  usdValue: string;
+  coinType?: number;
+  hash?: `0x${string}` | undefined;
+  id?: `0x${string}` | undefined;
+  status?: number;
+  createTime?: number;
+  updateTime?: number;
+  userId?: `0x${string}` | undefined;
 }
 
-const useDonate = () => {
+export const useCreateDonate = () => {
   const createDonate = useCallback(async (args: Args) => {
     console.log('inner', args);
     const res = await fetch(`${BASE_URL}/api/v1/donate/create`, {
@@ -33,7 +34,35 @@ const useDonate = () => {
     console.log(':::', code, result);
     return result;
   }, []);
+
   return createDonate;
 };
 
-export default useDonate;
+export const useFetchDonors = (toAddress: string, orderByType: string) => {
+  const _fetchDonors = async () => {
+    // console.log('-----_fetchDonors2');
+    const res = await fetch(
+      `${BASE_URL}/api/v1/donate/queryByParam?` +
+        new URLSearchParams({
+          toAddress,
+          orderByType,
+          pageNo: '0',
+          pageSize: '20',
+        }),
+      {
+        method: 'GET',
+        mode: 'cors', // no-cors, *cors, same-origin
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    const json = await res.json();
+
+    const { code, result } = json;
+    return result;
+  };
+
+  const { data: donors, loading } = useRequest(_fetchDonors);
+  return { donors, loading };
+};

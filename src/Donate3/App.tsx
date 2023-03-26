@@ -1,14 +1,16 @@
 import classNames from 'classnames/bind';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './App.module.css';
 import DonateButton from './components/DonateButton/DonateButton';
+import DonorList from './components/DonorList/DonorList';
 import Footer from './components/Footer/Footer';
 import FormSection from './components/FormSection/FormSection';
 import Header from './components/Header/Header';
 import UserAvatar from './components/UserAvatar/UserAvatar';
+import { useFetchDonors } from './hooks/useDonate';
 import { ReactComponent as Close } from './images/close.svg';
+import DonorResultMockData from './Mock/DonorResult.json';
 import { getElementPosition } from './utils/index';
-
 export interface Props {
   type: string;
   color: string;
@@ -16,11 +18,51 @@ export interface Props {
   address: string;
 }
 
+export interface DonorRecord {
+  chainType: string;
+  coinType: number;
+  createTime: string;
+  fromAddress: string;
+  hash: string;
+  id: string;
+  message: string;
+  status: number;
+  toAddress: string;
+  updateTime: string;
+  usdValue: number;
+  userId: string;
+  value: number;
+}
+export interface DonorResult {
+  code: string;
+  message: string;
+  result: {
+    current: number;
+    pages: number;
+    records: DonorRecord[];
+    size: number;
+    total: number;
+  };
+  success: boolean;
+  timestamp: number;
+}
+
 function App(props: Props) {
-  console.log('-------App');
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
-  const dialogRef = useRef(null);
+  const [showDonorList, setShowDonorList] = useState(false);
+  const [donorList, setDonorList] = useState<DonorResult>();
+  const { donors, loading } = useFetchDonors(props.address, '1');
+
+  const total = donorList?.result.records.length;
+
+  console.log('--------donorlist', donors, loading);
+
+  useEffect(() => {
+    setDonorList(DonorResultMockData);
+  }, []);
+
+  console.log('-------------App donorList', donorList);
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
     const defaultStyle = {
@@ -80,12 +122,23 @@ function App(props: Props) {
             name={props.name}
             type={props.type}
             normalmode={true}
+            total={total}
           ></Header>
           <div onClick={handleSwitchDialog}>
             <DonateButton type={props.type}></DonateButton>
           </div>
 
-          <UserAvatar type={props.type} normalmode={true}></UserAvatar>
+          <div
+            onClick={() => {
+              setShowDonorList(true);
+            }}
+          >
+            <UserAvatar
+              type={props.type}
+              normalmode={true}
+              donorResult={donorList}
+            ></UserAvatar>
+          </div>
         </div>
       );
     }
@@ -93,27 +146,45 @@ function App(props: Props) {
 
   return (
     <>
-      {props.type === '2' && showForm ? (
+      {props.type === '2' && (showForm || showDonorList) ? (
         <div
           className={styles.mask}
           onClick={() => {
             setShowForm(false);
+            setShowDonorList(false);
           }}
         ></div>
       ) : null}
       <div
         className={showForm ? `${styles.app} dialogAnimation` : styles.hidden}
         style={{ ...dialogStyle }}
-        ref={dialogRef}
       >
         <Header
           address={props.address}
           name={props.name}
           type={props.type}
+          total={total}
         ></Header>
-        <FormSection type={props.type} toAddress={props.address}></FormSection>
+        <FormSection
+          type={props.type}
+          toAddress={props.address}
+          donorResult={donorList}
+        ></FormSection>
         <Footer></Footer>
       </div>
+      <div
+        className={
+          showDonorList ? `${styles.app} dialogAnimation` : styles.hidden
+        }
+        style={{ ...dialogStyle }}
+      >
+        <DonorList
+          setShowDonorList={setShowDonorList}
+          donorResult={donorList}
+          toAddress={props.address}
+        />
+      </div>
+
       {renderDonate3Button(props.type)}
     </>
   );

@@ -8,31 +8,33 @@ import {
   useNetwork,
   usePrepareContractWrite,
 } from 'wagmi';
-import useDonate from '../../hooks/useDonate';
+import { useCreateDonate } from '../../hooks/useDonate';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from '../../abi.json';
+import { DonorResult } from '../../App';
 import { ReactComponent as Eth } from '../../images/eth.svg';
+import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
-import DonorList from '../DonorList/DonorList';
 import Footer from '../Footer/Footer';
 import Success from '../Success/Success';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
-// https://imgloc.com/i/vk3wZ  https://i.328888.xyz/2023/03/12/vk3wZ.png  avatar
-// https://imgloc.com/i/vkRxF  https://i.328888.xyz/2023/03/12/vkRxF.png  btc
-// https://imgloc.com/i/vkcMH  https://i.328888.xyz/2023/03/12/vkcMH.png  wallet
 
-function FormSection(props: { type: string; toAddress: string }) {
+function FormSection(props: {
+  type: string;
+  toAddress: string;
+  donorResult: DonorResult | undefined;
+}) {
   const { openConnectModal } = useConnectModal();
   const { openChainModal } = useChainModal();
-  const { chain, chains } = useNetwork();
+  const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const [showSemiModal, setShowSemiModal] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
-  const [donateSuccess, setDonateSuccess] = useState(true);
-  const [showDonorList, setShowDonorList] = useState(true);
-  const createDonate = useDonate();
+  const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
+  const createDonate = useCreateDonate();
   const timeout = 5; // s
 
   let pid = 3;
@@ -43,6 +45,7 @@ function FormSection(props: { type: string; toAddress: string }) {
   let donateTokenArgs = [
     pid,
     amountIn,
+    // address,
     '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
     bytesMsg,
     [],
@@ -50,7 +53,8 @@ function FormSection(props: { type: string; toAddress: string }) {
       value: amountIn,
     },
   ];
-  console.log('donateTokenArgs', donateTokenArgs);
+  // console.log('donateTokenArgs', donateTokenArgs);
+
   const { config } = usePrepareContractWrite({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
@@ -69,21 +73,21 @@ function FormSection(props: { type: string; toAddress: string }) {
   useEffect(() => {
     if (isConnected) {
       setShowSemiModal(false);
+      setShowLoading(false);
     } else {
       setShowSemiModal(true);
     }
-  }, []);
+  }, [isConnected]);
 
   useEffect(() => {
-    if (donateSuccess) {
+    if (donateCreateSuccess) {
       setTimeout(() => {
-        setDonateSuccess(false);
+        setDonateCreateSuccess(false);
       }, timeout * 1000);
     }
-  }, [donateSuccess]);
+  }, [donateCreateSuccess]);
 
   const asyncFunc = async () => {
-    console.log('合约数据变更', transactionData, isLoading, isSuccess);
     const createDonateArgs = {
       chainType: 4 || chain?.id || 0,
       coinType: 0, //TODO, 这里我应该传什么？有哪些值？
@@ -93,39 +97,28 @@ function FormSection(props: { type: string; toAddress: string }) {
       message: message,
       // status: 0, // TODO 这里的状态有哪些值？
       toAddress: props.toAddress,
-      usdValue: amount, // 这里是否可以支持 int 和 string 两种类型？
-      userId: props.toAddress, // 用户 ID 怎么拿？是否可以用他的钱包地址？
-      value: amount, // 这里是否可以支持 int 和 string 两种类型？
+      usdValue: String(amount), // 这里是否可以支持 int 和 string 两种类型？
+      value: String(amount), // 这里是否可以支持 int 和 string 两种类型？
     };
     const result = await createDonate(createDonateArgs);
-    setDonateSuccess(true);
+    setDonateCreateSuccess(true);
     console.log(result);
   };
+
+  useEffect(() => {
+    console.log('合约数据变更', transactionData, isLoading, isSuccess);
+    setShowLoading(false);
+    if (isSuccess) {
+      asyncFunc();
+    }
+  }, [isSuccess]);
 
   const handleDonate = async () => {
     if (isConnected) {
       setShowSemiModal(false);
-      const data = {
-        amount,
-        message,
-      };
-      console.log(data, chain, chains);
-      // const res = await contract.mint(
-      //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-      //   7,
-      //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-      //   // {
-      //   //   value: 100000,
-      //   // },
-      // );
-
-      // console.log('-----', res);
+      setShowLoading(true);
       write?.();
-      asyncFunc();
       console.log(transactionData);
-
-      // TODO 调用合约
-      // TODO toast
     } else {
       setShowSemiModal(true);
     }
@@ -142,26 +135,28 @@ function FormSection(props: { type: string; toAddress: string }) {
   };
 
   const handleManualAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.value);
+    setAmount(Number(event.target.value));
   };
 
   return (
     <section className={styles.appcontent}>
-      <div className={styles.title}>Payment Method</div>
-      <div className={styles.methodinput}>
-        <div className={styles.eth}>
-          <Eth />
+      <div>
+        <div className={styles.title}>Payment Method</div>
+        <div className={styles.methodinput}>
+          <div className={styles.cointxt}>
+            <Eth />
+            <span>ETH</span>
+            <span>Ethereum</span>
+          </div>
+          <div className={styles.switch} onClick={openChainModal}>
+            <Switch />
+          </div>
         </div>
-        <div>ETH</div>
-        <input placeholder="Ethereum"></input>
-        <div className={styles.switch} onClick={openChainModal}>
-          <Switch />
+        <div className={styles.footermark}>
+          <div>icon</div>
+          <div>21.11ETH</div>
+          <div>0.01E = $127; 31GWEI = $0.75</div>
         </div>
-      </div>
-      <div className={styles.footermark}>
-        <div>icon</div>
-        <div>21.11ETH</div>
-        <div>0.01E = $127; 31GWEI = $0.75</div>
       </div>
       <div className={styles.shortcutoption} onClick={handleEthAmount}>
         <div data-amount={0.001}>0.001 ETH</div>
@@ -197,8 +192,13 @@ function FormSection(props: { type: string; toAddress: string }) {
         // disabled={!write}
         onClick={handleDonate}
       >
-        <div>DONATE3</div>
-        <div>≈$875.32</div>
+        {showLoading ? <Loading></Loading> : null}
+        {showLoading ? (
+          <div>Confirm in wallet...</div>
+        ) : (
+          <div>DONATE3</div>
+          // <div>≈$875.32</div>
+        )}
       </button>
       {showSemiModal ? (
         <div
@@ -226,16 +226,36 @@ function FormSection(props: { type: string; toAddress: string }) {
                 src="https://i.328888.xyz/2023/03/12/vkRxF.png"
               ></img>
             </div>
-            <UserAvatar type={props.type}></UserAvatar>
-            <div className={styles.semidonatebtn} onClick={openConnectModal}>
-              Connect wallet for donation
+            <UserAvatar
+              type={props.type}
+              donorResult={props.donorResult}
+            ></UserAvatar>
+            <div
+              className={styles.semidonatebtn}
+              onClick={() => {
+                setShowLoading(true);
+                if (openConnectModal) {
+                  openConnectModal();
+                }
+              }}
+            >
+              {showLoading ? <Loading></Loading> : null}
+              {showLoading ? (
+                <span>Confirm in wallet...</span>
+              ) : (
+                <span>Connect wallet for donation</span>
+              )}
             </div>
             <Footer></Footer>
           </div>
         </div>
       ) : null}
-      {donateSuccess ? <Success timeout={timeout} /> : null}
-      {showDonorList ? <DonorList /> : null}
+      {donateCreateSuccess ? (
+        <Success
+          timeout={timeout}
+          setDonateCreateSuccess={setDonateCreateSuccess}
+        />
+      ) : null}
     </section>
   );
 }
