@@ -7,12 +7,12 @@ import styles from './DonorList.module.css';
 
 export interface DonorListProps {}
 export interface Data {
-  imgUrl: string;
+  address: string;
   key: string;
   desc: string;
 }
 export interface TopData {
-  imgUrl: string;
+  address: string;
   amount: number;
   count: number;
 }
@@ -25,67 +25,67 @@ function DonorList(props: DonorListProps) {
   useEffect(() => {
     setDonorList([
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
       {
-        imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+        address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
         key: '1',
         desc: 'desc',
       },
@@ -94,17 +94,17 @@ function DonorList(props: DonorListProps) {
 
   const mockTopData = [
     {
-      imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
       amount: 433.21,
       count: 3,
     },
     {
-      imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
       amount: 432.21,
       count: 4,
     },
     {
-      imgUrl: 'https://i.328888.xyz/2023/03/12/vkcMH.png',
+      address: '0xd332DCb2B5681Cc5e7E69C44B00182EbA2A6dcF5',
       amount: 132.21,
       count: 1,
     },
@@ -116,7 +116,7 @@ function DonorList(props: DonorListProps) {
       return (
         <Avatar
           key={index}
-          imgUrl={item.imgUrl}
+          address={item.address}
           className={styles.listavatar}
         ></Avatar>
       );
@@ -131,7 +131,7 @@ function DonorList(props: DonorListProps) {
       return (
         <div key={index} className={styles.topitem}>
           <div className={styles.topimg}>
-            <Avatar imgUrl={item.imgUrl} width={'60px'}></Avatar>
+            <Avatar address={item.address} width={'60px'}></Avatar>
           </div>
           <div className={styles.amount}>${item.amount}</div>
           <div className={styles.count}>捐赠{3}次</div>
