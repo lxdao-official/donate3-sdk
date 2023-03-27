@@ -11,7 +11,7 @@ import {
 import { useCreateDonate } from '../../hooks/useDonate';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from '../../abi.json';
-import { DonorResult } from '../../App';
+import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
@@ -20,11 +20,7 @@ import Success from '../Success/Success';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
 
-function FormSection(props: {
-  type: string;
-  toAddress: string;
-  donorResult: DonorResult | undefined;
-}) {
+function FormSection() {
   const { openConnectModal } = useConnectModal();
   const { openChainModal } = useChainModal();
   const { chain } = useNetwork();
@@ -35,6 +31,8 @@ function FormSection(props: {
   const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
+  const { toAddress } = React.useContext(Donate3Context);
+  let cx = classNames.bind(styles);
   const timeout = 5; // s
 
   let pid = 3;
@@ -53,8 +51,6 @@ function FormSection(props: {
       value: amountIn,
     },
   ];
-  // console.log('donateTokenArgs', donateTokenArgs);
-
   const { config } = usePrepareContractWrite({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
@@ -68,8 +64,7 @@ function FormSection(props: {
     isSuccess,
     write,
   } = useContractWrite(config);
-  // console.log('-------::', isLoading, isSuccess, transactionData);
-  let cx = classNames.bind(styles);
+
   useEffect(() => {
     if (isConnected) {
       setShowSemiModal(false);
@@ -96,7 +91,7 @@ function FormSection(props: {
       // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
       message: message,
       // status: 0, // TODO 这里的状态有哪些值？
-      toAddress: props.toAddress,
+      toAddress: toAddress,
       usdValue: String(amount), // 这里是否可以支持 int 和 string 两种类型？
       value: String(amount), // 这里是否可以支持 int 和 string 两种类型？
     };
@@ -226,10 +221,7 @@ function FormSection(props: {
                 src="https://i.328888.xyz/2023/03/12/vkRxF.png"
               ></img>
             </div>
-            <UserAvatar
-              type={props.type}
-              donorResult={props.donorResult}
-            ></UserAvatar>
+            <UserAvatar></UserAvatar>
             <div
               className={styles.semidonatebtn}
               onClick={() => {

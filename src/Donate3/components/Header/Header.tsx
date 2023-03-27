@@ -1,29 +1,34 @@
 import classNames from 'classnames/bind';
 import React from 'react';
+import { Donate3Context } from '../../context/Donate3Context';
 import useNouns from '../../hooks/useNouns';
+import { DONATE_TYPE } from '../../utils/const';
 import styles from './Header.module.css';
 
 export interface HeaderProps {
-  name: string;
-  address: string;
-  type: string;
   normalmode?: boolean;
-  total: number | undefined;
 }
 
 function Header(props: HeaderProps) {
-  const base64Hash = useNouns(props.address);
+  const { type, toAddress, title, total } = React.useContext(Donate3Context);
+  const base64Hash = useNouns(toAddress);
 
   let cx = classNames.bind(styles);
   return (
     <header
       className={cx(styles.header, {
-        normalmode: props.normalmode && props.type === '2',
+        normalmode: props.normalmode && type === DONATE_TYPE.NORMAL,
       })}
     >
       <div className={styles.recipientinfo}>
-        <div>Donate to {props.name}</div>
-        <div>To:{props.address}</div>
+        <div>Donate to {title}</div>
+        <div>
+          To:
+          {toAddress &&
+            `${toAddress.slice(0, 6)}...${toAddress.slice(
+              toAddress.length - 4,
+            )}`}
+        </div>
       </div>
       <div className={styles.avatarwrap}>
         <fieldset className={styles.fieldset}>
@@ -42,7 +47,7 @@ function Header(props: HeaderProps) {
             )}
           </legend>
         </fieldset>
-        <div className={styles.total}>{props.total}</div>
+        {props.normalmode ? null : <div className={styles.total}>{total}</div>}
       </div>
     </header>
   );

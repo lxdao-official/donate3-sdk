@@ -1,20 +1,18 @@
 import classNames from 'classnames/bind';
 import React from 'react';
-import { DonorRecord, DonorResult } from '../../App';
+import { DonorRecord } from '../../@types/donate3';
+import { Donate3Context } from '../../context/Donate3Context';
+import { DONATE_TYPE } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import styles from './UserAvatar.module.css';
 
-function UserAvatar(props: {
-  type: string;
-  normalmode?: boolean;
-  donorResult: DonorResult | undefined;
-}) {
+function UserAvatar(props: { normalmode?: boolean }) {
   let cx = classNames.bind(styles);
-  const donorTotal = props?.donorResult?.result?.records?.length || 0;
+  const { type, donorList, total } = React.useContext(Donate3Context);
   const makeDonateUserAvatar = () => {
-    if (!props.donorResult) return;
+    if (!donorList) return;
     let dom = [];
-    const records = props.donorResult?.result?.records.slice(0, 5);
+    const records = donorList?.result?.records.slice(0, 5);
     dom = records.map((item: DonorRecord, index: number) => {
       return (
         <Avatar key={index} address={item.fromAddress} width={'40px'}></Avatar>
@@ -22,17 +20,21 @@ function UserAvatar(props: {
     });
     dom.push(
       <div key={'lastitem'} className={styles.total}>
-        {donorTotal}
+        {total}
       </div>,
     );
     return dom;
   };
 
   return (
-    <div className={cx({ normalmode: props.normalmode && props.type === '2' })}>
+    <div
+      className={cx({
+        normalmode: props.normalmode && type === DONATE_TYPE.NORMAL,
+      })}
+    >
       <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
-      {props.type === '1' ? (
-        <div className={styles.donateuserdec}>已有{donorTotal}人向他捐赠</div>
+      {type === DONATE_TYPE.FLOAT ? (
+        <div className={styles.donateuserdec}>已有{total}人向他捐赠</div>
       ) : null}
     </div>
   );

@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './App.module.css';
 import DonateButton from './components/DonateButton/DonateButton';
 import DonorList from './components/DonorList/DonorList';
@@ -7,62 +7,18 @@ import Footer from './components/Footer/Footer';
 import FormSection from './components/FormSection/FormSection';
 import Header from './components/Header/Header';
 import UserAvatar from './components/UserAvatar/UserAvatar';
-import { useFetchDonors } from './hooks/useDonate';
+import { Donate3Context } from './context/Donate3Context';
 import { ReactComponent as Close } from './images/close.svg';
-import DonorResultMockData from './Mock/DonorResult.json';
+import { DONATE_TYPE } from './utils/const';
+
 import { getElementPosition } from './utils/index';
-export interface Props {
-  type: string;
-  color: string;
-  name: string;
-  address: string;
-}
 
-export interface DonorRecord {
-  chainType: string;
-  coinType: number;
-  createTime: string;
-  fromAddress: string;
-  hash: string;
-  id: string;
-  message: string;
-  status: number;
-  toAddress: string;
-  updateTime: string;
-  usdValue: number;
-  userId: string;
-  value: number;
-}
-export interface DonorResult {
-  code: string;
-  message: string;
-  result: {
-    current: number;
-    pages: number;
-    records: DonorRecord[];
-    size: number;
-    total: number;
-  };
-  success: boolean;
-  timestamp: number;
-}
-
-function App(props: Props) {
+function App() {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
   const [showDonorList, setShowDonorList] = useState(false);
-  const [donorList, setDonorList] = useState<DonorResult>();
-  const { donors, loading } = useFetchDonors(props.address, '1');
+  const { type } = React.useContext(Donate3Context);
 
-  const total = donorList?.result.records.length;
-
-  console.log('--------donorlist', donors, loading);
-
-  useEffect(() => {
-    setDonorList(DonorResultMockData);
-  }, []);
-
-  console.log('-------------App donorList', donorList);
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
     const defaultStyle = {
@@ -73,7 +29,7 @@ function App(props: Props) {
       margin: 'auto',
     };
 
-    if (props.type === '2') {
+    if (type === DONATE_TYPE.NORMAL) {
       setDialogStyle(defaultStyle);
     } else {
       const { elementBottom, elementRight } = getElementPosition(
@@ -91,8 +47,8 @@ function App(props: Props) {
     setShowForm(!showForm);
   };
 
-  const renderDonate3Button = (type: string) => {
-    if (type === '1') {
+  const renderDonate3Button = (type: number) => {
+    if (type === DONATE_TYPE.FLOAT) {
       return (
         <div
           className={cx(
@@ -109,7 +65,7 @@ function App(props: Props) {
             <Close className={styles.closeimg}></Close>
           ) : (
             <>
-              <DonateButton type={props.type}></DonateButton>
+              <DonateButton></DonateButton>
             </>
           )}
         </div>
@@ -117,15 +73,9 @@ function App(props: Props) {
     } else {
       return (
         <div className={cx(styles.donate3btn)}>
-          <Header
-            address={props.address}
-            name={props.name}
-            type={props.type}
-            normalmode={true}
-            total={total}
-          ></Header>
+          <Header normalmode={true}></Header>
           <div onClick={handleSwitchDialog}>
-            <DonateButton type={props.type}></DonateButton>
+            <DonateButton></DonateButton>
           </div>
 
           <div
@@ -133,11 +83,7 @@ function App(props: Props) {
               setShowDonorList(true);
             }}
           >
-            <UserAvatar
-              type={props.type}
-              normalmode={true}
-              donorResult={donorList}
-            ></UserAvatar>
+            <UserAvatar normalmode={true}></UserAvatar>
           </div>
         </div>
       );
@@ -146,7 +92,7 @@ function App(props: Props) {
 
   return (
     <>
-      {props.type === '2' && (showForm || showDonorList) ? (
+      {type === DONATE_TYPE.NORMAL && (showForm || showDonorList) ? (
         <div
           className={styles.mask}
           onClick={() => {
@@ -159,17 +105,8 @@ function App(props: Props) {
         className={showForm ? `${styles.app} dialogAnimation` : styles.hidden}
         style={{ ...dialogStyle }}
       >
-        <Header
-          address={props.address}
-          name={props.name}
-          type={props.type}
-          total={total}
-        ></Header>
-        <FormSection
-          type={props.type}
-          toAddress={props.address}
-          donorResult={donorList}
-        ></FormSection>
+        <Header></Header>
+        <FormSection></FormSection>
         <Footer></Footer>
       </div>
       <div
@@ -178,14 +115,10 @@ function App(props: Props) {
         }
         style={{ ...dialogStyle }}
       >
-        <DonorList
-          setShowDonorList={setShowDonorList}
-          donorResult={donorList}
-          toAddress={props.address}
-        />
+        <DonorList setShowDonorList={setShowDonorList} />
       </div>
 
-      {renderDonate3Button(props.type)}
+      {renderDonate3Button(type)}
     </>
   );
 }

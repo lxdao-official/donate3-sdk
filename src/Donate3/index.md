@@ -6,10 +6,10 @@ This is an example component.
 import { Donate3 } from 'donate3-sdk';
 
 const config = {
-  type: '2',
+  type: 1, // 0 Float mode，1 Normal mode
   color: "#396AFF",
-  name: "Charity3",
-  address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
+  title: "Charity3",
+  toAddress: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 }
 export default () => <Donate3 config={...config}/>
 // const renderDonate3 = (domElement: HTMLElement | null, config: Props) => {

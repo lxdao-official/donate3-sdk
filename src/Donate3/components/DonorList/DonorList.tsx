@@ -1,6 +1,7 @@
 import classNames from 'classnames/bind';
-import React from 'react';
+import React, { useContext } from 'react';
 import { DonorRecord, DonorResult } from '../../App';
+import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as SortBg } from '../../images/sortbg.svg';
 import Avatar from '../Avatar/Avatar';
@@ -8,13 +9,12 @@ import styles from './DonorList.module.css';
 
 export interface DonorListProps {
   setShowDonorList: any;
-  toAddress: string;
-  donorResult: DonorResult | undefined;
 }
 
 function DonorList(props: DonorListProps) {
   let cx = classNames.bind(styles);
 
+  const { donorList, total } = useContext(Donate3Context);
   const makeDonateDonorAvatar = (datas: DonorResult | undefined) => {
     if (!datas) return;
     let dom = [];
@@ -28,7 +28,7 @@ function DonorList(props: DonorListProps) {
         ></Avatar>
       );
     });
-    dom.push(<Avatar>190</Avatar>);
+    dom.push(<Avatar>{total}</Avatar>);
     return dom;
   };
 
@@ -64,15 +64,13 @@ function DonorList(props: DonorListProps) {
             ></Close>
           </div>
           <div className={styles.top}>
-            {makeTopDom(props.donorResult)}
+            {makeTopDom(donorList)}
             <div className={styles.bg}>
               <SortBg></SortBg>
             </div>
           </div>
         </div>
-        <div className={styles.list}>
-          {makeDonateDonorAvatar(props.donorResult)}
-        </div>
+        {/* <div className={styles.list}>{makeDonateDonorAvatar(donorList)}</div> */}
       </div>
     </div>
   );

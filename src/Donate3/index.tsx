@@ -1,5 +1,4 @@
 import {
-  AvatarComponent,
   DisclaimerComponent,
   getDefaultWallets,
   RainbowKitProvider,
@@ -12,8 +11,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
+import Donate3Provider from './context/Donate3Context';
 import globalcss from './globalcss';
-import useNouns from './hooks/useNouns';
 
 // import { ReactComponent as Close2 } from './images/close.svg';
 
@@ -26,23 +25,23 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   </Text>
 );
 
-const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
-  console.log(address, ensImage, size);
+// const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
+//   console.log(address, ensImage, size);
 
-  const base64Hash = useNouns('0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4');
+//   const base64Hash = useNouns('0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4');
 
-  return ensImage ? (
-    <img
-      src={ensImage}
-      width={size}
-      height={size}
-      alt={'ENS img'}
-      style={{ borderRadius: 999 }}
-    />
-  ) : (
-    <img src={`data:image/svg+xml;base64,${base64Hash}`} />
-  );
-};
+//   return ensImage ? (
+//     <img
+//       src={ensImage}
+//       width={size}
+//       height={size}
+//       alt={'ENS img'}
+//       style={{ borderRadius: 999 }}
+//     />
+//   ) : (
+//     <img src={`data:image/svg+xml;base64,${base64Hash}`} />
+//   );
+// };
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygon, polygonMumbai],
@@ -77,7 +76,9 @@ const Donate3 = (props: any) => {
           showRecentTransactions={true}
         >
           <Global styles={globalcss} />
-          <App {...props.config} />
+          <Donate3Provider {...props.config}>
+            <App />
+          </Donate3Provider>
         </RainbowKitProvider>
       </WagmiConfig>
     </React.StrictMode>
