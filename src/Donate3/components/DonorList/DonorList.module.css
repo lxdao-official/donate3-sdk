@@ -1,8 +1,6 @@
 .wrap{
   box-sizing: border-box;
   position: absolute;
-  /* width: 316px;
-  height: 275px; */
   left: 0px;
   top: 0px;
   bottom: 0;
@@ -44,6 +42,9 @@
 .top div.topitem:nth-child(2){
   margin-top: -80px;
 }
+.top div.topitem:nth-child(3){
+  margin-top: 30px;
+}
 
 .top .bg {
   position: absolute;
@@ -65,16 +66,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 19px 25px;
+  cursor: pointer;
 }
 
 .titletxt{
   font-weight: 600;
   font-size: 12px;
   color: #FFFFFF;
-}
-
-.close{
-  /* width: 10px; */
 }
 
 .topitem{
@@ -108,15 +106,20 @@
 }
 
 .list{
-  display: flex;
-  justify-content: center;
-  padding: 13px;
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fill, 58px);
   flex-wrap: wrap;
+  padding: 13px;
 }
 
-.listavatar{
+.itemavatar{
   width: 40px;
   height: 40px;
   margin: 10px 9px;
   background-color: #396AFF;
+}
+
+.lastavatar{
+  margin: 10px 9px;
 }

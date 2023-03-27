@@ -14,6 +14,4 @@ function Footer() {
   );
 }
 
-//
-
 export default React.memo(Footer);

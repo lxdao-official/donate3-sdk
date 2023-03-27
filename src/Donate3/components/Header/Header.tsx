@@ -3,21 +3,23 @@ import React from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
 import useNouns from '../../hooks/useNouns';
 import { DONATE_TYPE } from '../../utils/const';
+import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './Header.module.css';
 
 export interface HeaderProps {
   normalmode?: boolean;
+  setShowDonorList: any;
 }
 
-function Header(props: HeaderProps) {
-  const { type, toAddress, title, total } = React.useContext(Donate3Context);
+function Header({ setShowDonorList, normalmode }: HeaderProps) {
+  const { type, toAddress, title } = React.useContext(Donate3Context);
   const base64Hash = useNouns(toAddress);
 
   let cx = classNames.bind(styles);
   return (
     <header
       className={cx(styles.header, {
-        normalmode: props.normalmode && type === DONATE_TYPE.NORMAL,
+        normalmode: normalmode && type === DONATE_TYPE.NORMAL,
       })}
     >
       <div className={styles.recipientinfo}>
@@ -30,7 +32,12 @@ function Header(props: HeaderProps) {
             )}`}
         </div>
       </div>
-      <div className={styles.avatarwrap}>
+      <div
+        className={styles.avatarwrap}
+        onClick={() => {
+          setShowDonorList(true);
+        }}
+      >
         <fieldset className={styles.fieldset}>
           <legend>
             {base64Hash ? (
@@ -47,7 +54,9 @@ function Header(props: HeaderProps) {
             )}
           </legend>
         </fieldset>
-        {props.normalmode ? null : <div className={styles.total}>{total}</div>}
+        {normalmode ? null : (
+          <TotalCircle size={30} className={styles.total}></TotalCircle>
+        )}
       </div>
     </header>
   );

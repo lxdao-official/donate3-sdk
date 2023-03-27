@@ -95,6 +95,7 @@
   line-height: 120%;
   color: #929f9e;
   justify-content: space-around;
+  margin-top: 6px;
 }
 
 .shortcutoption {
@@ -147,8 +148,9 @@
   font-size: 16px;
   color: #c1cbca;
   border: 0;
-  width: 100%;
   text-align: center;
+  box-sizing: border-box;
+  width: 306px;
 }
 
 .msg div {
@@ -160,7 +162,7 @@
   margin-bottom: 8px;
 }
 
-.msg input {
+.msg textarea {
   height: 96px;
   width: 100%;
   border: 0;
@@ -171,6 +173,12 @@
   line-height: 19px;
   padding: 10px;
   box-sizing: border-box;
+}
+
+textarea::placeholder{
+  font-weight: 400;
+  font-size: 16px;
+  color: #C1CBCA;
 }
 
 .donate3btn {

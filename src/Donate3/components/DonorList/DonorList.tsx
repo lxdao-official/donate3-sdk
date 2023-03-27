@@ -5,16 +5,17 @@ import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as SortBg } from '../../images/sortbg.svg';
 import Avatar from '../Avatar/Avatar';
+import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './DonorList.module.css';
 
 export interface DonorListProps {
   setShowDonorList: any;
 }
 
-function DonorList(props: DonorListProps) {
+function DonorList({ setShowDonorList }: DonorListProps) {
   let cx = classNames.bind(styles);
 
-  const { donorList, total } = useContext(Donate3Context);
+  const { donorList } = useContext(Donate3Context);
   const makeDonateDonorAvatar = (datas: DonorResult | undefined) => {
     if (!datas) return;
     let dom = [];
@@ -24,11 +25,17 @@ function DonorList(props: DonorListProps) {
         <Avatar
           key={index}
           address={item.fromAddress}
-          className={styles.listavatar}
+          className={styles.itemavatar}
         ></Avatar>
       );
     });
-    dom.push(<Avatar>{total}</Avatar>);
+    dom.push(
+      <TotalCircle
+        key={'lastitem'}
+        size={40}
+        className={styles.lastavatar}
+      ></TotalCircle>,
+    );
     return dom;
   };
 
@@ -59,7 +66,7 @@ function DonorList(props: DonorListProps) {
             <Close
               style={{ transform: 'scale(0.5)' }}
               onClick={() => {
-                props.setShowDonorList(false);
+                setShowDonorList(false);
               }}
             ></Close>
           </div>
@@ -70,7 +77,7 @@ function DonorList(props: DonorListProps) {
             </div>
           </div>
         </div>
-        {/* <div className={styles.list}>{makeDonateDonorAvatar(donorList)}</div> */}
+        <div className={styles.list}>{makeDonateDonorAvatar(donorList)}</div>
       </div>
     </div>
   );

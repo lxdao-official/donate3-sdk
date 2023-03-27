@@ -9,20 +9,15 @@
 
 .avatarwrap{
   position: relative;
+  cursor: pointer;
 }
 
 .avatarwrap .total{
   position: absolute;
-  width: 30px;
-  height: 30px;
   left: 40px;
   top: 40px;
-  background: linear-gradient(0deg, rgba(40, 50, 49, 0.9), rgba(40, 50, 49, 0.9));
-  border: 2px solid #FEFCFB;
-  border-radius: 130px;
   font-weight: 600;
   font-size: 10px;
-  line-height: 30px;
 }
 
 .avatar {
@@ -49,7 +44,6 @@
 .normalmode .recipientinfo div{
   margin: 2px 0px;
 }
-
 
 .recipientinfo div:nth-child(1) {
   font-weight: 600;

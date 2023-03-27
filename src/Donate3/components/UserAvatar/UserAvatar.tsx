@@ -4,6 +4,7 @@ import { DonorRecord } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
 import { DONATE_TYPE } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
+import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './UserAvatar.module.css';
 
 function UserAvatar(props: { normalmode?: boolean }) {
@@ -19,9 +20,11 @@ function UserAvatar(props: { normalmode?: boolean }) {
       );
     });
     dom.push(
-      <div key={'lastitem'} className={styles.total}>
-        {total}
-      </div>,
+      <TotalCircle
+        key={'lastitem'}
+        size={40}
+        className={styles.total}
+      ></TotalCircle>,
     );
     return dom;
   };

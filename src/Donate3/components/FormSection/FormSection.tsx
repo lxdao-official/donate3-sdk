@@ -51,6 +51,8 @@ function FormSection() {
       value: amountIn,
     },
   ];
+
+  console.log('合约参数:', donateTokenArgs);
   const { config } = usePrepareContractWrite({
     address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
     abi: abi,
@@ -62,8 +64,18 @@ function FormSection() {
     data: transactionData,
     isLoading,
     isSuccess,
+    isError,
+    isIdle,
     write,
   } = useContractWrite(config);
+  console.log(
+    '合约数据变更',
+    transactionData,
+    isLoading,
+    isSuccess,
+    isError,
+    isIdle,
+  );
 
   useEffect(() => {
     if (isConnected) {
@@ -101,12 +113,20 @@ function FormSection() {
   };
 
   useEffect(() => {
-    console.log('合约数据变更', transactionData, isLoading, isSuccess);
-    setShowLoading(false);
     if (isSuccess) {
+      setShowLoading(false);
       asyncFunc();
     }
-  }, [isSuccess]);
+    if (isError) {
+      setShowLoading(false);
+    }
+  }, [isSuccess, isError]);
+
+  // useEffect(() => {
+  //   if (isIdle) {
+  //     setShowLoading(false);
+  //   }
+  // }, [isIdle]);
 
   const handleDonate = async () => {
     if (isConnected) {
@@ -171,20 +191,19 @@ function FormSection() {
       ></input>
       <div className={styles.msg}>
         <div>Message</div>
-        <input
+        <textarea
           placeholder="Will be published on chain"
-          multiple
           value={message}
           onChange={(e) => {
             setMessage(e.currentTarget.value);
           }}
-        ></input>
+        ></textarea>
       </div>
 
       <button
         type="button"
         className={styles.donate3btn}
-        // disabled={!write}
+        disabled={!write}
         onClick={handleDonate}
       >
         {showLoading ? <Loading></Loading> : null}

@@ -73,7 +73,10 @@ function App() {
     } else {
       return (
         <div className={cx(styles.donate3btn)}>
-          <Header normalmode={true}></Header>
+          <Header
+            setShowDonorList={setShowDonorList}
+            normalmode={true}
+          ></Header>
           <div onClick={handleSwitchDialog}>
             <DonateButton></DonateButton>
           </div>
@@ -105,7 +108,7 @@ function App() {
         className={showForm ? `${styles.app} dialogAnimation` : styles.hidden}
         style={{ ...dialogStyle }}
       >
-        <Header></Header>
+        <Header setShowDonorList={setShowDonorList}></Header>
         <FormSection></FormSection>
         <Footer></Footer>
       </div>
