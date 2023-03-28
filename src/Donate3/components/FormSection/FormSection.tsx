@@ -99,6 +99,7 @@ function FormSection() {
       chainType: 4 || chain?.id || 0,
       coinType: 0, //TODO, 这里我应该传什么？有哪些值？
       fromAddress: address,
+      userId: address,
       hash: transactionData?.hash, // 这里我取 transaction hash
       // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
       message: message,
