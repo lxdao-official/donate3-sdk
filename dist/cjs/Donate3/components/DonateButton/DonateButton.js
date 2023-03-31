@@ -34,21 +34,26 @@ __export(DonateButton_exports, {
 module.exports = __toCommonJS(DonateButton_exports);
 var import_bind = __toESM(require("classnames/bind"));
 var import_react = __toESM(require("react"));
+var import_Donate3Context = require("../../context/Donate3Context");
 var import_logowhite = require("../../images/logowhite.svg");
+var import_const = require("../../utils/const");
 var import_DonateButton_module = __toESM(require("./DonateButton.module.css"));
-function DonateButton(props) {
+function DonateButton() {
   let cx = import_bind.default.bind(import_DonateButton_module.default);
+  const { type, toAddress } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   let wrapStyles = cx(
     import_DonateButton_module.default.wrap,
     {
-      largewrap: props.type === "2"
+      largewrap: type === import_const.DONATE_TYPE.NORMAL
     },
     {
-      tinywrap: props.type === "1"
+      tinywrap: type === import_const.DONATE_TYPE.FLOAT
     }
   );
-  return /* @__PURE__ */ import_react.default.createElement("div", { className: wrapStyles }, /* @__PURE__ */ import_react.default.createElement(import_logowhite.ReactComponent, { className: import_DonateButton_module.default.img }), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"), props.type === "2" ? /* @__PURE__ */ import_react.default.createElement("span", null, "address todo") : null);
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: wrapStyles }, /* @__PURE__ */ import_react.default.createElement(import_logowhite.ReactComponent, { className: import_DonateButton_module.default.img }), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"), type === import_const.DONATE_TYPE.NORMAL ? /* @__PURE__ */ import_react.default.createElement("span", null, toAddress && `${toAddress.slice(0, 6)}...${toAddress.slice(
+    toAddress.length - 4
+  )}`) : null);
 }
-var DonateButton_default = DonateButton;
+var DonateButton_default = import_react.default.memo(DonateButton);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

@@ -1,0 +1,15 @@
+.avatar{
+  box-sizing: border-box;
+  width: 30px;
+  height: 30px;
+  border-radius: 130px;
+  margin-right: -12px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8));
+  border: 2px solid #FFFFFF;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 26px;
+  color: #FFFFFF;
+  background-size:cover;
+  background-repeat: no-repeat;
+}

@@ -1,9 +1,8 @@
-/// <reference types="react" />
+import React from 'react';
 export interface HeaderProps {
-    name: string;
-    address: string;
-    type: string;
     normalmode?: boolean;
+    setShowDonorList: any;
 }
-declare function Header(props: HeaderProps): JSX.Element;
-export default Header;
+declare function Header({ setShowDonorList, normalmode }: HeaderProps): JSX.Element;
+declare const _default: React.MemoExoticComponent<typeof Header>;
+export default _default;

@@ -12,27 +12,25 @@ import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
-import { useAccount, useContract, useContractWrite, useNetwork, usePrepareContractWrite, useSigner } from 'wagmi';
-import useDonate from "../../hooks/useDonate";
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
+import { useCreateDonate } from "../../hooks/useDonate";
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from "../../abi.json";
+import { Donate3Context } from "../../context/Donate3Context";
 import { ReactComponent as Eth } from "../../images/eth.svg";
+import { ReactComponent as Loading } from "../../images/loading.svg";
 import { ReactComponent as Switch } from "../../images/switch.svg";
 import Footer from "../Footer/Footer";
+import Success from "../Success/Success";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import styles from "./FormSection.module.css";
-// https://imgloc.com/i/vk3wZ  https://i.328888.xyz/2023/03/12/vk3wZ.png  avatar
-// https://imgloc.com/i/vkRxF  https://i.328888.xyz/2023/03/12/vkRxF.png  btc
-// https://imgloc.com/i/vkcMH  https://i.328888.xyz/2023/03/12/vkcMH.png  wallet
-
-function FormSection(props) {
+function FormSection() {
   var _useConnectModal = useConnectModal(),
     openConnectModal = _useConnectModal.openConnectModal;
   var _useChainModal = useChainModal(),
     openChainModal = _useChainModal.openChainModal;
   var _useNetwork = useNetwork(),
-    chain = _useNetwork.chain,
-    chains = _useNetwork.chains;
+    chain = _useNetwork.chain;
   var _useAccount = useAccount(),
     address = _useAccount.address,
     isConnected = _useAccount.isConnected;
@@ -40,40 +38,39 @@ function FormSection(props) {
     _useState2 = _slicedToArray(_useState, 2),
     showSemiModal = _useState2[0],
     setShowSemiModal = _useState2[1];
-  var _useState3 = useState(''),
+  var _useState3 = useState(false),
     _useState4 = _slicedToArray(_useState3, 2),
-    amount = _useState4[0],
-    setAmount = _useState4[1];
-  var _useState5 = useState(''),
+    showLoading = _useState4[0],
+    setShowLoading = _useState4[1];
+  var _useState5 = useState(0),
     _useState6 = _slicedToArray(_useState5, 2),
-    message = _useState6[0],
-    setMessage = _useState6[1];
-  // const provider = useProvider();
-  var createDonate = useDonate();
-  var _useSigner = useSigner(),
-    signer = _useSigner.data;
-  var contract = useContract({
-    address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
-    abi: abi,
-    signerOrProvider: signer
-  });
-
-  // contract.off('MintEvent', mintEventListener);
-  // contract.on('MintEvent', mintEventListener);
+    amount = _useState6[0],
+    setAmount = _useState6[1];
+  var _useState7 = useState(''),
+    _useState8 = _slicedToArray(_useState7, 2),
+    message = _useState8[0],
+    setMessage = _useState8[1];
+  var _useState9 = useState(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    donateCreateSuccess = _useState10[0],
+    setDonateCreateSuccess = _useState10[1];
+  var createDonate = useCreateDonate();
+  var _React$useContext = React.useContext(Donate3Context),
+    toAddress = _React$useContext.toAddress;
+  var cx = classNames.bind(styles);
+  var timeout = 5; // s
 
   var pid = 3;
   // let _merkleProof = '';
   // const amountIn = new BigNumber(amount * Math.pow(10, 18));
-  var amountIn = amount && ethers.utils.parseEther(amount);
+  var amountIn = amount && ethers.utils.parseEther(amount.toString());
   var bytesMsg = ethers.utils.toUtf8Bytes(message);
-  var donateTokenArgs = [pid, amountIn, '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-  // props.toAddress,
-  bytesMsg, [], {
+  var donateTokenArgs = [pid, amountIn,
+  // address,
+  '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4', bytesMsg, [], {
     value: amountIn
   }];
-  // let mintArgs = [address, pid, address];
-
-  console.log('donateTokenArgs', donateTokenArgs);
+  console.log('合约参数:', donateTokenArgs);
   var _usePrepareContractWr = usePrepareContractWrite({
       address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
       abi: abi,
@@ -81,54 +78,56 @@ function FormSection(props) {
       args: donateTokenArgs
     }),
     config = _usePrepareContractWr.config;
-  // const { config: mintConfig } = usePrepareContractWrite({
-  //   address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
-  //   abi: abi,
-  //   functionName: 'mint',
-  //   args: mintArgs,
-  // });
-
   var _useContractWrite = useContractWrite(config),
     transactionData = _useContractWrite.data,
     isLoading = _useContractWrite.isLoading,
     isSuccess = _useContractWrite.isSuccess,
+    isError = _useContractWrite.isError,
+    isIdle = _useContractWrite.isIdle,
     write = _useContractWrite.write;
-  // console.log('-------::', isLoading, isSuccess, transactionData);
-  var cx = classNames.bind(styles);
+  console.log('合约数据变更', transactionData, isLoading, isSuccess, isError, isIdle);
   useEffect(function () {
     if (isConnected) {
       setShowSemiModal(false);
+      setShowLoading(false);
     } else {
       setShowSemiModal(true);
     }
-  }, []);
+  }, [isConnected]);
+  useEffect(function () {
+    if (donateCreateSuccess) {
+      setTimeout(function () {
+        setDonateCreateSuccess(false);
+      }, timeout * 1000);
+    }
+  }, [donateCreateSuccess]);
   var asyncFunc = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
       var createDonateArgs, result;
       return _regeneratorRuntime().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            console.log('合约数据变更', transactionData, isLoading, isSuccess);
             createDonateArgs = {
-              chainType: (chain === null || chain === void 0 ? void 0 : chain.name) || 'unknow',
+              chainType: 4 || (chain === null || chain === void 0 ? void 0 : chain.id) || 0,
               coinType: 0,
-              createTime: Date.now(),
+              //TODO, 这里我应该传什么？有哪些值？
               fromAddress: address,
-              hash: transactionData === null || transactionData === void 0 ? void 0 : transactionData.hash,
-              id: transactionData === null || transactionData === void 0 ? void 0 : transactionData.hash,
-              message: message,
-              status: 0,
-              // TODO
-              toAddress: props.toAddress,
-              updateTime: Date.now(),
-              usdValue: amount,
               userId: address,
-              value: amount
+              hash: transactionData === null || transactionData === void 0 ? void 0 : transactionData.hash,
+              // 这里我取 transaction hash
+              // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
+              message: message,
+              // status: 0, // TODO 这里的状态有哪些值？
+              toAddress: toAddress,
+              usdValue: String(amount),
+              // 这里是否可以支持 int 和 string 两种类型？
+              value: String(amount) // 这里是否可以支持 int 和 string 两种类型？
             };
-            _context.next = 4;
+            _context.next = 3;
             return createDonate(createDonateArgs);
-          case 4:
+          case 3:
             result = _context.sent;
+            setDonateCreateSuccess(true);
             console.log(result);
           case 6:
           case "end":
@@ -140,35 +139,32 @@ function FormSection(props) {
       return _ref.apply(this, arguments);
     };
   }();
+  useEffect(function () {
+    if (isSuccess) {
+      setShowLoading(false);
+      asyncFunc();
+    }
+    if (isError) {
+      setShowLoading(false);
+    }
+  }, [isSuccess, isError]);
+
+  // useEffect(() => {
+  //   if (isIdle) {
+  //     setShowLoading(false);
+  //   }
+  // }, [isIdle]);
+
   var handleDonate = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-      var data;
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
             if (isConnected) {
               setShowSemiModal(false);
-              data = {
-                amount: amount,
-                message: message
-              };
-              console.log(data, chain, chains, contract);
-              // const res = await contract.mint(
-              //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-              //   7,
-              //   '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
-              //   // {
-              //   //   value: 100000,
-              //   // },
-              // );
-
-              // console.log('-----', res);
+              setShowLoading(true);
               write === null || write === void 0 ? void 0 : write();
-              asyncFunc();
               console.log(transactionData);
-
-              // TODO 调用合约
-              // TODO toast
             } else {
               setShowSemiModal(true);
             }
@@ -193,24 +189,22 @@ function FormSection(props) {
     setAmount(amount);
   };
   var handleManualAmount = function handleManualAmount(event) {
-    setAmount(event.target.value);
+    setAmount(Number(event.target.value));
   };
   return /*#__PURE__*/React.createElement("section", {
     className: styles.appcontent
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: styles.title
   }, "Payment Method"), /*#__PURE__*/React.createElement("div", {
     className: styles.methodinput
   }, /*#__PURE__*/React.createElement("div", {
-    className: styles.eth
-  }, /*#__PURE__*/React.createElement(Eth, null)), /*#__PURE__*/React.createElement("div", null, "ETH"), /*#__PURE__*/React.createElement("input", {
-    placeholder: "Ethereum"
-  }), /*#__PURE__*/React.createElement("div", {
+    className: styles.cointxt
+  }, /*#__PURE__*/React.createElement(Eth, null), /*#__PURE__*/React.createElement("span", null, "ETH"), /*#__PURE__*/React.createElement("span", null, "Ethereum")), /*#__PURE__*/React.createElement("div", {
     className: styles.switch,
     onClick: openChainModal
   }, /*#__PURE__*/React.createElement(Switch, null))), /*#__PURE__*/React.createElement("div", {
     className: styles.footermark
-  }, /*#__PURE__*/React.createElement("div", null, "icon"), /*#__PURE__*/React.createElement("div", null, "21.11ETH"), /*#__PURE__*/React.createElement("div", null, "0.01E = $127; 31GWEI = $0.75")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", null, "icon"), /*#__PURE__*/React.createElement("div", null, "21.11ETH"), /*#__PURE__*/React.createElement("div", null, "0.01E = $127; 31GWEI = $0.75"))), /*#__PURE__*/React.createElement("div", {
     className: styles.shortcutoption,
     onClick: handleEthAmount
   }, /*#__PURE__*/React.createElement("div", {
@@ -228,20 +222,20 @@ function FormSection(props) {
     onChange: handleManualAmount
   }), /*#__PURE__*/React.createElement("div", {
     className: styles.msg
-  }, /*#__PURE__*/React.createElement("div", null, "Message"), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement("div", null, "Message"), /*#__PURE__*/React.createElement("textarea", {
     placeholder: "Will be published on chain",
-    multiple: true,
     value: message,
     onChange: function onChange(e) {
       setMessage(e.currentTarget.value);
     }
   })), /*#__PURE__*/React.createElement("button", {
     type: "button",
-    className: styles.donate3btn
-    // disabled={!write}
-    ,
+    className: styles.donate3btn,
+    disabled: !write,
     onClick: handleDonate
-  }, /*#__PURE__*/React.createElement("div", null, "DONATE3"), /*#__PURE__*/React.createElement("div", null, "\u2248$875.32")), showSemiModal ? /*#__PURE__*/React.createElement("div", {
+  }, showLoading ? /*#__PURE__*/React.createElement(Loading, null) : null, showLoading ? /*#__PURE__*/React.createElement("div", null, "Confirm in wallet...") : /*#__PURE__*/React.createElement("div", null, "DONATE3")
+  // <div>≈$875.32</div>
+  ), showSemiModal ? /*#__PURE__*/React.createElement("div", {
     className: cx(styles.semiModal, {
       in: !isConnected || showSemiModal
     }, {
@@ -264,12 +258,18 @@ function FormSection(props) {
   }), /*#__PURE__*/React.createElement("img", {
     className: styles.btcicon,
     src: "https://i.328888.xyz/2023/03/12/vkRxF.png"
-  })), /*#__PURE__*/React.createElement(UserAvatar, {
-    type: props.type
-  }), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement(UserAvatar, null), /*#__PURE__*/React.createElement("div", {
     className: styles.semidonatebtn,
-    onClick: openConnectModal
-  }, "Connect wallet for donation"), /*#__PURE__*/React.createElement(Footer, null))) : null);
+    onClick: function onClick() {
+      setShowLoading(true);
+      if (openConnectModal) {
+        openConnectModal();
+      }
+    }
+  }, showLoading ? /*#__PURE__*/React.createElement(Loading, null) : null, showLoading ? /*#__PURE__*/React.createElement("span", null, "Confirm in wallet...") : /*#__PURE__*/React.createElement("span", null, "Connect wallet for donation")), /*#__PURE__*/React.createElement(Footer, null))) : null, donateCreateSuccess ? /*#__PURE__*/React.createElement(Success, {
+    timeout: timeout,
+    setDonateCreateSuccess: setDonateCreateSuccess
+  }) : null);
 }
 
 //

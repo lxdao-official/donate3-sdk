@@ -23,20 +23,12 @@ __export(useNouns_exports, {
 });
 module.exports = __toCommonJS(useNouns_exports);
 var import_react = require("react");
+var import_nouns = require("../utils/nouns");
 var useNouns = (address) => {
   const [nounsBase64, setnounsBase64] = (0, import_react.useState)("");
   (0, import_react.useEffect)(() => {
     const fetchData = async () => {
-      const getData = async (address2) => {
-        const res = await fetch(
-          `http://localhost:3000/api/getnouns/${address2}`
-        );
-        const json = await res.json();
-        const { code, base64: base642 } = json;
-        console.log(code);
-        return base642;
-      };
-      const base64 = await getData(address);
+      const base64 = (0, import_nouns.getNounsBase64)(address);
       setnounsBase64(base64);
     };
     fetchData().catch(console.error);

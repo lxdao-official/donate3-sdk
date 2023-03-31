@@ -36,8 +36,8 @@ var import_react = __toESM(require("react"));
 var import_logo = require("../../images/logo.svg");
 var import_Footer_module = __toESM(require("./Footer.module.css"));
 function Footer() {
-  return /* @__PURE__ */ import_react.default.createElement("footer", { className: import_Footer_module.default.appfooter }, /* @__PURE__ */ import_react.default.createElement("span", null, "Power by"), /* @__PURE__ */ import_react.default.createElement("span", null, /* @__PURE__ */ import_react.default.createElement(import_logo.ReactComponent, null)), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"));
+  return /* @__PURE__ */ import_react.default.createElement("footer", { className: import_Footer_module.default.appfooter }, /* @__PURE__ */ import_react.default.createElement("span", null, "Power by"), /* @__PURE__ */ import_react.default.createElement("span", { className: import_Footer_module.default.logo }, /* @__PURE__ */ import_react.default.createElement(import_logo.ReactComponent, null)), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"));
 }
-var Footer_default = Footer;
+var Footer_default = import_react.default.memo(Footer);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

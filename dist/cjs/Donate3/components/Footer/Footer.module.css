@@ -6,4 +6,9 @@
   color: #929f9e;
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+}
+
+.logo{
+  margin: 0 8px;
 }

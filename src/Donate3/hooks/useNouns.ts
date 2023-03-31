@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getNounsBase64 } from '../utils/nouns';
 
-const useNouns = (address: string) => {
-  const [nounsBase64, setnounsBase64] = useState('');
+const useNouns = (address: `0x${string}` | undefined) => {
+  const [nounsBase64, setnounsBase64] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
       // const getData = async (address: string) => {
@@ -16,7 +16,11 @@ const useNouns = (address: string) => {
       // };
 
       // const base64 = await getData(address);
-      const base64 = getNounsBase64(address);
+
+      const base64 = null;
+      if (address) {
+        getNounsBase64(address);
+      }
       setnounsBase64(base64);
     };
 

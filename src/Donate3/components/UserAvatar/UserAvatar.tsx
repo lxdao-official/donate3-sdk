@@ -9,16 +9,23 @@ import styles from './UserAvatar.module.css';
 
 function UserAvatar(props: { normalmode?: boolean }) {
   let cx = classNames.bind(styles);
-  const { type, donorList, total } = React.useContext(Donate3Context);
+  const { type, donorList, total, setShowDonorList } =
+    React.useContext(Donate3Context);
   const makeDonateUserAvatar = () => {
     if (!donorList) return;
-    let dom = [];
-    const records = donorList?.result?.records.slice(0, 5);
-    dom = records.map((item: DonorRecord, index: number) => {
-      return (
-        <Avatar key={index} address={item.fromAddress} width={'40px'}></Avatar>
-      );
-    });
+    let dom: JSX.Element[] = [];
+    const records = donorList?.records?.slice(0, 5);
+    if (records) {
+      dom = records?.map((item: DonorRecord, index: number) => {
+        return (
+          <Avatar
+            key={index}
+            address={item.fromAddress}
+            width={'40px'}
+          ></Avatar>
+        );
+      });
+    }
     dom.push(
       <TotalCircle
         key={'lastitem'}
@@ -31,9 +38,12 @@ function UserAvatar(props: { normalmode?: boolean }) {
 
   return (
     <div
-      className={cx({
+      className={cx(styles.wrap, {
         normalmode: props.normalmode && type === DONATE_TYPE.NORMAL,
       })}
+      onClick={() => {
+        setShowDonorList(true);
+      }}
     >
       <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
       {type === DONATE_TYPE.FLOAT ? (

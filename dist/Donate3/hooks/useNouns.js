@@ -9,6 +9,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 import { useEffect, useState } from 'react';
+import { getNounsBase64 } from "../utils/nouns";
 var useNouns = function useNouns(address) {
   var _useState = useState(''),
     _useState2 = _slicedToArray(_useState, 2),
@@ -16,48 +17,28 @@ var useNouns = function useNouns(address) {
     setnounsBase64 = _useState2[1];
   useEffect(function () {
     var fetchData = /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-        var getData, base64;
-        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-          while (1) switch (_context2.prev = _context2.next) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var base64;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) switch (_context.prev = _context.next) {
             case 0:
-              getData = /*#__PURE__*/function () {
-                var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(address) {
-                  var res, json, code, base64;
-                  return _regeneratorRuntime().wrap(function _callee$(_context) {
-                    while (1) switch (_context.prev = _context.next) {
-                      case 0:
-                        _context.next = 2;
-                        return fetch("http://localhost:3000/api/getnouns/".concat(address));
-                      case 2:
-                        res = _context.sent;
-                        _context.next = 5;
-                        return res.json();
-                      case 5:
-                        json = _context.sent;
-                        code = json.code, base64 = json.base64;
-                        console.log(code);
-                        return _context.abrupt("return", base64);
-                      case 9:
-                      case "end":
-                        return _context.stop();
-                    }
-                  }, _callee);
-                }));
-                return function getData(_x2) {
-                  return _ref2.apply(this, arguments);
-                };
-              }();
-              _context2.next = 3;
-              return getData(address);
-            case 3:
-              base64 = _context2.sent;
+              // const getData = async (address: string) => {
+              //   const res = await fetch(
+              //     `http://localhost:3000/api/getnouns/${address}`,
+              //   );
+              //   const json = await res.json();
+              //   const { code, base64 } = json;
+              //   console.log(code);
+              //   return base64;
+              // };
+              // const base64 = await getData(address);
+              base64 = getNounsBase64(address);
               setnounsBase64(base64);
-            case 5:
+            case 2:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
-        }, _callee2);
+        }, _callee);
       }));
       return function fetchData() {
         return _ref.apply(this, arguments);

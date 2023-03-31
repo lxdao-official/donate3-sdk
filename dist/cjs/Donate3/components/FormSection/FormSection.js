@@ -37,43 +37,45 @@ var import_bind = __toESM(require("classnames/bind"));
 var import_ethers = require("ethers");
 var import_react = __toESM(require("react"));
 var import_wagmi = require("wagmi");
-var import_useDonate = __toESM(require("../../hooks/useDonate"));
+var import_useDonate = require("../../hooks/useDonate");
 var import_abi = __toESM(require("../../abi.json"));
+var import_Donate3Context = require("../../context/Donate3Context");
 var import_eth = require("../../images/eth.svg");
+var import_loading = require("../../images/loading.svg");
 var import_switch = require("../../images/switch.svg");
 var import_Footer = __toESM(require("../Footer/Footer"));
+var import_Success = __toESM(require("../Success/Success"));
 var import_UserAvatar = __toESM(require("../UserAvatar/UserAvatar"));
 var import_FormSection_module = __toESM(require("./FormSection.module.css"));
-function FormSection(props) {
+function FormSection() {
   const { openConnectModal } = (0, import_rainbowkit.useConnectModal)();
   const { openChainModal } = (0, import_rainbowkit.useChainModal)();
-  const { chain, chains } = (0, import_wagmi.useNetwork)();
+  const { chain } = (0, import_wagmi.useNetwork)();
   const { address, isConnected } = (0, import_wagmi.useAccount)();
   const [showSemiModal, setShowSemiModal] = (0, import_react.useState)(false);
-  const [amount, setAmount] = (0, import_react.useState)("");
+  const [showLoading, setShowLoading] = (0, import_react.useState)(false);
+  const [amount, setAmount] = (0, import_react.useState)(0);
   const [message, setMessage] = (0, import_react.useState)("");
-  const createDonate = (0, import_useDonate.default)();
-  const { data: signer } = (0, import_wagmi.useSigner)();
-  const contract = (0, import_wagmi.useContract)({
-    address: "0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e",
-    abi: import_abi.default,
-    signerOrProvider: signer
-  });
+  const [donateCreateSuccess, setDonateCreateSuccess] = (0, import_react.useState)(false);
+  const createDonate = (0, import_useDonate.useCreateDonate)();
+  const { toAddress } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  let cx = import_bind.default.bind(import_FormSection_module.default);
+  const timeout = 5;
   let pid = 3;
-  const amountIn = amount && import_ethers.ethers.utils.parseEther(amount);
+  const amountIn = amount && import_ethers.ethers.utils.parseEther(amount.toString());
   const bytesMsg = import_ethers.ethers.utils.toUtf8Bytes(message);
   let donateTokenArgs = [
     pid,
     amountIn,
+    // address,
     "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
-    // props.toAddress,
     bytesMsg,
     [],
     {
       value: amountIn
     }
   ];
-  console.log("donateTokenArgs", donateTokenArgs);
+  console.log("合约参数:", donateTokenArgs);
   const { config } = (0, import_wagmi.usePrepareContractWrite)({
     address: "0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e",
     abi: import_abi.default,
@@ -84,47 +86,69 @@ function FormSection(props) {
     data: transactionData,
     isLoading,
     isSuccess,
+    isError,
+    isIdle,
     write
   } = (0, import_wagmi.useContractWrite)(config);
-  let cx = import_bind.default.bind(import_FormSection_module.default);
+  console.log(
+    "合约数据变更",
+    transactionData,
+    isLoading,
+    isSuccess,
+    isError,
+    isIdle
+  );
   (0, import_react.useEffect)(() => {
     if (isConnected) {
       setShowSemiModal(false);
+      setShowLoading(false);
     } else {
       setShowSemiModal(true);
     }
-  }, []);
+  }, [isConnected]);
+  (0, import_react.useEffect)(() => {
+    if (donateCreateSuccess) {
+      setTimeout(() => {
+        setDonateCreateSuccess(false);
+      }, timeout * 1e3);
+    }
+  }, [donateCreateSuccess]);
   const asyncFunc = async () => {
-    console.log("合约数据变更", transactionData, isLoading, isSuccess);
     const createDonateArgs = {
-      chainType: (chain == null ? void 0 : chain.name) || "unknow",
+      chainType: 4,
       coinType: 0,
-      createTime: Date.now(),
+      //TODO, 这里我应该传什么？有哪些值？
       fromAddress: address,
-      hash: transactionData == null ? void 0 : transactionData.hash,
-      id: transactionData == null ? void 0 : transactionData.hash,
-      message,
-      status: 0,
-      // TODO
-      toAddress: props.toAddress,
-      updateTime: Date.now(),
-      usdValue: amount,
       userId: address,
-      value: amount
+      hash: transactionData == null ? void 0 : transactionData.hash,
+      // 这里我取 transaction hash
+      // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
+      message,
+      // status: 0, // TODO 这里的状态有哪些值？
+      toAddress,
+      usdValue: String(amount),
+      // 这里是否可以支持 int 和 string 两种类型？
+      value: String(amount)
+      // 这里是否可以支持 int 和 string 两种类型？
     };
     const result = await createDonate(createDonateArgs);
+    setDonateCreateSuccess(true);
     console.log(result);
   };
+  (0, import_react.useEffect)(() => {
+    if (isSuccess) {
+      setShowLoading(false);
+      asyncFunc();
+    }
+    if (isError) {
+      setShowLoading(false);
+    }
+  }, [isSuccess, isError]);
   const handleDonate = async () => {
     if (isConnected) {
       setShowSemiModal(false);
-      const data = {
-        amount,
-        message
-      };
-      console.log(data, chain, chains, contract);
+      setShowLoading(true);
       write == null ? void 0 : write();
-      asyncFunc();
       console.log(transactionData);
     } else {
       setShowSemiModal(true);
@@ -140,9 +164,9 @@ function FormSection(props) {
     setAmount(amount2);
   };
   const handleManualAmount = (event) => {
-    setAmount(event.target.value);
+    setAmount(Number(event.target.value));
   };
-  return /* @__PURE__ */ import_react.default.createElement("section", { className: import_FormSection_module.default.appcontent }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.title }, "Payment Method"), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.methodinput }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.eth }, /* @__PURE__ */ import_react.default.createElement(import_eth.ReactComponent, null)), /* @__PURE__ */ import_react.default.createElement("div", null, "ETH"), /* @__PURE__ */ import_react.default.createElement("input", { placeholder: "Ethereum" }), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.switch, onClick: openChainModal }, /* @__PURE__ */ import_react.default.createElement(import_switch.ReactComponent, null))), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.footermark }, /* @__PURE__ */ import_react.default.createElement("div", null, "icon"), /* @__PURE__ */ import_react.default.createElement("div", null, "21.11ETH"), /* @__PURE__ */ import_react.default.createElement("div", null, "0.01E = $127; 31GWEI = $0.75")), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.shortcutoption, onClick: handleEthAmount }, /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 1e-3 }, "0.001 ETH"), /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 0.01 }, "0.01 ETH"), /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 0.5 }, "0.5 ETH")), /* @__PURE__ */ import_react.default.createElement("fieldset", { className: import_FormSection_module.default.fieldset }, /* @__PURE__ */ import_react.default.createElement("legend", null, /* @__PURE__ */ import_react.default.createElement("span", null, "OR"))), /* @__PURE__ */ import_react.default.createElement(
+  return /* @__PURE__ */ import_react.default.createElement("section", { className: import_FormSection_module.default.appcontent }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.title }, "Payment Method"), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.methodinput }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.cointxt }, /* @__PURE__ */ import_react.default.createElement(import_eth.ReactComponent, null), /* @__PURE__ */ import_react.default.createElement("span", null, "ETH"), /* @__PURE__ */ import_react.default.createElement("span", null, "Ethereum")), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.switch, onClick: openChainModal }, /* @__PURE__ */ import_react.default.createElement(import_switch.ReactComponent, null))), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.footermark }, /* @__PURE__ */ import_react.default.createElement("div", null, "icon"), /* @__PURE__ */ import_react.default.createElement("div", null, "21.11ETH"), /* @__PURE__ */ import_react.default.createElement("div", null, "0.01E = $127; 31GWEI = $0.75"))), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.shortcutoption, onClick: handleEthAmount }, /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 1e-3 }, "0.001 ETH"), /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 0.01 }, "0.01 ETH"), /* @__PURE__ */ import_react.default.createElement("div", { "data-amount": 0.5 }, "0.5 ETH")), /* @__PURE__ */ import_react.default.createElement("fieldset", { className: import_FormSection_module.default.fieldset }, /* @__PURE__ */ import_react.default.createElement("legend", null, /* @__PURE__ */ import_react.default.createElement("span", null, "OR"))), /* @__PURE__ */ import_react.default.createElement(
     "input",
     {
       className: import_FormSection_module.default.pricebtn,
@@ -151,10 +175,9 @@ function FormSection(props) {
       onChange: handleManualAmount
     }
   ), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.msg }, /* @__PURE__ */ import_react.default.createElement("div", null, "Message"), /* @__PURE__ */ import_react.default.createElement(
-    "input",
+    "textarea",
     {
       placeholder: "Will be published on chain",
-      multiple: true,
       value: message,
       onChange: (e) => {
         setMessage(e.currentTarget.value);
@@ -165,10 +188,11 @@ function FormSection(props) {
     {
       type: "button",
       className: import_FormSection_module.default.donate3btn,
+      disabled: !write,
       onClick: handleDonate
     },
-    /* @__PURE__ */ import_react.default.createElement("div", null, "DONATE3"),
-    /* @__PURE__ */ import_react.default.createElement("div", null, "≈$875.32")
+    showLoading ? /* @__PURE__ */ import_react.default.createElement(import_loading.ReactComponent, null) : null,
+    showLoading ? /* @__PURE__ */ import_react.default.createElement("div", null, "Confirm in wallet...") : /* @__PURE__ */ import_react.default.createElement("div", null, "DONATE3")
   ), showSemiModal ? /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
@@ -199,7 +223,26 @@ function FormSection(props) {
         className: import_FormSection_module.default.btcicon,
         src: "https://i.328888.xyz/2023/03/12/vkRxF.png"
       }
-    )), /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, { type: props.type }), /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.semidonatebtn, onClick: openConnectModal }, "Connect wallet for donation"), /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null))
+    )), /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, null), /* @__PURE__ */ import_react.default.createElement(
+      "div",
+      {
+        className: import_FormSection_module.default.semidonatebtn,
+        onClick: () => {
+          setShowLoading(true);
+          if (openConnectModal) {
+            openConnectModal();
+          }
+        }
+      },
+      showLoading ? /* @__PURE__ */ import_react.default.createElement(import_loading.ReactComponent, null) : null,
+      showLoading ? /* @__PURE__ */ import_react.default.createElement("span", null, "Confirm in wallet...") : /* @__PURE__ */ import_react.default.createElement("span", null, "Connect wallet for donation")
+    ), /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null))
+  ) : null, donateCreateSuccess ? /* @__PURE__ */ import_react.default.createElement(
+    import_Success.default,
+    {
+      timeout,
+      setDonateCreateSuccess
+    }
   ) : null);
 }
 var FormSection_default = import_react.default.memo(FormSection);

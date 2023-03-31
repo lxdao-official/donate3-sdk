@@ -34,25 +34,46 @@ __export(UserAvatar_exports, {
 module.exports = __toCommonJS(UserAvatar_exports);
 var import_bind = __toESM(require("classnames/bind"));
 var import_react = __toESM(require("react"));
+var import_Donate3Context = require("../../context/Donate3Context");
+var import_const = require("../../utils/const");
+var import_Avatar = __toESM(require("../Avatar/Avatar"));
+var import_TotalCircle = __toESM(require("../TotalCircle/TotalCircle"));
 var import_UserAvatar_module = __toESM(require("./UserAvatar.module.css"));
 function UserAvatar(props) {
+  let cx = import_bind.default.bind(import_UserAvatar_module.default);
+  const { type, donorList, total } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   const makeDonateUserAvatar = () => {
+    var _a;
+    if (!donorList)
+      return;
     let dom = [];
-    const url = "https://i.imgur.com/RbcuN95.jpeg";
-    const myStyle = {
-      backgroundImage: `url('${url}')`,
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat"
-    };
-    dom = ["aa", "bb", "cc", "cc1", "cc2", "cc3"].map((item) => /* @__PURE__ */ import_react.default.createElement("div", { key: item, className: import_UserAvatar_module.default.donateuseravatar, style: myStyle }));
+    const records = (_a = donorList == null ? void 0 : donorList.result) == null ? void 0 : _a.records.slice(0, 5);
+    dom = records.map((item, index) => {
+      return /* @__PURE__ */ import_react.default.createElement(import_Avatar.default, { key: index, address: item.fromAddress, width: "40px" });
+    });
     dom.push(
-      /* @__PURE__ */ import_react.default.createElement("div", { key: "lastitem", className: import_UserAvatar_module.default.donateuseravatar }, "190")
+      /* @__PURE__ */ import_react.default.createElement(
+        import_TotalCircle.default,
+        {
+          key: "lastitem",
+          size: 40,
+          className: import_UserAvatar_module.default.total
+        }
+      )
     );
     return dom;
   };
-  let cx = import_bind.default.bind(import_UserAvatar_module.default);
-  return /* @__PURE__ */ import_react.default.createElement("div", { className: cx({ normalmode: props.normalmode && props.type === "2" }) }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateusers }, makeDonateUserAvatar()), props.type === "1" ? /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateuserdec }, "已有198人向他捐赠") : null);
+  return /* @__PURE__ */ import_react.default.createElement(
+    "div",
+    {
+      className: cx({
+        normalmode: props.normalmode && type === import_const.DONATE_TYPE.NORMAL
+      })
+    },
+    /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateusers }, makeDonateUserAvatar()),
+    type === import_const.DONATE_TYPE.FLOAT ? /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateuserdec }, "已有", total, "人向他捐赠") : null
+  );
 }
-var UserAvatar_default = UserAvatar;
+var UserAvatar_default = import_react.default.memo(UserAvatar);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

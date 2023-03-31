@@ -15,12 +15,16 @@ export interface Props {
 function Avatar(props: Props) {
   let cx = classNames.bind(styles);
   const myStyle = {
-    backgroundImage: `url('${props.address}')`,
+    // backgroundImage: `url('${props.address}')`,
     width: props.width,
     height: props.width,
     borderRadius: props.width,
   };
-  const base64Hash = getNounsBase64(props.address || ZERO_ADDRESS);
+  // console.log('>>>>>', props.address, props.address?.length);
+  const base64Hash =
+    props.address?.length === 42
+      ? getNounsBase64(props.address || ZERO_ADDRESS)
+      : null;
   const allStyle = { ...myStyle, ...props.style };
   return (
     <>

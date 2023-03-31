@@ -1,6 +1,6 @@
-/// <reference types="react" />
+import React from 'react';
 declare function UserAvatar(props: {
-    type: string;
     normalmode?: boolean;
 }): JSX.Element;
-export default UserAvatar;
+declare const _default: React.MemoExoticComponent<typeof UserAvatar>;
+export default _default;

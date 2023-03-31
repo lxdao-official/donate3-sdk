@@ -1,17 +1,21 @@
 interface Args {
-    chainType: string;
-    coinType: number;
-    createTime: number;
+    chainType: number;
     fromAddress: `0x${string}` | undefined;
-    hash: `0x${string}` | undefined;
-    id: `0x${string}` | undefined;
     message: string;
-    status: number;
     toAddress: string;
-    updateTime: number;
-    usdValue: string;
-    userId: `0x${string}` | undefined;
     value: string;
+    usdValue: string;
+    coinType?: number;
+    hash?: `0x${string}` | undefined;
+    id?: `0x${string}` | undefined;
+    status?: number;
+    createTime?: number;
+    updateTime?: number;
+    userId?: `0x${string}` | undefined;
 }
-declare const useDonate: () => (args: Args) => Promise<any>;
-export default useDonate;
+export declare const useCreateDonate: () => (args: Args) => Promise<any>;
+export declare const useFetchDonors: (toAddress: string, orderByType: string) => {
+    donors: any;
+    loading: boolean;
+};
+export {};

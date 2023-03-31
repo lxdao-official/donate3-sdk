@@ -19,12 +19,14 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/Donate3/hooks/useDonate.ts
 var useDonate_exports = {};
 __export(useDonate_exports, {
-  default: () => useDonate_default
+  useCreateDonate: () => useCreateDonate,
+  useFetchDonors: () => useFetchDonors
 });
 module.exports = __toCommonJS(useDonate_exports);
+var import_ahooks = require("ahooks");
 var import_react = require("react");
 var BASE_URL = "https://api.donate3.xyz";
-var useDonate = () => {
+var useCreateDonate = () => {
   const createDonate = (0, import_react.useCallback)(async (args) => {
     console.log("inner", args);
     const res = await fetch(`${BASE_URL}/api/v1/donate/create`, {
@@ -43,6 +45,33 @@ var useDonate = () => {
   }, []);
   return createDonate;
 };
-var useDonate_default = useDonate;
+var useFetchDonors = (toAddress, orderByType) => {
+  const _fetchDonors = async () => {
+    const res = await fetch(
+      `${BASE_URL}/api/v1/donate/queryByParam?` + new URLSearchParams({
+        toAddress,
+        orderByType,
+        pageNo: "0",
+        pageSize: "20"
+      }),
+      {
+        method: "GET",
+        mode: "cors",
+        // no-cors, *cors, same-origin
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+    const json = await res.json();
+    const { code, result } = json;
+    return result;
+  };
+  const { data: donors, loading } = (0, import_ahooks.useRequest)(_fetchDonors);
+  return { donors, loading };
+};
 // Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
+0 && (module.exports = {
+  useCreateDonate,
+  useFetchDonors
+});

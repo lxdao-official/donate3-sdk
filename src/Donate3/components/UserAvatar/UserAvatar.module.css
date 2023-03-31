@@ -1,3 +1,6 @@
+.wrap{
+  cursor: pointer;
+}
 .normalmode .total{
   margin-right: -14px;
   text-align: center;

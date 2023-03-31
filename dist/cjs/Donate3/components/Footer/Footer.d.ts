@@ -1,3 +1,4 @@
-/// <reference types="react" />
+import React from 'react';
 declare function Footer(): JSX.Element;
-export default Footer;
+declare const _default: React.MemoExoticComponent<typeof Footer>;
+export default _default;

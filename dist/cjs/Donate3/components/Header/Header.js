@@ -34,36 +34,51 @@ __export(Header_exports, {
 module.exports = __toCommonJS(Header_exports);
 var import_bind = __toESM(require("classnames/bind"));
 var import_react = __toESM(require("react"));
+var import_Donate3Context = require("../../context/Donate3Context");
 var import_useNouns = __toESM(require("../../hooks/useNouns"));
+var import_const = require("../../utils/const");
+var import_TotalCircle = __toESM(require("../TotalCircle/TotalCircle"));
 var import_Header_module = __toESM(require("./Header.module.css"));
-function Header(props) {
-  const base64Hash = (0, import_useNouns.default)(props.address);
+function Header({ setShowDonorList, normalmode }) {
+  const { type, toAddress, title } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  const base64Hash = (0, import_useNouns.default)(toAddress);
   let cx = import_bind.default.bind(import_Header_module.default);
-  console.log("header::", props);
   return /* @__PURE__ */ import_react.default.createElement(
     "header",
     {
       className: cx(import_Header_module.default.header, {
-        normalmode: props.normalmode && props.type === "2"
+        normalmode: normalmode && type === import_const.DONATE_TYPE.NORMAL
       })
     },
-    /* @__PURE__ */ import_react.default.createElement("div", { className: import_Header_module.default.recipientinfo }, /* @__PURE__ */ import_react.default.createElement("div", null, "Donate to ", props.name), /* @__PURE__ */ import_react.default.createElement("div", null, "To:", props.address)),
-    /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("fieldset", { className: import_Header_module.default.fieldset }, /* @__PURE__ */ import_react.default.createElement("legend", null, base64Hash ? /* @__PURE__ */ import_react.default.createElement(
-      "img",
+    /* @__PURE__ */ import_react.default.createElement("div", { className: import_Header_module.default.recipientinfo }, /* @__PURE__ */ import_react.default.createElement("div", null, "Donate to ", title), /* @__PURE__ */ import_react.default.createElement("div", null, "To:", toAddress && `${toAddress.slice(0, 6)}...${toAddress.slice(
+      toAddress.length - 4
+    )}`)),
+    /* @__PURE__ */ import_react.default.createElement(
+      "div",
       {
-        className: import_Header_module.default.avatar,
-        alt: "avatar",
-        src: `data:image/svg+xml;base64,${base64Hash}`
-      }
-    ) : /* @__PURE__ */ import_react.default.createElement(
-      "img",
-      {
-        className: import_Header_module.default.avatar,
-        src: "https://i.328888.xyz/2023/03/12/vk3wZ.png"
-      }
-    ))))
+        className: import_Header_module.default.avatarwrap,
+        onClick: () => {
+          setShowDonorList(true);
+        }
+      },
+      /* @__PURE__ */ import_react.default.createElement("fieldset", { className: import_Header_module.default.fieldset }, /* @__PURE__ */ import_react.default.createElement("legend", null, base64Hash ? /* @__PURE__ */ import_react.default.createElement(
+        "img",
+        {
+          className: import_Header_module.default.avatar,
+          alt: "avatar",
+          src: `data:image/svg+xml;base64,${base64Hash}`
+        }
+      ) : /* @__PURE__ */ import_react.default.createElement(
+        "img",
+        {
+          className: import_Header_module.default.avatar,
+          src: "https://i.328888.xyz/2023/03/12/vk3wZ.png"
+        }
+      ))),
+      normalmode ? null : /* @__PURE__ */ import_react.default.createElement(import_TotalCircle.default, { size: 30, className: import_Header_module.default.total })
+    )
   );
 }
-var Header_default = Header;
+var Header_default = import_react.default.memo(Header);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {});

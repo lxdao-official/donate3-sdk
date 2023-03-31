@@ -11,17 +11,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 import classNames from 'classnames/bind';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from "./App.module.css";
 import DonateButton from "./components/DonateButton/DonateButton";
+import DonorList from "./components/DonorList/DonorList";
 import Footer from "./components/Footer/Footer";
 import FormSection from "./components/FormSection/FormSection";
 import Header from "./components/Header/Header";
 import UserAvatar from "./components/UserAvatar/UserAvatar";
+import { Donate3Context } from "./context/Donate3Context";
 import { ReactComponent as Close } from "./images/close.svg";
+import { DONATE_TYPE } from "./utils/const";
 import { getElementPosition } from "./utils/index";
-function App(props) {
-  console.log('-------App');
+function App() {
   var _useState = useState(false),
     _useState2 = _slicedToArray(_useState, 2),
     showForm = _useState2[0],
@@ -30,7 +32,12 @@ function App(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     dialogStyle = _useState4[0],
     setDialogStyle = _useState4[1];
-  var dialogRef = useRef(null);
+  var _useState5 = useState(false),
+    _useState6 = _slicedToArray(_useState5, 2),
+    showDonorList = _useState6[0],
+    setShowDonorList = _useState6[1];
+  var _React$useContext = React.useContext(Donate3Context),
+    type = _React$useContext.type;
   var cx = classNames.bind(styles);
   var handleSwitchDialog = function handleSwitchDialog(event) {
     var defaultStyle = {
@@ -40,7 +47,7 @@ function App(props) {
       bottom: 0,
       margin: 'auto'
     };
-    if (props.type === '2') {
+    if (type === DONATE_TYPE.NORMAL) {
       setDialogStyle(defaultStyle);
     } else {
       var _getElementPosition = getElementPosition(event === null || event === void 0 ? void 0 : event.currentTarget),
@@ -60,7 +67,7 @@ function App(props) {
     setShowForm(!showForm);
   };
   var renderDonate3Button = function renderDonate3Button(type) {
-    if (type === '1') {
+    if (type === DONATE_TYPE.FLOAT) {
       return /*#__PURE__*/React.createElement("div", {
         className: cx({
           close: showForm
@@ -70,43 +77,40 @@ function App(props) {
         onClick: handleSwitchDialog
       }, showForm ? /*#__PURE__*/React.createElement(Close, {
         className: styles.closeimg
-      }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DonateButton, {
-        type: props.type
-      })));
+      }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DonateButton, null)));
     } else {
       return /*#__PURE__*/React.createElement("div", {
         className: cx(styles.donate3btn)
       }, /*#__PURE__*/React.createElement(Header, {
-        address: props.address,
-        name: props.name,
-        type: props.type,
+        setShowDonorList: setShowDonorList,
         normalmode: true
       }), /*#__PURE__*/React.createElement("div", {
         onClick: handleSwitchDialog
-      }, /*#__PURE__*/React.createElement(DonateButton, {
-        type: props.type
-      })), /*#__PURE__*/React.createElement(UserAvatar, {
-        type: props.type,
+      }, /*#__PURE__*/React.createElement(DonateButton, null)), /*#__PURE__*/React.createElement("div", {
+        onClick: function onClick() {
+          setShowDonorList(true);
+        }
+      }, /*#__PURE__*/React.createElement(UserAvatar, {
         normalmode: true
-      }));
+      })));
     }
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, props.type === '2' && showForm ? /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, type === DONATE_TYPE.NORMAL && (showForm || showDonorList) ? /*#__PURE__*/React.createElement("div", {
     className: styles.mask,
     onClick: function onClick() {
       setShowForm(false);
+      setShowDonorList(false);
     }
   }) : null, /*#__PURE__*/React.createElement("div", {
     className: showForm ? "".concat(styles.app, " dialogAnimation") : styles.hidden,
-    style: _objectSpread({}, dialogStyle),
-    ref: dialogRef
+    style: _objectSpread({}, dialogStyle)
   }, /*#__PURE__*/React.createElement(Header, {
-    address: props.address,
-    name: props.name,
-    type: props.type
-  }), /*#__PURE__*/React.createElement(FormSection, {
-    type: props.type,
-    toAddress: props.address
-  }), /*#__PURE__*/React.createElement(Footer, null)), renderDonate3Button(props.type));
+    setShowDonorList: setShowDonorList
+  }), /*#__PURE__*/React.createElement(FormSection, null), /*#__PURE__*/React.createElement(Footer, null)), /*#__PURE__*/React.createElement("div", {
+    className: showDonorList ? "".concat(styles.app, " dialogAnimation") : styles.hidden,
+    style: _objectSpread({}, dialogStyle)
+  }, /*#__PURE__*/React.createElement(DonorList, {
+    setShowDonorList: setShowDonorList
+  })), renderDonate3Button(type));
 }
 export default /*#__PURE__*/React.memo(App);

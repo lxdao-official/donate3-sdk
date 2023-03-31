@@ -7,8 +7,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from "./App";
+import Donate3Provider from "./context/Donate3Context";
 import globalcss from "./globalcss";
-import useNouns from "./hooks/useNouns";
 
 // import { ReactComponent as Close2 } from './images/close.svg';
 
@@ -21,24 +21,25 @@ var Disclaimer = function Disclaimer(_ref) {
     href: "https://disclaimer.xyz"
   }, "Disclaimer"));
 };
-var CustomAvatar = function CustomAvatar(_ref2) {
-  var address = _ref2.address,
-    ensImage = _ref2.ensImage,
-    size = _ref2.size;
-  console.log(address, ensImage, size);
-  var base64Hash = useNouns('0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4');
-  return ensImage ? /*#__PURE__*/React.createElement("img", {
-    src: ensImage,
-    width: size,
-    height: size,
-    alt: 'ENS img',
-    style: {
-      borderRadius: 999
-    }
-  }) : /*#__PURE__*/React.createElement("img", {
-    src: "data:image/svg+xml;base64,".concat(base64Hash)
-  });
-};
+
+// const CustomAvatar: AvatarComponent = ({ address, ensImage, size }) => {
+//   console.log(address, ensImage, size);
+
+//   const base64Hash = useNouns('0x17Fc7FBDf8Ab26bAaBFe5f8d0B5179593907F8E4');
+
+//   return ensImage ? (
+//     <img
+//       src={ensImage}
+//       width={size}
+//       height={size}
+//       alt={'ENS img'}
+//       style={{ borderRadius: 999 }}
+//     />
+//   ) : (
+//     <img src={`data:image/svg+xml;base64,${base64Hash}`} />
+//   );
+// };
+
 var _configureChains = configureChains([mainnet, goerli, polygon, polygonMumbai], [publicProvider()]),
   chains = _configureChains.chains,
   provider = _configureChains.provider,
@@ -70,6 +71,25 @@ var Donate3 = function Donate3(props) {
     showRecentTransactions: true
   }, /*#__PURE__*/React.createElement(Global, {
     styles: globalcss
-  }), /*#__PURE__*/React.createElement(App, props.config))));
+  }), /*#__PURE__*/React.createElement(Donate3Provider, props.config, /*#__PURE__*/React.createElement(App, null)))));
 };
 export default /*#__PURE__*/React.memo(Donate3);
+{
+  /* <React.StrictMode>
+  <WagmiConfig client={wagmiClient}>
+  <RainbowKitProvider
+    appInfo={{
+      appName: 'Donate3',
+      learnMoreUrl: 'https://donate3.xyz',
+      disclaimer: Disclaimer,
+    }}
+    // avatar={CustomAvatar}
+    chains={chains}
+    showRecentTransactions={true}
+  >
+    <Global styles={globalcss} />
+    <App {...props.config} />
+  </RainbowKitProvider>
+  </WagmiConfig>
+  </React.StrictMode> */
+}

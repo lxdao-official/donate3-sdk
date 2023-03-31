@@ -36,17 +36,20 @@ var import_bind = __toESM(require("classnames/bind"));
 var import_react = __toESM(require("react"));
 var import_App_module = __toESM(require("./App.module.css"));
 var import_DonateButton = __toESM(require("./components/DonateButton/DonateButton"));
+var import_DonorList = __toESM(require("./components/DonorList/DonorList"));
 var import_Footer = __toESM(require("./components/Footer/Footer"));
 var import_FormSection = __toESM(require("./components/FormSection/FormSection"));
 var import_Header = __toESM(require("./components/Header/Header"));
 var import_UserAvatar = __toESM(require("./components/UserAvatar/UserAvatar"));
+var import_Donate3Context = require("./context/Donate3Context");
 var import_close = require("./images/close.svg");
+var import_const = require("./utils/const");
 var import_utils = require("./utils/index");
-function App(props) {
-  console.log("-------App");
+function App() {
   const [showForm, setShowForm] = (0, import_react.useState)(false);
   const [dialogStyle, setDialogStyle] = (0, import_react.useState)({});
-  const dialogRef = (0, import_react.useRef)(null);
+  const [showDonorList, setShowDonorList] = (0, import_react.useState)(false);
+  const { type } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   let cx = import_bind.default.bind(import_App_module.default);
   const handleSwitchDialog = (event) => {
     const defaultStyle = {
@@ -56,7 +59,7 @@ function App(props) {
       bottom: 0,
       margin: "auto"
     };
-    if (props.type === "2") {
+    if (type === import_const.DONATE_TYPE.NORMAL) {
       setDialogStyle(defaultStyle);
     } else {
       const { elementBottom, elementRight } = (0, import_utils.getElementPosition)(
@@ -72,8 +75,8 @@ function App(props) {
     }
     setShowForm(!showForm);
   };
-  const renderDonate3Button = (type) => {
-    if (type === "1") {
+  const renderDonate3Button = (type2) => {
+    if (type2 === import_const.DONATE_TYPE.FLOAT) {
       return /* @__PURE__ */ import_react.default.createElement(
         "div",
         {
@@ -87,46 +90,52 @@ function App(props) {
           ),
           onClick: handleSwitchDialog
         },
-        showForm ? /* @__PURE__ */ import_react.default.createElement(import_close.ReactComponent, { className: import_App_module.default.closeimg }) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, { type: props.type }))
+        showForm ? /* @__PURE__ */ import_react.default.createElement(import_close.ReactComponent, { className: import_App_module.default.closeimg }) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null))
       );
     } else {
       return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_App_module.default.donate3btn) }, /* @__PURE__ */ import_react.default.createElement(
         import_Header.default,
         {
-          address: props.address,
-          name: props.name,
-          type: props.type,
+          setShowDonorList,
           normalmode: true
         }
-      ), /* @__PURE__ */ import_react.default.createElement("div", { onClick: handleSwitchDialog }, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, { type: props.type })), /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, { type: props.type, normalmode: true }));
+      ), /* @__PURE__ */ import_react.default.createElement("div", { onClick: handleSwitchDialog }, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null)), /* @__PURE__ */ import_react.default.createElement(
+        "div",
+        {
+          onClick: () => {
+            setShowDonorList(true);
+          }
+        },
+        /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, { normalmode: true })
+      ));
     }
   };
-  return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, props.type === "2" && showForm ? /* @__PURE__ */ import_react.default.createElement(
+  return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, type === import_const.DONATE_TYPE.NORMAL && (showForm || showDonorList) ? /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
       className: import_App_module.default.mask,
       onClick: () => {
         setShowForm(false);
+        setShowDonorList(false);
       }
     }
   ) : null, /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
       className: showForm ? `${import_App_module.default.app} dialogAnimation` : import_App_module.default.hidden,
-      style: { ...dialogStyle },
-      ref: dialogRef
+      style: { ...dialogStyle }
     },
-    /* @__PURE__ */ import_react.default.createElement(
-      import_Header.default,
-      {
-        address: props.address,
-        name: props.name,
-        type: props.type
-      }
-    ),
-    /* @__PURE__ */ import_react.default.createElement(import_FormSection.default, { type: props.type, toAddress: props.address }),
+    /* @__PURE__ */ import_react.default.createElement(import_Header.default, { setShowDonorList }),
+    /* @__PURE__ */ import_react.default.createElement(import_FormSection.default, null),
     /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null)
-  ), renderDonate3Button(props.type));
+  ), /* @__PURE__ */ import_react.default.createElement(
+    "div",
+    {
+      className: showDonorList ? `${import_App_module.default.app} dialogAnimation` : import_App_module.default.hidden,
+      style: { ...dialogStyle }
+    },
+    /* @__PURE__ */ import_react.default.createElement(import_DonorList.default, { setShowDonorList })
+  ), renderDonate3Button(type));
 }
 var App_default = import_react.default.memo(App);
 // Annotate the CommonJS export names for ESM import in node:

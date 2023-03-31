@@ -8,11 +8,11 @@ import styles from './Header.module.css';
 
 export interface HeaderProps {
   normalmode?: boolean;
-  setShowDonorList: any;
 }
 
-function Header({ setShowDonorList, normalmode }: HeaderProps) {
-  const { type, toAddress, title } = React.useContext(Donate3Context);
+function Header({ normalmode }: HeaderProps) {
+  const { type, toAddress, title, setShowDonorList } =
+    React.useContext(Donate3Context);
   const base64Hash = useNouns(toAddress);
 
   let cx = classNames.bind(styles);

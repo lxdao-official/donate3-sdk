@@ -6,6 +6,7 @@ import DonorList from './components/DonorList/DonorList';
 import Footer from './components/Footer/Footer';
 import FormSection from './components/FormSection/FormSection';
 import Header from './components/Header/Header';
+import SemiModal from './components/SemiModal/SemiModal';
 import UserAvatar from './components/UserAvatar/UserAvatar';
 import { Donate3Context } from './context/Donate3Context';
 import { ReactComponent as Close } from './images/close.svg';
@@ -16,8 +17,9 @@ import { getElementPosition } from './utils/index';
 function App() {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
-  const [showDonorList, setShowDonorList] = useState(false);
-  const { type } = React.useContext(Donate3Context);
+
+  const { type, showDonorList, setShowDonorList, showSemiModal } =
+    React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
@@ -35,15 +37,16 @@ function App() {
       const { elementBottom, elementRight } = getElementPosition(
         event?.currentTarget,
       );
-      if (!showForm) {
-        if (window.innerWidth > 768) {
-          setDialogStyle({ right: elementRight, bottom: elementBottom + 70 });
-        } else {
-          setDialogStyle(defaultStyle);
-        }
+      if (window.innerWidth > 768) {
+        setDialogStyle({ right: elementRight, bottom: elementBottom + 70 });
+      } else {
+        setDialogStyle(defaultStyle);
       }
     }
+  };
 
+  const handleShowForm = (e) => {
+    handleSwitchDialog(e);
     setShowForm(!showForm);
   };
 
@@ -59,7 +62,7 @@ function App() {
             styles['btn-white'],
             styles.donate3btn,
           )}
-          onClick={handleSwitchDialog}
+          onClick={handleShowForm}
         >
           {showForm ? (
             <Close className={styles.closeimg}></Close>
@@ -73,17 +76,15 @@ function App() {
     } else {
       return (
         <div className={cx(styles.donate3btn)}>
-          <Header
-            setShowDonorList={setShowDonorList}
-            normalmode={true}
-          ></Header>
-          <div onClick={handleSwitchDialog}>
+          <Header normalmode={true}></Header>
+          <div onClick={handleShowForm}>
             <DonateButton></DonateButton>
           </div>
 
           <div
-            onClick={() => {
+            onClick={(e) => {
               setShowDonorList(true);
+              handleSwitchDialog(e);
             }}
           >
             <UserAvatar normalmode={true}></UserAvatar>
@@ -105,20 +106,19 @@ function App() {
         ></div>
       ) : null}
       <div
-        className={showForm ? `${styles.app} dialogAnimation` : styles.hidden}
+        className={showForm ? `${styles.app} dialogSlideInUp` : styles.hidden}
         style={{ ...dialogStyle }}
       >
-        <Header setShowDonorList={setShowDonorList}></Header>
+        <Header></Header>
         <FormSection></FormSection>
         <Footer></Footer>
+        {showSemiModal ? <SemiModal></SemiModal> : null}
       </div>
       <div
-        className={
-          showDonorList ? `${styles.app} dialogAnimation` : styles.hidden
-        }
+        className={showDonorList ? `${styles.app} dialogZoomIn` : styles.hidden}
         style={{ ...dialogStyle }}
       >
-        <DonorList setShowDonorList={setShowDonorList} />
+        <DonorList />
       </div>
 
       {renderDonate3Button(type)}

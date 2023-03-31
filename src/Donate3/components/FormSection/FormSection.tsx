@@ -1,13 +1,7 @@
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
-import classNames from 'classnames/bind';
+import { useChainModal } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useState } from 'react';
-import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  usePrepareContractWrite,
-} from 'wagmi';
+import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import { useCreateDonate } from '../../hooks/useDonate';
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from '../../abi.json';
@@ -15,24 +9,24 @@ import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
-import Footer from '../Footer/Footer';
 import Success from '../Success/Success';
-import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './FormSection.module.css';
 
 function FormSection() {
-  const { openConnectModal } = useConnectModal();
   const { openChainModal } = useChainModal();
   const { chain } = useNetwork();
-  const { address, isConnected } = useAccount();
-  const [showSemiModal, setShowSemiModal] = useState(false);
-  const [showLoading, setShowLoading] = useState(false);
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
-  const { toAddress } = React.useContext(Donate3Context);
-  let cx = classNames.bind(styles);
+  const {
+    toAddress,
+    fromAddress,
+    setShowSemiModal,
+    isConnected,
+    setShowLoading,
+    showLoading,
+  } = React.useContext(Donate3Context);
   const timeout = 5; // s
 
   let pid = 3;
@@ -43,8 +37,8 @@ function FormSection() {
   let donateTokenArgs = [
     pid,
     amountIn,
-    // address,
-    '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
+    toAddress,
+    // '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
     bytesMsg,
     [],
     {
@@ -62,20 +56,18 @@ function FormSection() {
 
   const {
     data: transactionData,
-    isLoading,
     isSuccess,
     isError,
-    isIdle,
     write,
   } = useContractWrite(config);
-  console.log(
-    '合约数据变更',
-    transactionData,
-    isLoading,
-    isSuccess,
-    isError,
-    isIdle,
-  );
+  // console.log(
+  //   '合约数据变更',
+  //   transactionData,
+  //   isLoading,
+  //   isSuccess,
+  //   isError,
+  //   isIdle,
+  // );
 
   useEffect(() => {
     if (isConnected) {
@@ -98,8 +90,8 @@ function FormSection() {
     const createDonateArgs = {
       chainType: 4 || chain?.id || 0,
       coinType: 0, //TODO, 这里我应该传什么？有哪些值？
-      fromAddress: address,
-      userId: address,
+      fromAddress: fromAddress,
+      userId: fromAddress,
       hash: transactionData?.hash, // 这里我取 transaction hash
       // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
       message: message,
@@ -215,53 +207,7 @@ function FormSection() {
           // <div>≈$875.32</div>
         )}
       </button>
-      {showSemiModal ? (
-        <div
-          className={cx(
-            styles.semiModal,
-            { in: !isConnected || showSemiModal },
-            { out: isConnected || !showSemiModal },
-          )}
-        >
-          <div
-            className={styles.bgmask}
-            onClick={() => {
-              setShowSemiModal(false);
-            }}
-          ></div>
-          <div className={styles.semiwrap}>
-            <div className={styles.semiimg}>
-              <img
-                className={styles.walleticon}
-                // src="https://i.328888.xyz/2023/03/12/vkcMH.png"
-                src={'https://i.328888.xyz/2023/03/12/vkcMH.png'}
-              ></img>
-              <img
-                className={styles.btcicon}
-                src="https://i.328888.xyz/2023/03/12/vkRxF.png"
-              ></img>
-            </div>
-            <UserAvatar></UserAvatar>
-            <div
-              className={styles.semidonatebtn}
-              onClick={() => {
-                setShowLoading(true);
-                if (openConnectModal) {
-                  openConnectModal();
-                }
-              }}
-            >
-              {showLoading ? <Loading></Loading> : null}
-              {showLoading ? (
-                <span>Confirm in wallet...</span>
-              ) : (
-                <span>Connect wallet for donation</span>
-              )}
-            </div>
-            <Footer></Footer>
-          </div>
-        </div>
-      ) : null}
+
       {donateCreateSuccess ? (
         <Success
           timeout={timeout}
