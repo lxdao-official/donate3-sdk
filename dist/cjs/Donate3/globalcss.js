@@ -37,12 +37,28 @@ var globalcss_default = import_react.css`
       monospace;
   }
 
-  @keyframes donate3show {
-    from {
-      transform: translateY(110%);
+  @keyframes zoomIn {
+    0% {
+      opacity: 0;
+      transform: scale3d(0.3, 0.3, 0.3);
     }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoomOut {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+
     to {
-      transform: translateY(0%);
+      opacity: 0;
     }
   }
 
@@ -58,15 +74,30 @@ var globalcss_default = import_react.css`
     }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    .dialogAnimation {
-      animation: slide-in-up 0.5s cubic-bezier(0.25, 0, 0.3, 1) forwards;
-      animation-timing-function: ease;
-      animation-name: donate3show;
+  @keyframes slideInUp {
+    0% {
+      transform: translate3d(0, 100%, 0);
+      visibility: visible;
     }
 
-    .dialogAnimation[open] {
-      animation: 2 forwards;
+    to {
+      transform: translateZ(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .dialogSlideInUp {
+      animation-name: slideInUp;
+      animation-duration: 0.2s;
+    }
+    .dialogZoomIn {
+      animation-name: zoomIn;
+      animation-duration: 0.2s;
+    }
+
+    .dialogZoomOut {
+      animation-name: zoomOut;
+      animation-duration: 0.2s;
     }
   }
 

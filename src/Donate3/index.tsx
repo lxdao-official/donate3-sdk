@@ -61,7 +61,6 @@ const wagmiClient = createClient({
 });
 
 const Donate3 = (props: any) => {
-  console.log('-----Donate3');
   return (
     <React.StrictMode>
       <WagmiConfig client={wagmiClient}>
@@ -76,7 +75,7 @@ const Donate3 = (props: any) => {
           showRecentTransactions={true}
         >
           <Global styles={globalcss} />
-          <Donate3Provider {...props.config}>
+          <Donate3Provider {...props.config} type={Number(props.config.type)}>
             <App />
           </Donate3Provider>
         </RainbowKitProvider>

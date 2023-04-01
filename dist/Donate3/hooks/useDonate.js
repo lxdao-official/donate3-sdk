@@ -53,7 +53,7 @@ export var useFetchDonors = function useFetchDonors(toAddress, orderByType) {
           case 0:
             _context2.next = 2;
             return fetch("".concat(BASE_URL, "/api/v1/donate/queryByParam?") + new URLSearchParams({
-              toAddress: toAddress,
+              toAddress: toAddress || '',
               orderByType: orderByType,
               pageNo: '0',
               pageSize: '20'
@@ -91,63 +91,3 @@ export var useFetchDonors = function useFetchDonors(toAddress, orderByType) {
     loading: loading
   };
 };
-
-// token获取方式：/api/v1/user/authentication
-// nonce获取方式：/api/v1/user/queryNonceById
-
-// export const useFetchDonors = (toAddress: string, orderByType: string) => {
-//   const _fetchDonors = async () => {
-//     // console.log('-----_fetchDonors2');
-//     const res = await fetch(
-//       `${BASE_URL}/api/v1/user/authentication` +
-//         new URLSearchParams({
-//           toAddress,
-//           orderByType,
-//           pageNo: '0',
-//           pageSize: '20',
-//         }),
-//       {
-//         method: 'GET',
-//         mode: 'cors', // no-cors, *cors, same-origin
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       },
-//     );
-//     const json = await res.json();
-
-//     const { code, result } = json;
-//     return result;
-//   };
-
-//   const { data: donors, loading } = useRequest(_fetchDonors);
-//   return { donors, loading };
-// };
-// export const useFetchDonors = (toAddress: string, orderByType: string) => {
-//   const _fetchDonors = async () => {
-//     // console.log('-----_fetchDonors2');
-//     const res = await fetch(
-//       `${BASE_URL}/api/v1/donate/queryByParam?` +
-//         new URLSearchParams({
-//           toAddress,
-//           orderByType,
-//           pageNo: '0',
-//           pageSize: '20',
-//         }),
-//       {
-//         method: 'GET',
-//         mode: 'cors', // no-cors, *cors, same-origin
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       },
-//     );
-//     const json = await res.json();
-
-//     const { code, result } = json;
-//     return result;
-//   };
-
-//   const { data: donors, loading } = useRequest(_fetchDonors);
-//   return { donors, loading };
-// };

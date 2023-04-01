@@ -34,15 +34,26 @@ __export(Donate3Context_exports, {
 });
 module.exports = __toCommonJS(Donate3Context_exports);
 var React = __toESM(require("react"));
+var import_wagmi = require("wagmi");
 var import_useDonate = require("../hooks/useDonate");
-var import_DonorResult = __toESM(require("../Mock/DonorResult.json"));
 var import_const = require("../utils/const");
 var Donate3Context = React.createContext({
   toAddress: import_const.ZERO_ADDRESS,
+  fromAddress: import_const.ZERO_ADDRESS,
   type: import_const.DONATE_TYPE.NORMAL,
   color: "#764abc",
   total: 0,
-  title: "Donate3"
+  title: "Donate3",
+  showDonorList: false,
+  setShowDonorList: () => {
+  },
+  showSemiModal: false,
+  setShowSemiModal: () => {
+  },
+  isConnected: false,
+  showLoading: false,
+  setShowLoading: () => {
+  }
 });
 var Donate3Provider = ({
   children,
@@ -51,17 +62,47 @@ var Donate3Provider = ({
   color = "#764abc",
   title = "Donate3"
 }) => {
-  const [donorList, setDonorList] = React.useState();
-  const total = donorList == null ? void 0 : donorList.result.records.length;
-  const { donors: donorList2, loading } = (0, import_useDonate.useFetchDonors)(toAddress, "1");
-  console.log("--------donorlist", donorList2, loading);
+  var _a;
+  const [showDonorList, setShowDonorList] = React.useState(false);
+  const [showSemiModal, setShowSemiModal] = React.useState(false);
+  const [showLoading, setShowLoading] = React.useState(false);
+  const { address: fromAddress, isConnected } = (0, import_wagmi.useAccount)();
+  const { donors: donorList } = (0, import_useDonate.useFetchDonors)(toAddress, "1");
+  const total = (_a = donorList == null ? void 0 : donorList.records) == null ? void 0 : _a.length;
+  console.log("----------all context----------");
+  console.log("type:", type);
+  console.log("color:", color);
+  console.log("isConnected:", isConnected);
+  console.log("showDonorList:", showDonorList);
+  console.log("showLoading:", showLoading);
+  console.log("toAddress:", toAddress);
+  console.log("fromAddress:", fromAddress);
   React.useEffect(() => {
-    setDonorList(import_DonorResult.default);
-  }, []);
+    if (isConnected) {
+      setShowSemiModal(false);
+    } else {
+      setShowSemiModal(true);
+    }
+  }, [isConnected]);
   return /* @__PURE__ */ React.createElement(
     Donate3Context.Provider,
     {
-      value: { total, donorList, toAddress, title, type, color }
+      value: {
+        total,
+        donorList,
+        toAddress,
+        fromAddress,
+        title,
+        type,
+        color,
+        showDonorList,
+        setShowDonorList,
+        showSemiModal,
+        setShowSemiModal,
+        isConnected,
+        showLoading,
+        setShowLoading
+      }
     },
     children
   );

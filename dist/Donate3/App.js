@@ -18,6 +18,7 @@ import DonorList from "./components/DonorList/DonorList";
 import Footer from "./components/Footer/Footer";
 import FormSection from "./components/FormSection/FormSection";
 import Header from "./components/Header/Header";
+import SemiModal from "./components/SemiModal/SemiModal";
 import UserAvatar from "./components/UserAvatar/UserAvatar";
 import { Donate3Context } from "./context/Donate3Context";
 import { ReactComponent as Close } from "./images/close.svg";
@@ -32,12 +33,11 @@ function App() {
     _useState4 = _slicedToArray(_useState3, 2),
     dialogStyle = _useState4[0],
     setDialogStyle = _useState4[1];
-  var _useState5 = useState(false),
-    _useState6 = _slicedToArray(_useState5, 2),
-    showDonorList = _useState6[0],
-    setShowDonorList = _useState6[1];
   var _React$useContext = React.useContext(Donate3Context),
-    type = _React$useContext.type;
+    type = _React$useContext.type,
+    showDonorList = _React$useContext.showDonorList,
+    setShowDonorList = _React$useContext.setShowDonorList,
+    showSemiModal = _React$useContext.showSemiModal;
   var cx = classNames.bind(styles);
   var handleSwitchDialog = function handleSwitchDialog(event) {
     var defaultStyle = {
@@ -53,17 +53,18 @@ function App() {
       var _getElementPosition = getElementPosition(event === null || event === void 0 ? void 0 : event.currentTarget),
         elementBottom = _getElementPosition.elementBottom,
         elementRight = _getElementPosition.elementRight;
-      if (!showForm) {
-        if (window.innerWidth > 768) {
-          setDialogStyle({
-            right: elementRight,
-            bottom: elementBottom + 70
-          });
-        } else {
-          setDialogStyle(defaultStyle);
-        }
+      if (window.innerWidth > 768) {
+        setDialogStyle({
+          right: elementRight,
+          bottom: elementBottom + 70
+        });
+      } else {
+        setDialogStyle(defaultStyle);
       }
     }
+  };
+  var handleShowForm = function handleShowForm(e) {
+    handleSwitchDialog(e);
     setShowForm(!showForm);
   };
   var renderDonate3Button = function renderDonate3Button(type) {
@@ -74,7 +75,7 @@ function App() {
         }, {
           floatmode: !showForm
         }, styles.btn, styles['btn-animated'], styles['btn-white'], styles.donate3btn),
-        onClick: handleSwitchDialog
+        onClick: handleShowForm
       }, showForm ? /*#__PURE__*/React.createElement(Close, {
         className: styles.closeimg
       }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DonateButton, null)));
@@ -82,13 +83,13 @@ function App() {
       return /*#__PURE__*/React.createElement("div", {
         className: cx(styles.donate3btn)
       }, /*#__PURE__*/React.createElement(Header, {
-        setShowDonorList: setShowDonorList,
         normalmode: true
       }), /*#__PURE__*/React.createElement("div", {
-        onClick: handleSwitchDialog
+        onClick: handleShowForm
       }, /*#__PURE__*/React.createElement(DonateButton, null)), /*#__PURE__*/React.createElement("div", {
-        onClick: function onClick() {
+        onClick: function onClick(e) {
           setShowDonorList(true);
+          handleSwitchDialog(e);
         }
       }, /*#__PURE__*/React.createElement(UserAvatar, {
         normalmode: true
@@ -102,15 +103,11 @@ function App() {
       setShowDonorList(false);
     }
   }) : null, /*#__PURE__*/React.createElement("div", {
-    className: showForm ? "".concat(styles.app, " dialogAnimation") : styles.hidden,
+    className: showForm ? "".concat(styles.app, " dialogSlideInUp") : styles.hidden,
     style: _objectSpread({}, dialogStyle)
-  }, /*#__PURE__*/React.createElement(Header, {
-    setShowDonorList: setShowDonorList
-  }), /*#__PURE__*/React.createElement(FormSection, null), /*#__PURE__*/React.createElement(Footer, null)), /*#__PURE__*/React.createElement("div", {
-    className: showDonorList ? "".concat(styles.app, " dialogAnimation") : styles.hidden,
+  }, /*#__PURE__*/React.createElement(Header, null), /*#__PURE__*/React.createElement(FormSection, null), /*#__PURE__*/React.createElement(Footer, null), showSemiModal ? /*#__PURE__*/React.createElement(SemiModal, null) : null), /*#__PURE__*/React.createElement("div", {
+    className: showDonorList ? "".concat(styles.app, " dialogZoomIn") : styles.hidden,
     style: _objectSpread({}, dialogStyle)
-  }, /*#__PURE__*/React.createElement(DonorList, {
-    setShowDonorList: setShowDonorList
-  })), renderDonate3Button(type));
+  }, /*#__PURE__*/React.createElement(DonorList, null)), renderDonate3Button(type));
 }
 export default /*#__PURE__*/React.memo(App);

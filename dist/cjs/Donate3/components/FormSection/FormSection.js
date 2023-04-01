@@ -33,7 +33,6 @@ __export(FormSection_exports, {
 });
 module.exports = __toCommonJS(FormSection_exports);
 var import_rainbowkit = require("@rainbow-me/rainbowkit");
-var import_bind = __toESM(require("classnames/bind"));
 var import_ethers = require("ethers");
 var import_react = __toESM(require("react"));
 var import_wagmi = require("wagmi");
@@ -43,23 +42,23 @@ var import_Donate3Context = require("../../context/Donate3Context");
 var import_eth = require("../../images/eth.svg");
 var import_loading = require("../../images/loading.svg");
 var import_switch = require("../../images/switch.svg");
-var import_Footer = __toESM(require("../Footer/Footer"));
 var import_Success = __toESM(require("../Success/Success"));
-var import_UserAvatar = __toESM(require("../UserAvatar/UserAvatar"));
 var import_FormSection_module = __toESM(require("./FormSection.module.css"));
 function FormSection() {
-  const { openConnectModal } = (0, import_rainbowkit.useConnectModal)();
   const { openChainModal } = (0, import_rainbowkit.useChainModal)();
   const { chain } = (0, import_wagmi.useNetwork)();
-  const { address, isConnected } = (0, import_wagmi.useAccount)();
-  const [showSemiModal, setShowSemiModal] = (0, import_react.useState)(false);
-  const [showLoading, setShowLoading] = (0, import_react.useState)(false);
   const [amount, setAmount] = (0, import_react.useState)(0);
   const [message, setMessage] = (0, import_react.useState)("");
   const [donateCreateSuccess, setDonateCreateSuccess] = (0, import_react.useState)(false);
   const createDonate = (0, import_useDonate.useCreateDonate)();
-  const { toAddress } = import_react.default.useContext(import_Donate3Context.Donate3Context);
-  let cx = import_bind.default.bind(import_FormSection_module.default);
+  const {
+    toAddress,
+    fromAddress,
+    setShowSemiModal,
+    isConnected,
+    setShowLoading,
+    showLoading
+  } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   const timeout = 5;
   let pid = 3;
   const amountIn = amount && import_ethers.ethers.utils.parseEther(amount.toString());
@@ -67,8 +66,8 @@ function FormSection() {
   let donateTokenArgs = [
     pid,
     amountIn,
-    // address,
-    "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
+    toAddress,
+    // '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
     bytesMsg,
     [],
     {
@@ -84,20 +83,10 @@ function FormSection() {
   });
   const {
     data: transactionData,
-    isLoading,
     isSuccess,
     isError,
-    isIdle,
     write
   } = (0, import_wagmi.useContractWrite)(config);
-  console.log(
-    "合约数据变更",
-    transactionData,
-    isLoading,
-    isSuccess,
-    isError,
-    isIdle
-  );
   (0, import_react.useEffect)(() => {
     if (isConnected) {
       setShowSemiModal(false);
@@ -118,8 +107,8 @@ function FormSection() {
       chainType: 4,
       coinType: 0,
       //TODO, 这里我应该传什么？有哪些值？
-      fromAddress: address,
-      userId: address,
+      fromAddress,
+      userId: fromAddress,
       hash: transactionData == null ? void 0 : transactionData.hash,
       // 这里我取 transaction hash
       // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
@@ -193,51 +182,7 @@ function FormSection() {
     },
     showLoading ? /* @__PURE__ */ import_react.default.createElement(import_loading.ReactComponent, null) : null,
     showLoading ? /* @__PURE__ */ import_react.default.createElement("div", null, "Confirm in wallet...") : /* @__PURE__ */ import_react.default.createElement("div", null, "DONATE3")
-  ), showSemiModal ? /* @__PURE__ */ import_react.default.createElement(
-    "div",
-    {
-      className: cx(
-        import_FormSection_module.default.semiModal,
-        { in: !isConnected || showSemiModal },
-        { out: isConnected || !showSemiModal }
-      )
-    },
-    /* @__PURE__ */ import_react.default.createElement(
-      "div",
-      {
-        className: import_FormSection_module.default.bgmask,
-        onClick: () => {
-          setShowSemiModal(false);
-        }
-      }
-    ),
-    /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.semiwrap }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_FormSection_module.default.semiimg }, /* @__PURE__ */ import_react.default.createElement(
-      "img",
-      {
-        className: import_FormSection_module.default.walleticon,
-        src: "https://i.328888.xyz/2023/03/12/vkcMH.png"
-      }
-    ), /* @__PURE__ */ import_react.default.createElement(
-      "img",
-      {
-        className: import_FormSection_module.default.btcicon,
-        src: "https://i.328888.xyz/2023/03/12/vkRxF.png"
-      }
-    )), /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, null), /* @__PURE__ */ import_react.default.createElement(
-      "div",
-      {
-        className: import_FormSection_module.default.semidonatebtn,
-        onClick: () => {
-          setShowLoading(true);
-          if (openConnectModal) {
-            openConnectModal();
-          }
-        }
-      },
-      showLoading ? /* @__PURE__ */ import_react.default.createElement(import_loading.ReactComponent, null) : null,
-      showLoading ? /* @__PURE__ */ import_react.default.createElement("span", null, "Confirm in wallet...") : /* @__PURE__ */ import_react.default.createElement("span", null, "Connect wallet for donation")
-    ), /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null))
-  ) : null, donateCreateSuccess ? /* @__PURE__ */ import_react.default.createElement(
+  ), donateCreateSuccess ? /* @__PURE__ */ import_react.default.createElement(
     import_Success.default,
     {
       timeout,

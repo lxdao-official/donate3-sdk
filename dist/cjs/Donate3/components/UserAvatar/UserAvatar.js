@@ -41,16 +41,25 @@ var import_TotalCircle = __toESM(require("../TotalCircle/TotalCircle"));
 var import_UserAvatar_module = __toESM(require("./UserAvatar.module.css"));
 function UserAvatar(props) {
   let cx = import_bind.default.bind(import_UserAvatar_module.default);
-  const { type, donorList, total } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  const { type, donorList, total, setShowDonorList } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   const makeDonateUserAvatar = () => {
     var _a;
     if (!donorList)
       return;
     let dom = [];
-    const records = (_a = donorList == null ? void 0 : donorList.result) == null ? void 0 : _a.records.slice(0, 5);
-    dom = records.map((item, index) => {
-      return /* @__PURE__ */ import_react.default.createElement(import_Avatar.default, { key: index, address: item.fromAddress, width: "40px" });
-    });
+    const records = (_a = donorList == null ? void 0 : donorList.records) == null ? void 0 : _a.slice(0, 5);
+    if (records) {
+      dom = records == null ? void 0 : records.map((item, index) => {
+        return /* @__PURE__ */ import_react.default.createElement(
+          import_Avatar.default,
+          {
+            key: index,
+            address: item.fromAddress,
+            width: "40px"
+          }
+        );
+      });
+    }
     dom.push(
       /* @__PURE__ */ import_react.default.createElement(
         import_TotalCircle.default,
@@ -66,9 +75,12 @@ function UserAvatar(props) {
   return /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
-      className: cx({
+      className: cx(import_UserAvatar_module.default.wrap, {
         normalmode: props.normalmode && type === import_const.DONATE_TYPE.NORMAL
-      })
+      }),
+      onClick: () => {
+        setShowDonorList(true);
+      }
     },
     /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateusers }, makeDonateUserAvatar()),
     type === import_const.DONATE_TYPE.FLOAT ? /* @__PURE__ */ import_react.default.createElement("div", { className: import_UserAvatar_module.default.donateuserdec }, "已有", total, "人向他捐赠") : null

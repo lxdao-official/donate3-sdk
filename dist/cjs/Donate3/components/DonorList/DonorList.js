@@ -40,25 +40,26 @@ var import_sortbg = require("../../images/sortbg.svg");
 var import_Avatar = __toESM(require("../Avatar/Avatar"));
 var import_TotalCircle = __toESM(require("../TotalCircle/TotalCircle"));
 var import_DonorList_module = __toESM(require("./DonorList.module.css"));
-function DonorList({ setShowDonorList }) {
+function DonorList() {
   let cx = import_bind.default.bind(import_DonorList_module.default);
-  const { donorList } = (0, import_react.useContext)(import_Donate3Context.Donate3Context);
+  const { donorList, setShowDonorList, showDonorList } = (0, import_react.useContext)(import_Donate3Context.Donate3Context);
   const makeDonateDonorAvatar = (datas) => {
-    var _a;
     if (!datas)
       return;
     let dom = [];
-    const records = (_a = datas == null ? void 0 : datas.result) == null ? void 0 : _a.records;
-    dom = records == null ? void 0 : records.map((item, index) => {
-      return /* @__PURE__ */ import_react.default.createElement(
-        import_Avatar.default,
-        {
-          key: index,
-          address: item.fromAddress,
-          className: import_DonorList_module.default.itemavatar
-        }
-      );
-    });
+    const records = datas == null ? void 0 : datas.records;
+    if (records) {
+      dom = records == null ? void 0 : records.map((item, index) => {
+        return /* @__PURE__ */ import_react.default.createElement(
+          import_Avatar.default,
+          {
+            key: index,
+            address: item.fromAddress,
+            className: import_DonorList_module.default.itemavatar
+          }
+        );
+      });
+    }
     dom.push(
       /* @__PURE__ */ import_react.default.createElement(
         import_TotalCircle.default,
@@ -72,17 +73,19 @@ function DonorList({ setShowDonorList }) {
     return dom;
   };
   const makeTopDom = (datas) => {
-    var _a, _b;
+    var _a;
     if (!datas)
       return;
     let dom = [];
-    const records = (_b = (_a = datas == null ? void 0 : datas.result) == null ? void 0 : _a.records) == null ? void 0 : _b.slice(0, 3);
-    dom = records == null ? void 0 : records.map((item, index) => {
-      return /* @__PURE__ */ import_react.default.createElement("div", { key: index, className: import_DonorList_module.default.topitem }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.topimg }, /* @__PURE__ */ import_react.default.createElement(import_Avatar.default, { address: item.fromAddress, width: "60px" })), /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.amount }, "$", item.usdValue), /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.count }, "捐赠", item.value, "次"));
-    });
+    const records = (_a = datas == null ? void 0 : datas.records) == null ? void 0 : _a.slice(0, 3);
+    if (records) {
+      dom = records == null ? void 0 : records.map((item, index) => {
+        return /* @__PURE__ */ import_react.default.createElement("div", { key: index, className: import_DonorList_module.default.topitem }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.topimg }, /* @__PURE__ */ import_react.default.createElement(import_Avatar.default, { address: item.fromAddress, width: "60px" })), /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.amount }, "$", item.usdValue), /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.count }, "捐赠", item.value, "次"));
+      });
+    }
     return dom;
   };
-  return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_DonorList_module.default.wrap) }, /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_DonorList_module.default.content) }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.header }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.title }, /* @__PURE__ */ import_react.default.createElement("span", { className: import_DonorList_module.default.titletxt }, "Donor"), /* @__PURE__ */ import_react.default.createElement(
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_DonorList_module.default.wrap, { dialogZoomOut: !showDonorList }) }, /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_DonorList_module.default.content) }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.header }, /* @__PURE__ */ import_react.default.createElement("div", { className: import_DonorList_module.default.title }, /* @__PURE__ */ import_react.default.createElement("span", { className: import_DonorList_module.default.titletxt }, "Donor"), /* @__PURE__ */ import_react.default.createElement(
     import_close.ReactComponent,
     {
       style: { transform: "scale(0.5)" },

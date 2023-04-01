@@ -1,2 +1,2 @@
-declare const useNouns: (address: string) => string;
+declare const useNouns: (address: `0x${string}` | undefined) => null;
 export default useNouns;

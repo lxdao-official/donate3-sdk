@@ -6,23 +6,25 @@ import { ReactComponent as SortBg } from "../../images/sortbg.svg";
 import Avatar from "../Avatar/Avatar";
 import TotalCircle from "../TotalCircle/TotalCircle";
 import styles from "./DonorList.module.css";
-function DonorList(_ref) {
-  var setShowDonorList = _ref.setShowDonorList;
+function DonorList() {
   var cx = classNames.bind(styles);
   var _useContext = useContext(Donate3Context),
-    donorList = _useContext.donorList;
+    donorList = _useContext.donorList,
+    setShowDonorList = _useContext.setShowDonorList,
+    showDonorList = _useContext.showDonorList;
   var makeDonateDonorAvatar = function makeDonateDonorAvatar(datas) {
-    var _datas$result;
     if (!datas) return;
     var dom = [];
-    var records = datas === null || datas === void 0 ? void 0 : (_datas$result = datas.result) === null || _datas$result === void 0 ? void 0 : _datas$result.records;
-    dom = records === null || records === void 0 ? void 0 : records.map(function (item, index) {
-      return /*#__PURE__*/React.createElement(Avatar, {
-        key: index,
-        address: item.fromAddress,
-        className: styles.itemavatar
+    var records = datas === null || datas === void 0 ? void 0 : datas.records;
+    if (records) {
+      dom = records === null || records === void 0 ? void 0 : records.map(function (item, index) {
+        return /*#__PURE__*/React.createElement(Avatar, {
+          key: index,
+          address: item.fromAddress,
+          className: styles.itemavatar
+        });
       });
-    });
+    }
     dom.push( /*#__PURE__*/React.createElement(TotalCircle, {
       key: 'lastitem',
       size: 40,
@@ -31,29 +33,33 @@ function DonorList(_ref) {
     return dom;
   };
   var makeTopDom = function makeTopDom(datas) {
-    var _datas$result2, _datas$result2$record;
+    var _datas$records;
     if (!datas) return;
     var dom = [];
-    var records = datas === null || datas === void 0 ? void 0 : (_datas$result2 = datas.result) === null || _datas$result2 === void 0 ? void 0 : (_datas$result2$record = _datas$result2.records) === null || _datas$result2$record === void 0 ? void 0 : _datas$result2$record.slice(0, 3);
-    dom = records === null || records === void 0 ? void 0 : records.map(function (item, index) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: index,
-        className: styles.topitem
-      }, /*#__PURE__*/React.createElement("div", {
-        className: styles.topimg
-      }, /*#__PURE__*/React.createElement(Avatar, {
-        address: item.fromAddress,
-        width: '60px'
-      })), /*#__PURE__*/React.createElement("div", {
-        className: styles.amount
-      }, "$", item.usdValue), /*#__PURE__*/React.createElement("div", {
-        className: styles.count
-      }, "\u6350\u8D60", item.value, "\u6B21"));
-    });
+    var records = datas === null || datas === void 0 ? void 0 : (_datas$records = datas.records) === null || _datas$records === void 0 ? void 0 : _datas$records.slice(0, 3);
+    if (records) {
+      dom = records === null || records === void 0 ? void 0 : records.map(function (item, index) {
+        return /*#__PURE__*/React.createElement("div", {
+          key: index,
+          className: styles.topitem
+        }, /*#__PURE__*/React.createElement("div", {
+          className: styles.topimg
+        }, /*#__PURE__*/React.createElement(Avatar, {
+          address: item.fromAddress,
+          width: '60px'
+        })), /*#__PURE__*/React.createElement("div", {
+          className: styles.amount
+        }, "$", item.usdValue), /*#__PURE__*/React.createElement("div", {
+          className: styles.count
+        }, "\u6350\u8D60", item.value, "\u6B21"));
+      });
+    }
     return dom;
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: cx(styles.wrap)
+    className: cx(styles.wrap, {
+      dialogZoomOut: !showDonorList
+    })
   }, /*#__PURE__*/React.createElement("div", {
     className: cx(styles.content)
   }, /*#__PURE__*/React.createElement("div", {

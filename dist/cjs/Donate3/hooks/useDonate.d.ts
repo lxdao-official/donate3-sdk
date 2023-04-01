@@ -2,7 +2,7 @@ interface Args {
     chainType: number;
     fromAddress: `0x${string}` | undefined;
     message: string;
-    toAddress: string;
+    toAddress: `0x${string}` | undefined;
     value: string;
     usdValue: string;
     coinType?: number;
@@ -14,7 +14,7 @@ interface Args {
     userId?: `0x${string}` | undefined;
 }
 export declare const useCreateDonate: () => (args: Args) => Promise<any>;
-export declare const useFetchDonors: (toAddress: string, orderByType: string) => {
+export declare const useFetchDonors: (toAddress: `0x${string}` | undefined, orderByType: string) => {
     donors: any;
     loading: boolean;
 };

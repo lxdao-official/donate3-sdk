@@ -3,7 +3,7 @@ import { Donate3ContextType } from '../@types/donate3';
 export declare const Donate3Context: React.Context<Donate3ContextType>;
 declare const Donate3Provider: React.FC<{
     children: React.ReactNode;
-    toAddress: string;
+    toAddress: `0x${string}` | undefined;
     type: number;
     color: string;
     title: string;

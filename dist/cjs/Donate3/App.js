@@ -40,6 +40,7 @@ var import_DonorList = __toESM(require("./components/DonorList/DonorList"));
 var import_Footer = __toESM(require("./components/Footer/Footer"));
 var import_FormSection = __toESM(require("./components/FormSection/FormSection"));
 var import_Header = __toESM(require("./components/Header/Header"));
+var import_SemiModal = __toESM(require("./components/SemiModal/SemiModal"));
 var import_UserAvatar = __toESM(require("./components/UserAvatar/UserAvatar"));
 var import_Donate3Context = require("./context/Donate3Context");
 var import_close = require("./images/close.svg");
@@ -48,8 +49,7 @@ var import_utils = require("./utils/index");
 function App() {
   const [showForm, setShowForm] = (0, import_react.useState)(false);
   const [dialogStyle, setDialogStyle] = (0, import_react.useState)({});
-  const [showDonorList, setShowDonorList] = (0, import_react.useState)(false);
-  const { type } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  const { type, showDonorList, setShowDonorList, showSemiModal } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   let cx = import_bind.default.bind(import_App_module.default);
   const handleSwitchDialog = (event) => {
     const defaultStyle = {
@@ -65,14 +65,15 @@ function App() {
       const { elementBottom, elementRight } = (0, import_utils.getElementPosition)(
         event == null ? void 0 : event.currentTarget
       );
-      if (!showForm) {
-        if (window.innerWidth > 768) {
-          setDialogStyle({ right: elementRight, bottom: elementBottom + 70 });
-        } else {
-          setDialogStyle(defaultStyle);
-        }
+      if (window.innerWidth > 768) {
+        setDialogStyle({ right: elementRight, bottom: elementBottom + 70 });
+      } else {
+        setDialogStyle(defaultStyle);
       }
     }
+  };
+  const handleShowForm = (e) => {
+    handleSwitchDialog(e);
     setShowForm(!showForm);
   };
   const renderDonate3Button = (type2) => {
@@ -88,22 +89,17 @@ function App() {
             import_App_module.default["btn-white"],
             import_App_module.default.donate3btn
           ),
-          onClick: handleSwitchDialog
+          onClick: handleShowForm
         },
         showForm ? /* @__PURE__ */ import_react.default.createElement(import_close.ReactComponent, { className: import_App_module.default.closeimg }) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null))
       );
     } else {
-      return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_App_module.default.donate3btn) }, /* @__PURE__ */ import_react.default.createElement(
-        import_Header.default,
-        {
-          setShowDonorList,
-          normalmode: true
-        }
-      ), /* @__PURE__ */ import_react.default.createElement("div", { onClick: handleSwitchDialog }, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null)), /* @__PURE__ */ import_react.default.createElement(
+      return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_App_module.default.donate3btn) }, /* @__PURE__ */ import_react.default.createElement(import_Header.default, { normalmode: true }), /* @__PURE__ */ import_react.default.createElement("div", { onClick: handleShowForm }, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null)), /* @__PURE__ */ import_react.default.createElement(
         "div",
         {
-          onClick: () => {
+          onClick: (e) => {
             setShowDonorList(true);
+            handleSwitchDialog(e);
           }
         },
         /* @__PURE__ */ import_react.default.createElement(import_UserAvatar.default, { normalmode: true })
@@ -122,19 +118,20 @@ function App() {
   ) : null, /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
-      className: showForm ? `${import_App_module.default.app} dialogAnimation` : import_App_module.default.hidden,
+      className: showForm ? `${import_App_module.default.app} dialogSlideInUp` : import_App_module.default.hidden,
       style: { ...dialogStyle }
     },
-    /* @__PURE__ */ import_react.default.createElement(import_Header.default, { setShowDonorList }),
+    /* @__PURE__ */ import_react.default.createElement(import_Header.default, null),
     /* @__PURE__ */ import_react.default.createElement(import_FormSection.default, null),
-    /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null)
+    /* @__PURE__ */ import_react.default.createElement(import_Footer.default, null),
+    showSemiModal ? /* @__PURE__ */ import_react.default.createElement(import_SemiModal.default, null) : null
   ), /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
-      className: showDonorList ? `${import_App_module.default.app} dialogAnimation` : import_App_module.default.hidden,
+      className: showDonorList ? `${import_App_module.default.app} dialogZoomIn` : import_App_module.default.hidden,
       style: { ...dialogStyle }
     },
-    /* @__PURE__ */ import_react.default.createElement(import_DonorList.default, { setShowDonorList })
+    /* @__PURE__ */ import_react.default.createElement(import_DonorList.default, null)
   ), renderDonate3Button(type));
 }
 var App_default = import_react.default.memo(App);

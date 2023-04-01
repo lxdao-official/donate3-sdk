@@ -11,8 +11,6 @@
   padding: 30px;
   position: fixed;
   z-index: 1000;
-  /* animation: donate3show 1s ease normal; */
-  transition: opacity .5s var(--ease-3);
   box-sizing: border-box;
   overflow: hidden;
 }

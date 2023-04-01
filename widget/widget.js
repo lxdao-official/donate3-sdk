@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Donate3 from '../src/Donate3/index';
 
-const donate3Roots = document.querySelectorAll('[data-donate-to]');
+const donate3Roots = document.querySelectorAll('[data-donate3-to-address]');
 donate3Roots.forEach((root) => {
   const config = {
-    address:root.dataset.donateTo,
-    type:root.dataset.type,
-    color:root.dataset.color,
-    name:root.dataset.name
+    type:Number(root.dataset.donate3Type),
+    color:root.dataset.donate3Color,
+    title:root.dataset.donate3Title,
+    toAddress:root.dataset.donate3ToAddress,
   }
-  console.log('donateTo: ', config);
+  console.log('donate3: ', config,root.dataset);
   const reactRoot = ReactDOM.createRoot(root);
   reactRoot.render(<Donate3 config={config} />);
 });

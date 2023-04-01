@@ -1,3 +1,4 @@
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import React from 'react';
 // import './global.css';
@@ -56,7 +57,6 @@ var wagmiClient = createClient({
   webSocketProvider: webSocketProvider
 });
 var Donate3 = function Donate3(props) {
-  console.log('-----Donate3');
   return /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(WagmiConfig, {
     client: wagmiClient
   }, /*#__PURE__*/React.createElement(RainbowKitProvider, {
@@ -71,7 +71,9 @@ var Donate3 = function Donate3(props) {
     showRecentTransactions: true
   }, /*#__PURE__*/React.createElement(Global, {
     styles: globalcss
-  }), /*#__PURE__*/React.createElement(Donate3Provider, props.config, /*#__PURE__*/React.createElement(App, null)))));
+  }), /*#__PURE__*/React.createElement(Donate3Provider, _extends({}, props.config, {
+    type: Number(props.config.type)
+  }), /*#__PURE__*/React.createElement(App, null)))));
 };
 export default /*#__PURE__*/React.memo(Donate3);
 {

@@ -1,11 +1,19 @@
 // @types.donate3.d.ts
 export type Donate3ContextType = {
   donorList?: DonorResult;
-  toAddress: string;
+  toAddress: `0x${string}` | undefined;
+  fromAddress: `0x${string}` | undefined;
   type: number;
   color?: string;
   total?: number;
   title?: string;
+  showDonorList: boolean;
+  setShowDonorList: React.Dispatch<React.SetStateAction<boolean>>;
+  showSemiModal: boolean;
+  setShowSemiModal: React.Dispatch<React.SetStateAction<boolean>>;
+  isConnected: boolean;
+  setShowLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  showLoading: boolean;
 };
 export interface DonorRecord {
   chainType: string;
@@ -23,15 +31,9 @@ export interface DonorRecord {
   value: number;
 }
 export interface DonorResult {
-  code: string;
-  message: string;
-  result: {
-    current: number;
-    pages: number;
-    records: DonorRecord[];
-    size: number;
-    total: number;
-  };
-  success: boolean;
-  timestamp: number;
+  current: number;
+  pages: number;
+  records: DonorRecord[];
+  size: number;
+  total: number;
 }

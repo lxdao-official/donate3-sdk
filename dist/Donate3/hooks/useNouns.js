@@ -11,7 +11,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 import { useEffect, useState } from 'react';
 import { getNounsBase64 } from "../utils/nouns";
 var useNouns = function useNouns(address) {
-  var _useState = useState(''),
+  var _useState = useState(null),
     _useState2 = _slicedToArray(_useState, 2),
     nounsBase64 = _useState2[0],
     setnounsBase64 = _useState2[1];
@@ -32,9 +32,12 @@ var useNouns = function useNouns(address) {
               //   return base64;
               // };
               // const base64 = await getData(address);
-              base64 = getNounsBase64(address);
+              base64 = null;
+              if (address) {
+                getNounsBase64(address);
+              }
               setnounsBase64(base64);
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }

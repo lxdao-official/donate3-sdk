@@ -10,14 +10,16 @@ import { ZERO_ADDRESS } from "../../utils/const";
 import { getNounsBase64 } from "../../utils/nouns";
 import styles from "./Avatar.module.css";
 function Avatar(props) {
+  var _props$address;
   var cx = classNames.bind(styles);
   var myStyle = {
-    backgroundImage: "url('".concat(props.address, "')"),
+    // backgroundImage: `url('${props.address}')`,
     width: props.width,
     height: props.width,
     borderRadius: props.width
   };
-  var base64Hash = getNounsBase64(props.address || ZERO_ADDRESS);
+  // console.log('>>>>>', props.address, props.address?.length);
+  var base64Hash = ((_props$address = props.address) === null || _props$address === void 0 ? void 0 : _props$address.length) === 42 ? getNounsBase64(props.address || ZERO_ADDRESS) : null;
   var allStyle = _objectSpread(_objectSpread({}, myStyle), props.style);
   return /*#__PURE__*/React.createElement(React.Fragment, null, base64Hash ? /*#__PURE__*/React.createElement("img", {
     className: cx(styles.avatar, props.className),

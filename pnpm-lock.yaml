@@ -26,6 +26,7 @@ specifiers:
   ahooks: ^3.7.5
   babel-loader: ^9.1.0
   bignumber.js: ^9.1.1
+  buffer: ^6.0.3
   classnames: ^2.3.2
   css-loader: ^6.7.3
   dumi: ^2.0.2
@@ -42,6 +43,7 @@ specifiers:
   react-dom: '>=18.2.0'
   rollup: ^3.7.4
   source-map-explorer: ^2.5.3
+  stream-browserify: ^3.0.0
   style-loader: ^3.3.1
   stylelint: ^14.9.1
   svg-inline-loader: ^0.8.2
@@ -61,11 +63,13 @@ dependencies:
   '@testing-library/jest-dom': 5.16.5
   ahooks: 3.7.5_react@18.2.0
   bignumber.js: 9.1.1
+  buffer: 6.0.3
   classnames: 2.3.2
   ethers: 5.7.2
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   source-map-explorer: 2.5.3
+  stream-browserify: 3.0.0
   typescript: 4.9.5
   wagmi: 0.11.7_cw2a4kazlv6r2wc5usemnnvuha
 

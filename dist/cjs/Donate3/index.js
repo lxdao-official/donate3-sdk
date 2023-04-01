@@ -57,7 +57,6 @@ var wagmiClient = (0, import_wagmi.createClient)({
   webSocketProvider
 });
 var Donate3 = (props) => {
-  console.log("-----Donate3");
   return /* @__PURE__ */ import_react.default.createElement(import_react.default.StrictMode, null, /* @__PURE__ */ import_react.default.createElement(import_wagmi.WagmiConfig, { client: wagmiClient }, /* @__PURE__ */ import_react.default.createElement(
     import_rainbowkit.RainbowKitProvider,
     {
@@ -70,7 +69,7 @@ var Donate3 = (props) => {
       showRecentTransactions: true
     },
     /* @__PURE__ */ import_react.default.createElement(import_react2.Global, { styles: import_globalcss.default }),
-    /* @__PURE__ */ import_react.default.createElement(import_Donate3Context.default, { ...props.config }, /* @__PURE__ */ import_react.default.createElement(import_App.default, null))
+    /* @__PURE__ */ import_react.default.createElement(import_Donate3Context.default, { ...props.config, type: Number(props.config.type) }, /* @__PURE__ */ import_react.default.createElement(import_App.default, null))
   )));
 };
 var Donate3_default = import_react.default.memo(Donate3);

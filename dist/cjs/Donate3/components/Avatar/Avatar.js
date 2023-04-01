@@ -38,14 +38,15 @@ var import_const = require("../../utils/const");
 var import_nouns = require("../../utils/nouns");
 var import_Avatar_module = __toESM(require("./Avatar.module.css"));
 function Avatar(props) {
+  var _a;
   let cx = import_bind.default.bind(import_Avatar_module.default);
   const myStyle = {
-    backgroundImage: `url('${props.address}')`,
+    // backgroundImage: `url('${props.address}')`,
     width: props.width,
     height: props.width,
     borderRadius: props.width
   };
-  const base64Hash = (0, import_nouns.getNounsBase64)(props.address || import_const.ZERO_ADDRESS);
+  const base64Hash = ((_a = props.address) == null ? void 0 : _a.length) === 42 ? (0, import_nouns.getNounsBase64)(props.address || import_const.ZERO_ADDRESS) : null;
   const allStyle = { ...myStyle, ...props.style };
   return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, base64Hash ? /* @__PURE__ */ import_react.default.createElement(
     "img",

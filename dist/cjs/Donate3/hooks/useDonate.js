@@ -49,7 +49,7 @@ var useFetchDonors = (toAddress, orderByType) => {
   const _fetchDonors = async () => {
     const res = await fetch(
       `${BASE_URL}/api/v1/donate/queryByParam?` + new URLSearchParams({
-        toAddress,
+        toAddress: toAddress || "",
         orderByType,
         pageNo: "0",
         pageSize: "20"

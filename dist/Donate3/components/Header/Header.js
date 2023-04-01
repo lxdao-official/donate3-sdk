@@ -6,12 +6,12 @@ import { DONATE_TYPE } from "../../utils/const";
 import TotalCircle from "../TotalCircle/TotalCircle";
 import styles from "./Header.module.css";
 function Header(_ref) {
-  var setShowDonorList = _ref.setShowDonorList,
-    normalmode = _ref.normalmode;
+  var normalmode = _ref.normalmode;
   var _React$useContext = React.useContext(Donate3Context),
     type = _React$useContext.type,
     toAddress = _React$useContext.toAddress,
-    title = _React$useContext.title;
+    title = _React$useContext.title,
+    setShowDonorList = _React$useContext.setShowDonorList;
   var base64Hash = useNouns(toAddress);
   var cx = classNames.bind(styles);
   return /*#__PURE__*/React.createElement("header", {

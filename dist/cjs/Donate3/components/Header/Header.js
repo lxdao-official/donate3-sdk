@@ -39,8 +39,8 @@ var import_useNouns = __toESM(require("../../hooks/useNouns"));
 var import_const = require("../../utils/const");
 var import_TotalCircle = __toESM(require("../TotalCircle/TotalCircle"));
 var import_Header_module = __toESM(require("./Header.module.css"));
-function Header({ setShowDonorList, normalmode }) {
-  const { type, toAddress, title } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+function Header({ normalmode }) {
+  const { type, toAddress, title, setShowDonorList } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   const base64Hash = (0, import_useNouns.default)(toAddress);
   let cx = import_bind.default.bind(import_Header_module.default);
   return /* @__PURE__ */ import_react.default.createElement(

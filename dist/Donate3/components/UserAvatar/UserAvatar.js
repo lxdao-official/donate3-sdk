@@ -10,19 +10,22 @@ function UserAvatar(props) {
   var _React$useContext = React.useContext(Donate3Context),
     type = _React$useContext.type,
     donorList = _React$useContext.donorList,
-    total = _React$useContext.total;
+    total = _React$useContext.total,
+    setShowDonorList = _React$useContext.setShowDonorList;
   var makeDonateUserAvatar = function makeDonateUserAvatar() {
-    var _donorList$result;
+    var _donorList$records;
     if (!donorList) return;
     var dom = [];
-    var records = donorList === null || donorList === void 0 ? void 0 : (_donorList$result = donorList.result) === null || _donorList$result === void 0 ? void 0 : _donorList$result.records.slice(0, 5);
-    dom = records.map(function (item, index) {
-      return /*#__PURE__*/React.createElement(Avatar, {
-        key: index,
-        address: item.fromAddress,
-        width: '40px'
+    var records = donorList === null || donorList === void 0 ? void 0 : (_donorList$records = donorList.records) === null || _donorList$records === void 0 ? void 0 : _donorList$records.slice(0, 5);
+    if (records) {
+      dom = records === null || records === void 0 ? void 0 : records.map(function (item, index) {
+        return /*#__PURE__*/React.createElement(Avatar, {
+          key: index,
+          address: item.fromAddress,
+          width: '40px'
+        });
       });
-    });
+    }
     dom.push( /*#__PURE__*/React.createElement(TotalCircle, {
       key: 'lastitem',
       size: 40,
@@ -31,9 +34,12 @@ function UserAvatar(props) {
     return dom;
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: cx({
+    className: cx(styles.wrap, {
       normalmode: props.normalmode && type === DONATE_TYPE.NORMAL
-    })
+    }),
+    onClick: function onClick() {
+      setShowDonorList(true);
+    }
   }, /*#__PURE__*/React.createElement("div", {
     className: styles.donateusers
   }, makeDonateUserAvatar()), type === DONATE_TYPE.FLOAT ? /*#__PURE__*/React.createElement("div", {

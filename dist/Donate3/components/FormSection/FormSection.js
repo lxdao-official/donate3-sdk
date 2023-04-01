@@ -8,11 +8,10 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit';
-import classNames from 'classnames/bind';
+import { useChainModal } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
-import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
+import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import { useCreateDonate } from "../../hooks/useDonate";
 // import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from "../../abi.json";
@@ -20,44 +19,33 @@ import { Donate3Context } from "../../context/Donate3Context";
 import { ReactComponent as Eth } from "../../images/eth.svg";
 import { ReactComponent as Loading } from "../../images/loading.svg";
 import { ReactComponent as Switch } from "../../images/switch.svg";
-import Footer from "../Footer/Footer";
 import Success from "../Success/Success";
-import UserAvatar from "../UserAvatar/UserAvatar";
 import styles from "./FormSection.module.css";
 function FormSection() {
-  var _useConnectModal = useConnectModal(),
-    openConnectModal = _useConnectModal.openConnectModal;
   var _useChainModal = useChainModal(),
     openChainModal = _useChainModal.openChainModal;
   var _useNetwork = useNetwork(),
     chain = _useNetwork.chain;
-  var _useAccount = useAccount(),
-    address = _useAccount.address,
-    isConnected = _useAccount.isConnected;
-  var _useState = useState(false),
+  var _useState = useState(0),
     _useState2 = _slicedToArray(_useState, 2),
-    showSemiModal = _useState2[0],
-    setShowSemiModal = _useState2[1];
-  var _useState3 = useState(false),
+    amount = _useState2[0],
+    setAmount = _useState2[1];
+  var _useState3 = useState(''),
     _useState4 = _slicedToArray(_useState3, 2),
-    showLoading = _useState4[0],
-    setShowLoading = _useState4[1];
-  var _useState5 = useState(0),
+    message = _useState4[0],
+    setMessage = _useState4[1];
+  var _useState5 = useState(false),
     _useState6 = _slicedToArray(_useState5, 2),
-    amount = _useState6[0],
-    setAmount = _useState6[1];
-  var _useState7 = useState(''),
-    _useState8 = _slicedToArray(_useState7, 2),
-    message = _useState8[0],
-    setMessage = _useState8[1];
-  var _useState9 = useState(false),
-    _useState10 = _slicedToArray(_useState9, 2),
-    donateCreateSuccess = _useState10[0],
-    setDonateCreateSuccess = _useState10[1];
+    donateCreateSuccess = _useState6[0],
+    setDonateCreateSuccess = _useState6[1];
   var createDonate = useCreateDonate();
   var _React$useContext = React.useContext(Donate3Context),
-    toAddress = _React$useContext.toAddress;
-  var cx = classNames.bind(styles);
+    toAddress = _React$useContext.toAddress,
+    fromAddress = _React$useContext.fromAddress,
+    setShowSemiModal = _React$useContext.setShowSemiModal,
+    isConnected = _React$useContext.isConnected,
+    setShowLoading = _React$useContext.setShowLoading,
+    showLoading = _React$useContext.showLoading;
   var timeout = 5; // s
 
   var pid = 3;
@@ -65,9 +53,9 @@ function FormSection() {
   // const amountIn = new BigNumber(amount * Math.pow(10, 18));
   var amountIn = amount && ethers.utils.parseEther(amount.toString());
   var bytesMsg = ethers.utils.toUtf8Bytes(message);
-  var donateTokenArgs = [pid, amountIn,
-  // address,
-  '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4', bytesMsg, [], {
+  var donateTokenArgs = [pid, amountIn, toAddress,
+  // '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
+  bytesMsg, [], {
     value: amountIn
   }];
   console.log('合约参数:', donateTokenArgs);
@@ -80,12 +68,18 @@ function FormSection() {
     config = _usePrepareContractWr.config;
   var _useContractWrite = useContractWrite(config),
     transactionData = _useContractWrite.data,
-    isLoading = _useContractWrite.isLoading,
     isSuccess = _useContractWrite.isSuccess,
     isError = _useContractWrite.isError,
-    isIdle = _useContractWrite.isIdle,
     write = _useContractWrite.write;
-  console.log('合约数据变更', transactionData, isLoading, isSuccess, isError, isIdle);
+  // console.log(
+  //   '合约数据变更',
+  //   transactionData,
+  //   isLoading,
+  //   isSuccess,
+  //   isError,
+  //   isIdle,
+  // );
+
   useEffect(function () {
     if (isConnected) {
       setShowSemiModal(false);
@@ -111,8 +105,8 @@ function FormSection() {
               chainType: 4 || (chain === null || chain === void 0 ? void 0 : chain.id) || 0,
               coinType: 0,
               //TODO, 这里我应该传什么？有哪些值？
-              fromAddress: address,
-              userId: address,
+              fromAddress: fromAddress,
+              userId: fromAddress,
               hash: transactionData === null || transactionData === void 0 ? void 0 : transactionData.hash,
               // 这里我取 transaction hash
               // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
@@ -235,38 +229,7 @@ function FormSection() {
     onClick: handleDonate
   }, showLoading ? /*#__PURE__*/React.createElement(Loading, null) : null, showLoading ? /*#__PURE__*/React.createElement("div", null, "Confirm in wallet...") : /*#__PURE__*/React.createElement("div", null, "DONATE3")
   // <div>≈$875.32</div>
-  ), showSemiModal ? /*#__PURE__*/React.createElement("div", {
-    className: cx(styles.semiModal, {
-      in: !isConnected || showSemiModal
-    }, {
-      out: isConnected || !showSemiModal
-    })
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles.bgmask,
-    onClick: function onClick() {
-      setShowSemiModal(false);
-    }
-  }), /*#__PURE__*/React.createElement("div", {
-    className: styles.semiwrap
-  }, /*#__PURE__*/React.createElement("div", {
-    className: styles.semiimg
-  }, /*#__PURE__*/React.createElement("img", {
-    className: styles.walleticon
-    // src="https://i.328888.xyz/2023/03/12/vkcMH.png"
-    ,
-    src: 'https://i.328888.xyz/2023/03/12/vkcMH.png'
-  }), /*#__PURE__*/React.createElement("img", {
-    className: styles.btcicon,
-    src: "https://i.328888.xyz/2023/03/12/vkRxF.png"
-  })), /*#__PURE__*/React.createElement(UserAvatar, null), /*#__PURE__*/React.createElement("div", {
-    className: styles.semidonatebtn,
-    onClick: function onClick() {
-      setShowLoading(true);
-      if (openConnectModal) {
-        openConnectModal();
-      }
-    }
-  }, showLoading ? /*#__PURE__*/React.createElement(Loading, null) : null, showLoading ? /*#__PURE__*/React.createElement("span", null, "Confirm in wallet...") : /*#__PURE__*/React.createElement("span", null, "Connect wallet for donation")), /*#__PURE__*/React.createElement(Footer, null))) : null, donateCreateSuccess ? /*#__PURE__*/React.createElement(Success, {
+  ), donateCreateSuccess ? /*#__PURE__*/React.createElement(Success, {
     timeout: timeout,
     setDonateCreateSuccess: setDonateCreateSuccess
   }) : null);
