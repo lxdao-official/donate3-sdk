@@ -1,40 +1,75 @@
-# donate3-sdk
+# [&lt;Donate3 /&gt;](https://donate3.xyz/) 
 
-[![NPM version](https://img.shields.io/npm/v/donate3-sdk.svg?style=flat)](https://npmjs.org/package/donate3-sdk)
-[![NPM downloads](http://img.shields.io/npm/dm/donate3-sdk.svg?style=flat)](https://npmjs.org/package/donate3-sdk)
+ A donate in cryptocurrency component（Give me a cup of coffee）
 
-A react library developed with dumi
+## Features
 
-## Usage
+- [![npm (tag)](https://img.shields.io/npm/v/@lxdao/Donate3)](https://www.npmjs.com/package/@lxdao/Donate3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/Donate3) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps. It extends HTML \<img \/\> with Web3 decentralization storage, like IPFS. With <Donate3 /> you can put ipfs:// in the src and render the image from IPFS with the fastest gateway. Will support ar soon.
+- [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3) <b>\<Uploader3 \/\></b> is a React-based Web3 image upload component that supports multiple image uploads, image cropping, and uploading images to Web3 Storage providers (like IPFS). There are two ways for uploading, by using a backend API or the Uploader3 Connector.
+- [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3-connector) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3-connector) <b>Uploader3 Connector</b> is a connector for Uploader3. Currently, it only supports NFT.storage IPFS service provider.
 
-TODO
+## Documentation
 
-## Options
-
-TODO
+- [Getting Started](https://donate3.xyz/)
+- [`<Donate3 />`](https://donate3.xyz/components/Donate3)
 
 ## Development
 
-```bash
-# install dependencies
-$ yarn install
+The first method uses Donate3，Just as a js component for your project
 
-# develop library by docs demo
-$ yarn start
+```jsx
+import { Donate3 } from 'donate3-sdk';
 
-# build library source code
-$ yarn run build
-
-# build library source code in watch mode
-$ yarn run build:watch
-
-# build docs
-$ yarn run docs:build
-
-# check your project for potential problems
-$ yarn run doctor
+const config = {
+  type: 1, // 0 Float mode，1 Normal mode
+  color: "#396AFF", // setting primary color
+  title: "Charity3", // Your donate project title
+  toAddress: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4", // Your donate address， Use `0x{String}`
+}
+export default () => <Donate3 config={...config}/>
 ```
 
-## LICENSE
+The second method uses Donate3，Import a js CDN url to your own website;
 
-MIT
+-  `data-donate3-type`: 0 Float mode，1 Normal mode
+-  `data-donate3-color`: setting primary color
+-  `data-donate3-title`: Your donate project title
+-  `data-donate3-to-address`: // Your donate address， Use `0x{String}`
+
+``` html
+  <div
+    data-donate3-type="1" 
+    data-donate3-color="#396AFF"
+    data-donate3-title="charity3"
+    data-donate3-to-address="0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"
+  ></div>
+  <script src="../dist/webpack/bundle.js"></script>
+```
+
+## Sponsors
+
+<a href="https://fil.org/" target="_blank"><img width="200" src="https://bafkreidhplaw3hpo6gmhrkqwzvw2ejnvxuuai2r5vsjhzjxmosanagrgoy.ipfs.nftstorage.link/" /></a>
+
+If you are willing to support this project, please contact with the project PM [Muxin](https://twitter.com/muxin_eth).
+
+## Contributors
+
+- [@noyobo](https://github.com/noyobo)
+- [@brucexu-eth](https://github.com/brucexu-eth)
+- [@jackysense](https://github.com/jackysense)
+- [@wwei-github](https://github.com/wwei-github)
+- [@muxin-web3](https://github.com/muxin-web3)
+
+## License
+
+[MIT](/LICENSE) License
+
+## Supported by LXDAO
+
+<a target="_blank" href="https://lxdao.io/"><img alt="Supported by LXDAO" src="https://bafkreib7wsfivsbtinvx7yfou2b556ab32pojbjutkxfhh7v3y45qkevui.ipfs.nftstorage.link/" width="180" /></a>
+
+This is a project supported by LXDAO. More links: [LXDAO](https://lxdao.io/) | [LXDAO Forum](https://forum.lxdao.io/) | [LXDAO Discord](https://discord.lxdao.io) | [LXDAO Twitter](https://twitter.com/LXDAO_Official).
+
+LXDAO is an R&D-focused DAO in Web3. Our mission is: Gather the power of buidlers to buidl and support “LX” (valuable) Web3 projects sustainably and welcome 1 billion users into Web3. Welcome to join us.
+
+[![Join our Discord server!](https://invidget.switchblade.xyz/HtcDdPgJ7D)](http://discord.gg/HtcDdPgJ7D)
