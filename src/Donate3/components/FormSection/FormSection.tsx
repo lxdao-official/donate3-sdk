@@ -2,10 +2,9 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
-import { useCreateDonate } from '../../hooks/useDonate';
-// import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
+import { useCreateDonate } from '../../hooks/useDonate';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
@@ -26,6 +25,7 @@ function FormSection() {
     isConnected,
     setShowLoading,
     showLoading,
+    color,
   } = React.useContext(Donate3Context);
   const timeout = 5; // s
 
@@ -196,6 +196,7 @@ function FormSection() {
       <button
         type="button"
         className={styles.donate3btn}
+        style={{ background: color }}
         disabled={!write}
         onClick={handleDonate}
       >

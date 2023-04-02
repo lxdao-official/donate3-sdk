@@ -18,7 +18,7 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
 
-  const { type, showDonorList, setShowDonorList, showSemiModal } =
+  const { type, showDonorList, setShowDonorList, showSemiModal, color } =
     React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
@@ -51,6 +51,7 @@ function App() {
   };
 
   const renderDonate3Button = (type: number) => {
+    const bgStyle = { background: color };
     if (type === DONATE_TYPE.FLOAT) {
       return (
         <div
@@ -65,7 +66,9 @@ function App() {
           onClick={handleShowForm}
         >
           {showForm ? (
-            <Close className={styles.closeimg}></Close>
+            <div style={bgStyle} className={styles.closewrap}>
+              <Close className={styles.closeimg}></Close>
+            </div>
           ) : (
             <>
               <DonateButton></DonateButton>

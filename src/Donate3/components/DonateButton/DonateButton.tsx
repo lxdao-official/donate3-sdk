@@ -1,13 +1,13 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as LogoWhite } from '../../images/logowhite.svg';
+import { ReactComponent as Logo } from '../../images/logo.svg';
 import { DONATE_TYPE } from '../../utils/const';
 import styles from './DonateButton.module.css';
 
 function DonateButton() {
   let cx = classNames.bind(styles);
-  const { type, toAddress } = React.useContext(Donate3Context);
+  const { type, toAddress, color } = React.useContext(Donate3Context);
   let wrapStyles = cx(
     styles.wrap,
     {
@@ -18,8 +18,8 @@ function DonateButton() {
     },
   );
   return (
-    <div className={wrapStyles}>
-      <LogoWhite className={styles.img}></LogoWhite>
+    <div className={wrapStyles} style={{ background: color }}>
+      <Logo className={styles.img}></Logo>
       <span>Donate3</span>
       {type === DONATE_TYPE.NORMAL ? (
         <span>

@@ -10,7 +10,7 @@ import styles from './SemiModal.module.css';
 function SemiModal() {
   let cx = classNames.bind(styles);
   const { openConnectModal } = useConnectModal();
-  const { showSemiModal, isConnected, setShowLoading, showLoading } =
+  const { showSemiModal, isConnected, setShowLoading, showLoading, color } =
     useContext(Donate3Context);
 
   return (
@@ -38,6 +38,7 @@ function SemiModal() {
             <UserAvatar></UserAvatar>
             <div
               className={styles.semidonatebtn}
+              style={{ background: color }}
               onClick={() => {
                 setShowLoading(true);
                 if (openConnectModal) {

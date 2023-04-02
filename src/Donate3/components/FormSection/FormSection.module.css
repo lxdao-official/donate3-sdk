@@ -191,6 +191,10 @@
   border-radius: 4px;
   cursor: pointer;
   border: 0px;
+  padding: 0 47px;
+}
+.donate3btn svg{
+  animation: loading 3s linear infinite;
 }
 .donate3btn:disabled{
   background-color: #D7D7E0;
@@ -213,5 +217,14 @@
   line-height: 12px;
   text-align: center;
   color: rgb(255 255 255 / 50%);
+}
+
+@keyframes loading {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
 }
 
