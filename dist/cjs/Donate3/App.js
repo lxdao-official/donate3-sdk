@@ -49,7 +49,7 @@ var import_utils = require("./utils/index");
 function App() {
   const [showForm, setShowForm] = (0, import_react.useState)(false);
   const [dialogStyle, setDialogStyle] = (0, import_react.useState)({});
-  const { type, showDonorList, setShowDonorList, showSemiModal } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  const { type, showDonorList, setShowDonorList, showSemiModal, color } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   let cx = import_bind.default.bind(import_App_module.default);
   const handleSwitchDialog = (event) => {
     const defaultStyle = {
@@ -77,6 +77,7 @@ function App() {
     setShowForm(!showForm);
   };
   const renderDonate3Button = (type2) => {
+    const bgStyle = { background: color };
     if (type2 === import_const.DONATE_TYPE.FLOAT) {
       return /* @__PURE__ */ import_react.default.createElement(
         "div",
@@ -91,7 +92,7 @@ function App() {
           ),
           onClick: handleShowForm
         },
-        showForm ? /* @__PURE__ */ import_react.default.createElement(import_close.ReactComponent, { className: import_App_module.default.closeimg }) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null))
+        showForm ? /* @__PURE__ */ import_react.default.createElement("div", { style: bgStyle, className: import_App_module.default.closewrap }, /* @__PURE__ */ import_react.default.createElement(import_close.ReactComponent, { className: import_App_module.default.closeimg })) : /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null))
       );
     } else {
       return /* @__PURE__ */ import_react.default.createElement("div", { className: cx(import_App_module.default.donate3btn) }, /* @__PURE__ */ import_react.default.createElement(import_Header.default, { normalmode: true }), /* @__PURE__ */ import_react.default.createElement("div", { onClick: handleShowForm }, /* @__PURE__ */ import_react.default.createElement(import_DonateButton.default, null)), /* @__PURE__ */ import_react.default.createElement(

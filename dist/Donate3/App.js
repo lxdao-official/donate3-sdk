@@ -37,7 +37,8 @@ function App() {
     type = _React$useContext.type,
     showDonorList = _React$useContext.showDonorList,
     setShowDonorList = _React$useContext.setShowDonorList,
-    showSemiModal = _React$useContext.showSemiModal;
+    showSemiModal = _React$useContext.showSemiModal,
+    color = _React$useContext.color;
   var cx = classNames.bind(styles);
   var handleSwitchDialog = function handleSwitchDialog(event) {
     var defaultStyle = {
@@ -68,6 +69,9 @@ function App() {
     setShowForm(!showForm);
   };
   var renderDonate3Button = function renderDonate3Button(type) {
+    var bgStyle = {
+      background: color
+    };
     if (type === DONATE_TYPE.FLOAT) {
       return /*#__PURE__*/React.createElement("div", {
         className: cx({
@@ -76,9 +80,12 @@ function App() {
           floatmode: !showForm
         }, styles.btn, styles['btn-animated'], styles['btn-white'], styles.donate3btn),
         onClick: handleShowForm
-      }, showForm ? /*#__PURE__*/React.createElement(Close, {
+      }, showForm ? /*#__PURE__*/React.createElement("div", {
+        style: bgStyle,
+        className: styles.closewrap
+      }, /*#__PURE__*/React.createElement(Close, {
         className: styles.closeimg
-      }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DonateButton, null)));
+      })) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(DonateButton, null)));
     } else {
       return /*#__PURE__*/React.createElement("div", {
         className: cx(styles.donate3btn)

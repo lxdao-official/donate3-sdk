@@ -43,7 +43,7 @@ var import_SemiModal_module = __toESM(require("./SemiModal.module.css"));
 function SemiModal() {
   let cx = import_bind.default.bind(import_SemiModal_module.default);
   const { openConnectModal } = (0, import_rainbowkit.useConnectModal)();
-  const { showSemiModal, isConnected, setShowLoading, showLoading } = (0, import_react.useContext)(import_Donate3Context.Donate3Context);
+  const { showSemiModal, isConnected, setShowLoading, showLoading, color } = (0, import_react.useContext)(import_Donate3Context.Donate3Context);
   return /* @__PURE__ */ import_react.default.createElement(import_react.default.Fragment, null, showSemiModal ? /* @__PURE__ */ import_react.default.createElement(
     "div",
     {
@@ -70,6 +70,7 @@ function SemiModal() {
       "div",
       {
         className: import_SemiModal_module.default.semidonatebtn,
+        style: { background: color },
         onClick: () => {
           setShowLoading(true);
           if (openConnectModal) {

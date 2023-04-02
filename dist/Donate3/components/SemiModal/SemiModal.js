@@ -14,7 +14,8 @@ function SemiModal() {
     showSemiModal = _useContext.showSemiModal,
     isConnected = _useContext.isConnected,
     setShowLoading = _useContext.setShowLoading,
-    showLoading = _useContext.showLoading;
+    showLoading = _useContext.showLoading,
+    color = _useContext.color;
   return /*#__PURE__*/React.createElement(React.Fragment, null, showSemiModal ? /*#__PURE__*/React.createElement("div", {
     className: cx(styles.semiModal, {
       in: !isConnected || showSemiModal
@@ -35,6 +36,9 @@ function SemiModal() {
     src: "https://i.328888.xyz/2023/03/12/vkRxF.png"
   })), /*#__PURE__*/React.createElement(UserAvatar, null), /*#__PURE__*/React.createElement("div", {
     className: styles.semidonatebtn,
+    style: {
+      background: color
+    },
     onClick: function onClick() {
       setShowLoading(true);
       if (openConnectModal) {

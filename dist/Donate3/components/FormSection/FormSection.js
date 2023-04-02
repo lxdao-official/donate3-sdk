@@ -12,10 +12,9 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react';
 import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
-import { useCreateDonate } from "../../hooks/useDonate";
-// import { ReactComponent as SemiLogo } from '../../images/semilogo';
 import abi from "../../abi.json";
 import { Donate3Context } from "../../context/Donate3Context";
+import { useCreateDonate } from "../../hooks/useDonate";
 import { ReactComponent as Eth } from "../../images/eth.svg";
 import { ReactComponent as Loading } from "../../images/loading.svg";
 import { ReactComponent as Switch } from "../../images/switch.svg";
@@ -45,7 +44,8 @@ function FormSection() {
     setShowSemiModal = _React$useContext.setShowSemiModal,
     isConnected = _React$useContext.isConnected,
     setShowLoading = _React$useContext.setShowLoading,
-    showLoading = _React$useContext.showLoading;
+    showLoading = _React$useContext.showLoading,
+    color = _React$useContext.color;
   var timeout = 5; // s
 
   var pid = 3;
@@ -225,6 +225,9 @@ function FormSection() {
   })), /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: styles.donate3btn,
+    style: {
+      background: color
+    },
     disabled: !write,
     onClick: handleDonate
   }, showLoading ? /*#__PURE__*/React.createElement(Loading, null) : null, showLoading ? /*#__PURE__*/React.createElement("div", null, "Confirm in wallet...") : /*#__PURE__*/React.createElement("div", null, "DONATE3")

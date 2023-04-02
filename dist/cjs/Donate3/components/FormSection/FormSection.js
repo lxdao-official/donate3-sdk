@@ -36,9 +36,9 @@ var import_rainbowkit = require("@rainbow-me/rainbowkit");
 var import_ethers = require("ethers");
 var import_react = __toESM(require("react"));
 var import_wagmi = require("wagmi");
-var import_useDonate = require("../../hooks/useDonate");
 var import_abi = __toESM(require("../../abi.json"));
 var import_Donate3Context = require("../../context/Donate3Context");
+var import_useDonate = require("../../hooks/useDonate");
 var import_eth = require("../../images/eth.svg");
 var import_loading = require("../../images/loading.svg");
 var import_switch = require("../../images/switch.svg");
@@ -57,7 +57,8 @@ function FormSection() {
     setShowSemiModal,
     isConnected,
     setShowLoading,
-    showLoading
+    showLoading,
+    color
   } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   const timeout = 5;
   let pid = 3;
@@ -177,6 +178,7 @@ function FormSection() {
     {
       type: "button",
       className: import_FormSection_module.default.donate3btn,
+      style: { background: color },
       disabled: !write,
       onClick: handleDonate
     },

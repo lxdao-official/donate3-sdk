@@ -35,12 +35,12 @@ module.exports = __toCommonJS(DonateButton_exports);
 var import_bind = __toESM(require("classnames/bind"));
 var import_react = __toESM(require("react"));
 var import_Donate3Context = require("../../context/Donate3Context");
-var import_logowhite = require("../../images/logowhite.svg");
+var import_logo = require("../../images/logo.svg");
 var import_const = require("../../utils/const");
 var import_DonateButton_module = __toESM(require("./DonateButton.module.css"));
 function DonateButton() {
   let cx = import_bind.default.bind(import_DonateButton_module.default);
-  const { type, toAddress } = import_react.default.useContext(import_Donate3Context.Donate3Context);
+  const { type, toAddress, color } = import_react.default.useContext(import_Donate3Context.Donate3Context);
   let wrapStyles = cx(
     import_DonateButton_module.default.wrap,
     {
@@ -50,7 +50,7 @@ function DonateButton() {
       tinywrap: type === import_const.DONATE_TYPE.FLOAT
     }
   );
-  return /* @__PURE__ */ import_react.default.createElement("div", { className: wrapStyles }, /* @__PURE__ */ import_react.default.createElement(import_logowhite.ReactComponent, { className: import_DonateButton_module.default.img }), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"), type === import_const.DONATE_TYPE.NORMAL ? /* @__PURE__ */ import_react.default.createElement("span", null, toAddress && `${toAddress.slice(0, 6)}...${toAddress.slice(
+  return /* @__PURE__ */ import_react.default.createElement("div", { className: wrapStyles, style: { background: color } }, /* @__PURE__ */ import_react.default.createElement(import_logo.ReactComponent, { className: import_DonateButton_module.default.img }), /* @__PURE__ */ import_react.default.createElement("span", null, "Donate3"), type === import_const.DONATE_TYPE.NORMAL ? /* @__PURE__ */ import_react.default.createElement("span", null, toAddress && `${toAddress.slice(0, 6)}...${toAddress.slice(
     toAddress.length - 4
   )}`) : null);
 }
