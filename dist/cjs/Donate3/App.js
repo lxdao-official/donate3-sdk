@@ -88,7 +88,8 @@ function App() {
             import_App_module.default.btn,
             import_App_module.default["btn-animated"],
             import_App_module.default["btn-white"],
-            import_App_module.default.donate3btn
+            import_App_module.default.donate3btn,
+            import_App_module.default.floatmode
           ),
           onClick: handleShowForm
         },

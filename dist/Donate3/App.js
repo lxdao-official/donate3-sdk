@@ -78,7 +78,7 @@ function App() {
           close: showForm
         }, {
           floatmode: !showForm
-        }, styles.btn, styles['btn-animated'], styles['btn-white'], styles.donate3btn),
+        }, styles.btn, styles['btn-animated'], styles['btn-white'], styles.donate3btn, styles.floatmode),
         onClick: handleShowForm
       }, showForm ? /*#__PURE__*/React.createElement("div", {
         style: bgStyle,
