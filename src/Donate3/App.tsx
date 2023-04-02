@@ -62,6 +62,7 @@ function App() {
             styles['btn-animated'],
             styles['btn-white'],
             styles.donate3btn,
+            styles.floatmode,
           )}
           onClick={handleShowForm}
         >

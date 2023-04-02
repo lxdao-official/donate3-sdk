@@ -16,9 +16,6 @@
 }
 
 .donate3btn{
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +24,9 @@
 }
 
 .floatmode {
-
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }
 .normalmode{
 
