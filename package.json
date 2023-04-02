@@ -19,7 +19,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "prepublishOnly": "father doctor && npm run build",
-    "publish": "father build & pnpm widget & pnpm publish",
+    "prepublish": "father build & pnpm widget",
     "start": "npm run dev",
     "widget": "webpack --config widget/webpack.config.js"
   },
