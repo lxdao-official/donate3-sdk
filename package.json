@@ -1,6 +1,6 @@
 {
   "name": "donate3-sdk",
-  "version": "0.3.23",
+  "version": "0.3.24",
   "description": "Donate3 from LXDAO",
   "license": "MIT",
   "module": "dist/index.js",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "father build",
+    "build": "father build & pnpm widget",
     "build:watch": "father dev",
     "dev": "dumi dev",
     "docs:build": "dumi build",
