@@ -6,11 +6,11 @@ node_modules
 /node_modules
 /.pnp
 .pnp.js
-# testing
+testing
 /coverage
-# production
+production
 /build
-# misc
+misc
 .DS_Store
 .env.local
 .env.development.local
@@ -22,3 +22,4 @@ yarn-debug.log*
 yarn-error.log*
 .env
 /nouns-monorepo
+/dist
