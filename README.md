@@ -4,7 +4,7 @@
 
 ## Features
 
-- [![npm (tag)](https://img.shields.io/npm/v/@lxdao/Donate3)](https://www.npmjs.com/package/@lxdao/Donate3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/Donate3) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps. It extends HTML \<img \/\> with Web3 decentralization storage, like IPFS. With <Donate3 /> you can put ipfs:// in the src and render the image from IPFS with the fastest gateway. Will support ar soon.
+- [![npm (tag)](https://img.shields.io/npm/v/@lxdao/Donate3)](https://www.npmjs.com/package/@lxdao/Donate3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/Donate3) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps. 
 - [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3) <b>\<Uploader3 \/\></b> is a React-based Web3 image upload component that supports multiple image uploads, image cropping, and uploading images to Web3 Storage providers (like IPFS). There are two ways for uploading, by using a backend API or the Uploader3 Connector.
 - [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3-connector) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3-connector) <b>Uploader3 Connector</b> is a connector for Uploader3. Currently, it only supports NFT.storage IPFS service provider.
 
@@ -50,15 +50,14 @@ The second method uses Donate3，Import a js CDN url to your own website;
 
 <a href="https://fil.org/" target="_blank"><img width="200" src="https://bafkreidhplaw3hpo6gmhrkqwzvw2ejnvxuuai2r5vsjhzjxmosanagrgoy.ipfs.nftstorage.link/" /></a>
 
-If you are willing to support this project, please contact with the project PM [Muxin](https://twitter.com/muxin_eth).
+If you are willing to support this project, please contact with the project PM [DAODAO](https://twitter.com/daodao).
 
 ## Contributors
 
-- [@noyobo](https://github.com/noyobo)
+- [@ufoqhmdt](https://github.com/ufoqhmdt)
 - [@brucexu-eth](https://github.com/brucexu-eth)
-- [@jackysense](https://github.com/jackysense)
-- [@wwei-github](https://github.com/wwei-github)
-- [@muxin-web3](https://github.com/muxin-web3)
+- [@daodao](https://github.com/daodao)
+- [@hardman](https://github.com/hardman)
 
 ## License
 

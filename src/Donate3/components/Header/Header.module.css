@@ -34,7 +34,8 @@
 
 .recipientinfo {
   text-align: start;
-  overflow: scroll;
+  overflow: hidden;
+  flex: 1;
 }
 
 .normalmode .recipientinfo{

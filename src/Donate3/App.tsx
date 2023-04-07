@@ -65,6 +65,7 @@ function App() {
             styles.floatmode,
           )}
           onClick={handleShowForm}
+          id="lxdao_donate3_button"
         >
           {showForm ? (
             <div style={bgStyle} className={styles.closewrap}>
@@ -81,7 +82,7 @@ function App() {
       return (
         <div className={cx(styles.donate3btn)}>
           <Header normalmode={true}></Header>
-          <div onClick={handleShowForm}>
+          <div onClick={handleShowForm} id="lxdao_donate3_button">
             <DonateButton></DonateButton>
           </div>
 
