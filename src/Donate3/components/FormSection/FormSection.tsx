@@ -1,6 +1,6 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
@@ -18,6 +18,7 @@ function FormSection() {
   const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
+  const shortcutOption = useRef(null);
   const {
     toAddress,
     fromAddress,
@@ -142,8 +143,20 @@ function FormSection() {
     setAmount(amount);
   };
 
-  const handleManualAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(event.target.value));
+  const handleManualAmountChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    console.log(Number.isNaN(Number(event.target.value)));
+    if (!Number.isNaN(Number(event.target.value))) {
+      setAmount(Number(event.target.value));
+    }
+  };
+
+  const handleManualAmountFocus = () => {
+    shortcutOption?.current?.childNodes?.forEach((item) => {
+      item.classList.remove(styles.active);
+    });
+    // setAmount(0);
   };
 
   return (
@@ -160,13 +173,17 @@ function FormSection() {
             <Switch />
           </div>
         </div>
-        <div className={styles.footermark}>
+        {/* <div className={styles.footermark}>
           <div>icon</div>
           <div>21.11ETH</div>
           <div>0.01E = $127; 31GWEI = $0.75</div>
-        </div>
+        </div> */}
       </div>
-      <div className={styles.shortcutoption} onClick={handleEthAmount}>
+      <div
+        className={styles.shortcutoption}
+        ref={shortcutOption}
+        onClick={handleEthAmount}
+      >
         <div data-amount={0.001}>0.001 ETH</div>
         <div data-amount={0.01}>0.01 ETH</div>
         <div data-amount={0.5}>0.5 ETH</div>
@@ -180,7 +197,8 @@ function FormSection() {
         className={styles.pricebtn}
         placeholder="Enter Price Manually"
         value={amount}
-        onChange={handleManualAmount}
+        onFocus={handleManualAmountFocus}
+        onChange={handleManualAmountChange}
       ></input>
       <div className={styles.msg}>
         <div>Message</div>
