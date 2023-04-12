@@ -99,7 +99,5 @@ export const getNounsBase64 = (address: string) => {
 
   const svgBase641 = Buffer.from(svgBinary1).toString('base64');
 
-  // console.log('pseudorandomness', pseudorandomness);
-  // console.log('svgBase641', svgBase641);
   return svgBase641;
 };

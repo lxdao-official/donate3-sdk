@@ -10,7 +10,7 @@
   flex-direction: column;
   padding: 30px;
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -27,9 +27,6 @@
   position: fixed;
   right: 20px;
   bottom: 20px;
-}
-.normalmode{
-
 }
 
 .applogo {
@@ -57,21 +54,6 @@
   }
 }
 
-.close {
-  /* width: 65px; */
-  /* height: 65px; */
-  /* background: #396aff; */
-  /* box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
-  border-radius: 100px;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer; */
-}
-
 .closeimg {
   width: 21px;
   height: 21px;
@@ -83,67 +65,29 @@
 
 .btn:link,
 .btn:visited {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 15px 40px;
-    display: inline-block;
-    border-radius: 100px;
-    transition: all .2s;
-    position: absolute;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 40px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all .2s;
+  position: absolute;
 }
 
-.btn:hover {
-    /* background-color: blue; */
-    /* box-shadow: 0 50px 50px rgba(0, 0, 0, 0.2); */
-}
-
-/* .btn:active {
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-} */
-
-.btn-white {
-    /* background-color: #fff; */
-    /* color: #777; */
-}
-
-/* .btn::after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-    border-radius: 100px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    transition: all .4s;
-} */
-
-
-/* .btn:hover::after {
-    transform: scaleX(1.4) scaleY(1.6);
-    opacity: 0;
-} */
 
 .closewrap{
   width: 65px;
   height: 65px;
   box-shadow: 0 8px 24px -6px rgb(0 0 0 / 16%), 0 0 1px rgb(0 0 0 / 40%);
   border-radius: 100px;
-  /* position: fixed; */
-  /* right: 20px;
-  bottom: 20px; */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 }
-.closewrap:hover{
-  /* background-color: white; */
-}
 .btn-animated {
-    animation: moveInBottom 0.2s ease-out;
-    animation-fill-mode: backwards;
+  animation: moveInBottom 0.2s ease-out;
+  animation-fill-mode: backwards;
 }
 
 .mask{
@@ -154,4 +98,15 @@
   left: 0;
   right: 0;
   z-index: 10;
+}
+
+.demomask{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  /* background-color: red; */
+  opacity: 0;
+  z-index: 10001;
 }

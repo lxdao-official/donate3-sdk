@@ -18,6 +18,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   isConnected: false,
   showLoading: false,
   setShowLoading: () => {},
+  demo: false,
 });
 
 const Donate3Provider: React.FC<{
@@ -26,12 +27,14 @@ const Donate3Provider: React.FC<{
   type: number;
   color: string;
   title: string;
+  demo: boolean;
 }> = ({
   children,
   toAddress,
   type = DONATE_TYPE.NORMAL,
   color = '#764abc',
   title = 'Donate3',
+  demo = false,
 }) => {
   const [showDonorList, setShowDonorList] = React.useState(false);
   const [showSemiModal, setShowSemiModal] = React.useState(false);
@@ -75,6 +78,7 @@ const Donate3Provider: React.FC<{
         isConnected,
         showLoading,
         setShowLoading,
+        demo,
       }}
     >
       {children}

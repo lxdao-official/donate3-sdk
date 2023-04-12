@@ -18,7 +18,7 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
 
-  const { type, showDonorList, setShowDonorList, showSemiModal, color } =
+  const { type, showDonorList, setShowDonorList, showSemiModal, color, demo } =
     React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
@@ -114,6 +114,7 @@ function App() {
         className={showForm ? `${styles.app} dialogSlideInUp` : styles.hidden}
         style={{ ...dialogStyle }}
       >
+        {demo ? <div className={styles.demomask}></div> : null}
         <Header></Header>
         <FormSection></FormSection>
         <Footer></Footer>
