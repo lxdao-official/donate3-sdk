@@ -10,7 +10,7 @@ const config = {
   color: "#b96AFF",
   title: "Charity3333",
   toAddress: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
-  demo:true
+  demo:false
 }
 export default () => <Donate3 config={...config}/>
 // const renderDonate3 = (domElement: HTMLElement | null, config: Props) => {

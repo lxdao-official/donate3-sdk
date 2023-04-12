@@ -21,6 +21,7 @@
   align-items: center;
   cursor: pointer;
   flex-direction: column;
+  position: relative;
 }
 
 .floatmode {

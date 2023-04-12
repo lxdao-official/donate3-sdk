@@ -81,6 +81,7 @@ function App() {
     } else {
       return (
         <div className={cx(styles.donate3btn)}>
+          {demo ? <div className={styles.demomask}></div> : null}
           <Header normalmode={true}></Header>
           <div onClick={handleShowForm} id="lxdao_donate3_button">
             <DonateButton></DonateButton>
