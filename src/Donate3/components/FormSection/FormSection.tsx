@@ -1,5 +1,5 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi';
 import abi from '../../abi.json';
@@ -14,7 +14,7 @@ import styles from './FormSection.module.css';
 function FormSection() {
   const { openChainModal } = useChainModal();
   const { chain } = useNetwork();
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
@@ -33,7 +33,11 @@ function FormSection() {
   let pid = 3;
   // let _merkleProof = '';
   // const amountIn = new BigNumber(amount * Math.pow(10, 18));
-  const amountIn = amount && ethers.utils.parseEther(amount.toString());
+  let amountIn: BigNumber | '' = 0 || '';
+  if (!Number.isNaN(Number(amount))) {
+    amountIn = amount && ethers.utils.parseEther(amount.toString());
+  }
+
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
   let donateTokenArgs = [
     pid,
@@ -146,10 +150,11 @@ function FormSection() {
   const handleManualAmountChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    console.log(Number.isNaN(Number(event.target.value)));
-    if (!Number.isNaN(Number(event.target.value))) {
-      setAmount(Number(event.target.value));
-    }
+    // console.log(Number.isNaN(Number(event.target.value)));
+    // if (!Number.isNaN(Number(event.target.value))) {
+    // setAmount(Number(event.target.value));
+    // }
+    setAmount(event.target.value);
   };
 
   const handleManualAmountFocus = () => {

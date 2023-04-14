@@ -197,7 +197,7 @@
   animation: loading 3s linear infinite;
 }
 .donate3btn:disabled{
-  background-color: #D7D7E0;
+  background-color: #D7D7E0 !important;
 }
 .donate3btn:hover{
   background: #1f93ff;
