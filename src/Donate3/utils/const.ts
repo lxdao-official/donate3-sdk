@@ -3,3 +3,10 @@ export const enum DONATE_TYPE {
   FLOAT,
   NORMAL,
 }
+
+export const PRIMARY_COIN = {
+  Ethereum: 'ETH',
+  Goerli: 'ETH',
+  Polygon: 'Matic',
+  'Polygon Mumbai': 'Matic',
+};

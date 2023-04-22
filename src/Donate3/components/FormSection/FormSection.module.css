@@ -42,6 +42,8 @@
   justify-content: space-between;
   border-radius: 4px;
   overflow: hidden;
+  cursor: pointer;
+  user-select: none;
 }
 
 .methodinput div {
@@ -111,8 +113,9 @@
   background: #ececef;
   border-radius: 4px;
   align-items: center;
-  line-height: 40px;
+  line-height: 36px;
   box-sizing: border-box;
+  border: 2px solid transparent;
 }
 
 .shortcutoption div:hover {
@@ -151,6 +154,10 @@
   text-align: center;
   box-sizing: border-box;
   width: 306px;
+}
+
+.pricebtn:focus-visible,.msg textarea:focus-visible{
+  outline: #396AFF auto 1px;
 }
 
 .msg div {

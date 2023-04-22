@@ -24,7 +24,7 @@ function Success(props: { timeout: number; setDonateCreateSuccess: any }) {
       <div className={styles.img}>
         <SuccessImg></SuccessImg>
       </div>
-      <div className={styles.txt}>感谢你的捐赠，爱你哟~</div>
+      <div className={styles.txt}>Thank you for your donation. Love you~</div>
       <div className={styles.footer}>
         <button
           className={styles.btn}

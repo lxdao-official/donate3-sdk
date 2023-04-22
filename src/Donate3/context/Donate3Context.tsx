@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useNetwork } from 'wagmi';
 import { Donate3ContextType } from '../@types/donate3';
 import { useFetchDonors } from '../hooks/useDonate';
 // import DonorResultMockData from '../Mock/DonorResult.json';
@@ -19,6 +19,8 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   showLoading: false,
   setShowLoading: () => {},
   demo: false,
+  chain: '',
+  chains: [],
 });
 
 const Donate3Provider: React.FC<{
@@ -39,6 +41,7 @@ const Donate3Provider: React.FC<{
   const [showDonorList, setShowDonorList] = React.useState(false);
   const [showSemiModal, setShowSemiModal] = React.useState(false);
   const [showLoading, setShowLoading] = React.useState(false);
+  const { chain, chains } = useNetwork();
 
   const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();
@@ -79,6 +82,8 @@ const Donate3Provider: React.FC<{
         showLoading,
         setShowLoading,
         demo,
+        chain,
+        chains,
       }}
     >
       {children}

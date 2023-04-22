@@ -15,6 +15,8 @@ export type Donate3ContextType = {
   setShowLoading: React.Dispatch<React.SetStateAction<boolean>>;
   showLoading: boolean;
   demo: boolean;
+  chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
+  chains: Chain[];
 };
 export interface DonorRecord {
   chainType: string;
