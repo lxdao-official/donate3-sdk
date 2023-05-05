@@ -3,11 +3,16 @@ import { useAccount, useNetwork } from 'wagmi';
 import { Donate3ContextType } from '../@types/donate3';
 import { useFetchDonors } from '../hooks/useDonate';
 // import DonorResultMockData from '../Mock/DonorResult.json';
-import { DONATE_TYPE, ZERO_ADDRESS } from '../utils/const';
+import {
+  DONATE_TYPE,
+  embedType,
+  floatType,
+  ZERO_ADDRESS,
+} from '../utils/const';
 export const Donate3Context = React.createContext<Donate3ContextType>({
   toAddress: ZERO_ADDRESS,
   fromAddress: ZERO_ADDRESS,
-  type: DONATE_TYPE.NORMAL,
+  type: DONATE_TYPE.EMBED,
   color: '#764abc',
   total: 0,
   title: 'Donate3',
@@ -26,14 +31,14 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
 const Donate3Provider: React.FC<{
   children: React.ReactNode;
   toAddress: `0x${string}` | undefined;
-  type: number;
+  type: floatType | embedType;
   color: string;
   title: string;
   demo: boolean;
 }> = ({
   children,
   toAddress,
-  type = DONATE_TYPE.NORMAL,
+  type = DONATE_TYPE.EMBED,
   color = '#764abc',
   title = 'Donate3',
   demo = false,
@@ -42,6 +47,7 @@ const Donate3Provider: React.FC<{
   const [showSemiModal, setShowSemiModal] = React.useState(false);
   const [showLoading, setShowLoading] = React.useState(false);
   const { chain, chains } = useNetwork();
+  console.log(DONATE_TYPE.EMBED, '>>>>>>>>>>>>>>>>>>>>>>>>', type);
 
   const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();

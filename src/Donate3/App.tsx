@@ -31,7 +31,7 @@ function App() {
       margin: 'auto',
     };
 
-    if (type === DONATE_TYPE.NORMAL) {
+    if (type === DONATE_TYPE.EMBED) {
       setDialogStyle(defaultStyle);
     } else {
       const { elementBottom, elementRight } = getElementPosition(
@@ -45,12 +45,12 @@ function App() {
     }
   };
 
-  const handleShowForm = (e) => {
+  const handleShowForm = (e: any) => {
     handleSwitchDialog(e);
     setShowForm(!showForm);
   };
 
-  const renderDonate3Button = (type: number) => {
+  const renderDonate3Button = (type: DONATE_TYPE) => {
     const bgStyle = { background: color };
     if (type === DONATE_TYPE.FLOAT) {
       return (
@@ -102,7 +102,7 @@ function App() {
 
   return (
     <>
-      {type === DONATE_TYPE.NORMAL && (showForm || showDonorList) ? (
+      {type === DONATE_TYPE.EMBED && (showForm || showDonorList) ? (
         <div
           className={styles.mask}
           onClick={() => {

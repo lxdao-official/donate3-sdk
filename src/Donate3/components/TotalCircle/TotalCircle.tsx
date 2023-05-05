@@ -21,9 +21,11 @@ function TotalCircle(props: Props) {
   const { total } = useContext(Donate3Context);
   return (
     <>
-      <div className={cx(styles.circle, props.className)} style={allStyle}>
-        {total}
-      </div>
+      {total ? (
+        <div className={cx(styles.circle, props.className)} style={allStyle}>
+          {total}
+        </div>
+      ) : null}
     </>
   );
 }

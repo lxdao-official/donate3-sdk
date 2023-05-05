@@ -8,10 +8,11 @@ import styles from './DonateButton.module.css';
 function DonateButton() {
   let cx = classNames.bind(styles);
   const { type, toAddress, color } = React.useContext(Donate3Context);
+  console.log('DONATE_TYPE.EMBED', DONATE_TYPE.EMBED, type);
   let wrapStyles = cx(
     styles.wrap,
     {
-      largewrap: type === DONATE_TYPE.NORMAL,
+      largewrap: type === DONATE_TYPE.EMBED,
     },
     {
       tinywrap: type === DONATE_TYPE.FLOAT,
@@ -21,7 +22,7 @@ function DonateButton() {
     <div className={wrapStyles} style={{ background: color }}>
       <Logo className={styles.img}></Logo>
       <span>Donate3</span>
-      {type === DONATE_TYPE.NORMAL ? (
+      {type === DONATE_TYPE.EMBED ? (
         <span>
           {toAddress &&
             `${toAddress.slice(0, 6)}...${toAddress.slice(

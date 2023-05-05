@@ -9,7 +9,11 @@ import { useCreateDonate } from '../../hooks/useDonate';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
-import { PRIMARY_COIN } from '../../utils/const';
+import {
+  DONATE_VALUE_MAP,
+  PrimaryCoinType,
+  PRIMARY_COIN,
+} from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
 
@@ -17,7 +21,7 @@ function FormSection() {
   const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState('');
-  const [primaryCoin, setPrimaryCoin] = useState('ETH');
+  const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
   const shortcutOption = useRef(null);
@@ -35,8 +39,14 @@ function FormSection() {
   const timeout = 5; // s
 
   useEffect(() => {
+    if (toAddress === fromAddress) {
+      toast('Can not donate to yourself!');
+    }
+  }, [toAddress, fromAddress]);
+
+  useEffect(() => {
     const name: any = chain?.name;
-    setPrimaryCoin(PRIMARY_COIN[name]);
+    setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
   }, [chain]);
 
   let pid = 3;
@@ -101,6 +111,7 @@ function FormSection() {
     },
     onSuccess(data) {
       setShowLoading(false);
+      toast('正在同步数据，需要 1-5 分钟展示');
       asyncFunc(transactionData);
     },
   });
@@ -216,9 +227,18 @@ function FormSection() {
           ref={shortcutOption}
           onClick={handleEthAmount}
         >
-          <div data-amount={0.001}>0.001 {primaryCoin}</div>
-          <div data-amount={0.01}>0.01 {primaryCoin}</div>
-          <div data-amount={0.5}>0.5 {primaryCoin}</div>
+          <div data-amount={0.001}>
+            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][0]}
+            {primaryCoin}
+          </div>
+          <div data-amount={0.01}>
+            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][1]}
+            {primaryCoin}
+          </div>
+          <div data-amount={0.5}>
+            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][2]}
+            {primaryCoin}
+          </div>
         </div>
         <fieldset className={styles.fieldset}>
           <legend>
@@ -253,7 +273,7 @@ function FormSection() {
           {showLoading ? (
             <div>Confirm in wallet...</div>
           ) : (
-            <div>DONATE3</div>
+            <div>DONATE</div>
             // <div>≈$875.32</div>
           )}
         </button>

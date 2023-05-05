@@ -52,7 +52,7 @@ const Donate3 = (props: any) => {
           showRecentTransactions={true}
         >
           <Global styles={globalcss} />
-          <Donate3Provider {...props.config} type={Number(props.config.type)}>
+          <Donate3Provider {...props.config} type={props.config.type}>
             <App />
           </Donate3Provider>
         </RainbowKitProvider>

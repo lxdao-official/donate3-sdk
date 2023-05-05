@@ -39,7 +39,7 @@ function UserAvatar(props: { normalmode?: boolean }) {
   return (
     <div
       className={cx(styles.wrap, {
-        normalmode: props.normalmode && type === DONATE_TYPE.NORMAL,
+        normalmode: props.normalmode && type === DONATE_TYPE.EMBED,
       })}
       onClick={() => {
         setShowDonorList(true);

@@ -1,9 +1,10 @@
 // @types.donate3.d.ts
+import { embedType, floatType } from '../utils/const';
 export type Donate3ContextType = {
   donorList?: DonorResult;
   toAddress: `0x${string}` | undefined;
   fromAddress: `0x${string}` | undefined;
-  type: number;
+  type: floatType | embedType;
   color?: string;
   total?: number;
   title?: string;

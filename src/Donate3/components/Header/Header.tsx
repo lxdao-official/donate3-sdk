@@ -18,7 +18,7 @@ function Header({ normalmode }: HeaderProps) {
   return (
     <header
       className={cx(styles.header, {
-        normalmode: normalmode && type === DONATE_TYPE.NORMAL,
+        normalmode: normalmode && type === DONATE_TYPE.EMBED,
       })}
     >
       <div className={styles.recipientinfo}>
