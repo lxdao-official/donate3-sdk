@@ -9,7 +9,7 @@ donate3Roots.forEach((root) => {
     demo = true;
   }
   const config = {
-    type:Number(root.dataset.donate3Type),
+    type:root.dataset.donate3Type,
     color:root.dataset.donate3Color,
     title:root.dataset.donate3Title,
     toAddress:root.dataset.donate3ToAddress,
