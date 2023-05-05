@@ -81,12 +81,16 @@
   font-weight: 400;
   color: #C1CBCA;
   margin: 0 15px;
+  font-size: small;
 }
 
 .switch{
   flex:1 !important;
-  line-height: 47px !important;
   cursor: pointer;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
 .footermark {

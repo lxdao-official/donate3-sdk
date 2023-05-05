@@ -198,6 +198,9 @@ function FormSection() {
     // setAmount(0);
   };
 
+  const [donateVal1, donateVal2, donateVal3] =
+    DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType];
+
   return (
     <>
       <div>
@@ -227,16 +230,16 @@ function FormSection() {
           ref={shortcutOption}
           onClick={handleEthAmount}
         >
-          <div data-amount={0.001}>
-            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][0]}
+          <div data-amount={donateVal1}>
+            {donateVal1}
             {primaryCoin}
           </div>
-          <div data-amount={0.01}>
-            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][1]}
+          <div data-amount={donateVal2}>
+            {donateVal2}
             {primaryCoin}
           </div>
-          <div data-amount={0.5}>
-            {DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType][2]}
+          <div data-amount={donateVal3}>
+            {donateVal3}
             {primaryCoin}
           </div>
         </div>
