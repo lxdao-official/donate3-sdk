@@ -39,6 +39,7 @@ const wagmiClient = createClient({
 });
 
 const Donate3 = (props: any) => {
+  console.log('--------------', props, { ...props.config });
   return (
     <React.StrictMode>
       <WagmiConfig client={wagmiClient}>

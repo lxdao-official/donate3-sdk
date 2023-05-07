@@ -30,6 +30,7 @@
 .normalmode .avatar{
   height: 90px;
   width: 90px;
+  min-width: 90px;
   margin-bottom: 22px;
 }
 

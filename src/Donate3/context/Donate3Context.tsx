@@ -47,7 +47,6 @@ const Donate3Provider: React.FC<{
   const [showSemiModal, setShowSemiModal] = React.useState(false);
   const [showLoading, setShowLoading] = React.useState(false);
   const { chain, chains } = useNetwork();
-  console.log(DONATE_TYPE.EMBED, '>>>>>>>>>>>>>>>>>>>>>>>>', type);
 
   const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();
