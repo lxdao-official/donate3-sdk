@@ -78,7 +78,6 @@ const Donate3Provider: React.FC<{
     } else {
       setShowSemiModal(true);
     }
-    debugger;
     if (demo) {
       setShowSemiModal(false);
     }

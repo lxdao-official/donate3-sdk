@@ -97,6 +97,8 @@ function FormSection() {
     args: donateTokenArgs,
   });
 
+  console.log('prepareError', prepareError);
+
   const {
     data: transactionData,
     isSuccess,
@@ -105,6 +107,7 @@ function FormSection() {
   } = useContractWrite({
     ...config,
     onError(error) {
+      console.log('useContractWrite error', error);
       setShowLoading(false);
       if (error?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
@@ -113,27 +116,18 @@ function FormSection() {
       }
     },
     onSuccess(data) {
+      console.log('useContractWrite success', data);
       setShowLoading(false);
       toast('正在同步数据，需要 1-5 分钟展示');
       asyncFunc(transactionData);
     },
   });
 
-  // console.log(
-  //   '合约数据变更',
-  //   transactionData,
-  //   isSuccess,
-  //   isError,
-  //   write,
-  //   prepareError,
-  // );
+  console.log('-----useContractWrite', isError, isSuccess, write);
 
   useEffect(() => {
     if (isConnected) {
-      // setShowSemiModal(false);
       setShowLoading(false);
-    } else {
-      // setShowSemiModal(true);
     }
   }, [isConnected]);
 
@@ -191,10 +185,6 @@ function FormSection() {
   const handleManualAmountChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    // console.log(Number.isNaN(Number(event.target.value)));
-    // if (!Number.isNaN(Number(event.target.value))) {
-    // setAmount(Number(event.target.value));
-    // }
     setAmount(event.target.value);
   };
 
@@ -202,7 +192,6 @@ function FormSection() {
     shortcutOption?.current?.childNodes?.forEach((item) => {
       item.classList.remove(styles.active);
     });
-    // setAmount(0);
   };
 
   const donateVal = DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType] || [
