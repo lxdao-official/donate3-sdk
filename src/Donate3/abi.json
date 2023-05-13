@@ -81,12 +81,6 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "pid",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "from",
         "type": "address"
@@ -153,17 +147,6 @@
   { "stateMutability": "payable", "type": "fallback" },
   {
     "inputs": [
-      { "internalType": "address", "name": "owner", "type": "address" },
-      { "internalType": "uint256", "name": "pid", "type": "uint256" }
-    ],
-    "name": "burn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "_pid", "type": "uint256" },
       { "internalType": "address", "name": "_token", "type": "address" },
       { "internalType": "string", "name": "_tokenSymbol", "type": "string" },
       {
@@ -186,7 +169,6 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "pid", "type": "uint256" },
       { "internalType": "uint256", "name": "amountIn", "type": "uint256" },
       { "internalType": "address", "name": "to", "type": "address" },
       { "internalType": "bytes", "name": "message", "type": "bytes" },
@@ -199,49 +181,6 @@
     "name": "donateToken",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "owner", "type": "address" }
-    ],
-    "name": "getProjectList",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "pid", "type": "uint256" },
-          {
-            "internalType": "address payable",
-            "name": "rAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "enum IDonate3.ProjectStatus",
-            "name": "status",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct IDonate3.Project[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "owner", "type": "address" },
-      { "internalType": "uint256", "name": "pid", "type": "uint256" },
-      {
-        "internalType": "address payable",
-        "name": "rAddress",
-        "type": "address"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -286,21 +225,6 @@
       { "internalType": "address", "name": "newOwner", "type": "address" }
     ],
     "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "owner", "type": "address" },
-      { "internalType": "uint256", "name": "pid", "type": "uint256" },
-      {
-        "internalType": "address payable",
-        "name": "rAddress",
-        "type": "address"
-      }
-    ],
-    "name": "updateProjectReceive",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

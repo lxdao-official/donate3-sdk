@@ -49,7 +49,7 @@ function FormSection() {
     setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
   }, [chain]);
 
-  let pid = 3;
+  // let pid = 3;
   // let _merkleProof = '';
   // const amountIn = new BigNumber(amount * Math.pow(10, 18));
   let amountIn: BigNumber | '' = 0 || '';
@@ -59,10 +59,9 @@ function FormSection() {
 
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
   let donateTokenArgs = [
-    pid,
+    // pid,
     amountIn,
     toAddress,
-    // '0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4',
     bytesMsg,
     [],
     {
@@ -92,7 +91,7 @@ function FormSection() {
   };
 
   const { config, error: prepareError } = usePrepareContractWrite({
-    address: '0xbdEA24f8657eC8AD679b8bCcc761EcEE9600667e',
+    address: '0x7382dC1A182352F26AE5b927725171aa0b522ac3',
     abi: abi,
     functionName: 'donateToken',
     args: donateTokenArgs,
@@ -109,6 +108,8 @@ function FormSection() {
       setShowLoading(false);
       if (error?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
+      } else {
+        toast(String(error));
       }
     },
     onSuccess(data) {
