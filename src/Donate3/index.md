@@ -6,7 +6,7 @@ This is an example component.
 import { Donate3 } from 'donate3-sdk';
 
 const config = {
-  type: 'float', // 0 Float mode，1 Normal mode float\embed
+  type: 'embed', // 0 Float mode，1 Normal mode float\embed
   color: "#b96AFF",
   title: "Charity3333",
   toAddress: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",

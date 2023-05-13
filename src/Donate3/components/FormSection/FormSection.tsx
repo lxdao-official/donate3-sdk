@@ -20,7 +20,7 @@ import styles from './FormSection.module.css';
 function FormSection() {
   const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(' ');
   const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
@@ -107,7 +107,9 @@ function FormSection() {
     ...config,
     onError(error) {
       setShowLoading(false);
-      toast(String(error));
+      if (error?.includes('insufficient')) {
+        toast(String('insufficient funds for gas'));
+      }
     },
     onSuccess(data) {
       setShowLoading(false);
@@ -127,16 +129,20 @@ function FormSection() {
 
   useEffect(() => {
     if (isConnected) {
-      setShowSemiModal(false);
+      // setShowSemiModal(false);
       setShowLoading(false);
     } else {
-      setShowSemiModal(true);
+      // setShowSemiModal(true);
     }
   }, [isConnected]);
 
   useEffect(() => {
-    if (prepareError) {
-      toast(String(prepareError?.reason || prepareError?.data?.message));
+    console.log('*************', prepareError);
+    const errMsg = prepareError?.reason || prepareError?.data?.message;
+    if (errMsg?.includes('insufficient')) {
+      toast(String('insufficient funds for gas'));
+    } else if (errMsg) {
+      toast(String(errMsg));
     }
   }, [prepareError]);
 
@@ -162,12 +168,12 @@ function FormSection() {
 
   const handleDonate = async () => {
     if (isConnected) {
-      setShowSemiModal(false);
+      // setShowSemiModal(false);
       setShowLoading(true);
       write?.();
       console.log(transactionData);
     } else {
-      setShowSemiModal(true);
+      // setShowSemiModal(true);
     }
   };
 

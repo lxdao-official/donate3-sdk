@@ -52,20 +52,35 @@ const Donate3Provider: React.FC<{
   // const [donorList, setDonorList] = React.useState<DonorResult>();
   const { donors: donorList } = useFetchDonors(toAddress, '1');
   const total = donorList?.records?.length;
-  console.log('----------all context----------');
-  console.log('type:', type);
-  console.log('color:', color);
-  console.log('isConnected:', isConnected);
-  console.log('showDonorList:', showDonorList);
-  console.log('showLoading:', showLoading);
-  console.log('toAddress:', toAddress);
-  console.log('fromAddress:', fromAddress);
+  console.log(
+    '----------all context----------:',
+    '\ntype:',
+    type,
+    '\ncolor:',
+    color,
+    '\nisConnected:',
+    isConnected,
+    '\nshowDonorList:',
+    showDonorList,
+    '\nshowLoading:',
+    showLoading,
+    '\ntoAddress:',
+    toAddress,
+    '\nfromAddress:',
+    fromAddress,
+    '\ndemo:',
+    demo,
+  );
 
   React.useEffect(() => {
     if (isConnected) {
       setShowSemiModal(false);
     } else {
       setShowSemiModal(true);
+    }
+    debugger;
+    if (demo) {
+      setShowSemiModal(false);
     }
   }, [isConnected]);
 
