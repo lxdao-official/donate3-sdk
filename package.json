@@ -1,6 +1,6 @@
 {
   "name": "donate3-sdk",
-  "version": "0.3.42",
+  "version": "0.3.43",
   "description": "Donate3 from LXDAO",
   "license": "MIT",
   "module": "dist/index.js",
