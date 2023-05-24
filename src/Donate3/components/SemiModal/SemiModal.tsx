@@ -2,7 +2,6 @@ import { useConnectModal } from '@rainbow-me/rainbowkit';
 import classNames from 'classnames/bind';
 import React, { useContext } from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Loading } from '../../images/loading.svg';
 import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './SemiModal.module.css';
@@ -10,7 +9,7 @@ import styles from './SemiModal.module.css';
 function SemiModal() {
   let cx = classNames.bind(styles);
   const { openConnectModal } = useConnectModal();
-  const { showSemiModal, isConnected, setShowLoading, showLoading, color } =
+  const { showSemiModal, isConnected, setShowLoading, color } =
     useContext(Donate3Context);
 
   return (
@@ -46,12 +45,7 @@ function SemiModal() {
                 }
               }}
             >
-              {showLoading ? <Loading></Loading> : null}
-              {showLoading ? (
-                <span>Confirm in wallet...</span>
-              ) : (
-                <span>Connect wallet for donation</span>
-              )}
+                <span>Connect wallet for donation</span> 
             </div>
             <Footer></Footer>
           </div>

@@ -2,11 +2,12 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { BigNumber, ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
 import { useCreateDonate } from '../../hooks/useDonate';
 import { ReactComponent as Eth } from '../../images/eth.svg';
+import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
@@ -29,7 +30,6 @@ function FormSection() {
   const {
     toAddress,
     fromAddress,
-    setShowSemiModal,
     isConnected,
     setShowLoading,
     showLoading,
@@ -49,9 +49,6 @@ function FormSection() {
     setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
   }, [chain]);
 
-  // let pid = 3;
-  // let _merkleProof = '';
-  // const amountIn = new BigNumber(amount * Math.pow(10, 18));
   let amountIn: BigNumber | '' = 0 || '';
   if (!Number.isNaN(Number(amount))) {
     amountIn = amount && ethers.utils.parseEther(amount.toString());
@@ -69,7 +66,7 @@ function FormSection() {
     },
   ];
 
-  console.log('合约参数:', donateTokenArgs);
+  // console.log('合约参数:', donateTokenArgs);
 
   const asyncFunc = async (transactionData: any) => {
     const createDonateArgs = {
@@ -90,30 +87,26 @@ function FormSection() {
     console.log(result);
   };
 
-  const { config, error: prepareError } = usePrepareContractWrite({
+  const {
+    data: transactionData,
+    // error:writeError,
+    writeAsync,
+  } = useContractWrite({
     address: '0x7382dC1A182352F26AE5b927725171aa0b522ac3',
     abi: abi,
     functionName: 'donateToken',
-    args: donateTokenArgs,
-  });
-
-  console.log('prepareError', prepareError);
-
-  const {
-    data: transactionData,
-    isSuccess,
-    isError,
-    write,
-  } = useContractWrite({
-    ...config,
+    mode: 'recklesslyUnprepared',
     onError(error) {
-      console.log('useContractWrite error', error);
-      setShowLoading(false);
-      if (error?.includes('insufficient')) {
+      const errMsg = error?.reason
+      console.log(errMsg)
+      if (errMsg?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
-      } else {
-        toast(String(error));
+      }else if (errMsg?.includes('The donor address is equal to receive')) {
+        toast(String("The donor address is equal to receive"));
+      } else if (errMsg) {
+        toast(String(errMsg));
       }
+      setShowLoading(false);
     },
     onSuccess(data) {
       console.log('useContractWrite success', data);
@@ -123,23 +116,11 @@ function FormSection() {
     },
   });
 
-  console.log('-----useContractWrite', isError, isSuccess, write);
-
   useEffect(() => {
     if (isConnected) {
       setShowLoading(false);
     }
   }, [isConnected]);
-
-  useEffect(() => {
-    console.log('*************', prepareError);
-    const errMsg = prepareError?.reason || prepareError?.data?.message;
-    if (errMsg?.includes('insufficient')) {
-      toast(String('insufficient funds for gas'));
-    } else if (errMsg) {
-      toast(String(errMsg));
-    }
-  }, [prepareError]);
 
   useEffect(() => {
     if (donateCreateSuccess) {
@@ -149,26 +130,14 @@ function FormSection() {
     }
   }, [donateCreateSuccess]);
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-
-  //   }
-  // }, [isSuccess, isError]);
-
-  // useEffect(() => {
-  //   if (isIdle) {
-  //     setShowLoading(false);
-  //   }
-  // }, [isIdle]);
-
   const handleDonate = async () => {
     if (isConnected) {
-      // setShowSemiModal(false);
       setShowLoading(true);
-      write?.();
+      writeAsync?.({
+        recklesslySetUnpreparedArgs:donateTokenArgs
+      });
       console.log(transactionData);
     } else {
-      // setShowSemiModal(true);
     }
   };
 
@@ -208,7 +177,7 @@ function FormSection() {
           <div className={styles.title}>Payment Method</div>
           <div className={styles.methodinput} onClick={openChainModal}>
             <div className={styles.cointxt}>
-              <Eth />
+              {primaryCoin==='ETH'?<Eth />:<Polygon/>}
               <span>{primaryCoin}</span>
               <span>{chain?.name}</span>
             </div>
@@ -216,11 +185,6 @@ function FormSection() {
               <Switch />
             </div>
           </div>
-          {/* <div className={styles.footermark}>
-          <div>icon</div>
-          <div>21.11ETH</div>
-          <div>0.01E = $127; 31GWEI = $0.75</div>
-        </div> */}
         </div>
         <div
           className={styles.shortcutoption}
@@ -266,7 +230,7 @@ function FormSection() {
           type="button"
           className={styles.donate3btn}
           style={{ background: color }}
-          disabled={!write}
+          disabled={!writeAsync}
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}
@@ -274,7 +238,6 @@ function FormSection() {
             <div>Confirm in wallet...</div>
           ) : (
             <div>DONATE</div>
-            // <div>≈$875.32</div>
           )}
         </button>
         {donateCreateSuccess ? (

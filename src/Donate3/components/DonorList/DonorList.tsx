@@ -50,7 +50,7 @@ function DonorList() {
               <Avatar address={item.fromAddress} width={'60px'}></Avatar>
             </div>
             <div className={styles.amount}>${item.usdValue}</div>
-            <div className={styles.count}>捐赠{item.value}次</div>
+            <div className={styles.count}>捐赠{records.length}次</div>
           </div>
         );
       });
