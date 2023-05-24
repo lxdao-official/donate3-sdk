@@ -109,10 +109,10 @@ function FormSection() {
       setShowLoading(false);
     },
     onSuccess(data) {
-      console.log('useContractWrite success', data);
+      console.log('useContractWrite success', data,transactionData);
       setShowLoading(false);
       toast('正在同步数据，需要 1-5 分钟展示');
-      asyncFunc(transactionData);
+      asyncFunc(data);
     },
   });
 
@@ -132,12 +132,16 @@ function FormSection() {
 
   const handleDonate = async () => {
     if (isConnected) {
+      if(showLoading){
+        return
+      }
       setShowLoading(true);
-      writeAsync?.({
+      await writeAsync?.({
         recklesslySetUnpreparedArgs:donateTokenArgs
       });
       console.log(transactionData);
     } else {
+      toast('Please connect wallet first!');
     }
   };
 
@@ -192,15 +196,15 @@ function FormSection() {
           onClick={handleEthAmount}
         >
           <div data-amount={donateVal[0]}>
-            {donateVal[0]}
+            {donateVal[0]}{' '}
             {primaryCoin}
           </div>
           <div data-amount={donateVal[1]}>
-            {donateVal[1]}
+            {donateVal[1]}{' '}
             {primaryCoin}
           </div>
           <div data-amount={donateVal[2]}>
-            {donateVal[2]}
+            {donateVal[2]}{' '}
             {primaryCoin}
           </div>
         </div>
