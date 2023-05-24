@@ -8,7 +8,7 @@ import styles from './DonateButton.module.css';
 function DonateButton() {
   let cx = classNames.bind(styles);
   const { type, toAddress, color } = React.useContext(Donate3Context);
-  console.log('DONATE_TYPE.EMBED', DONATE_TYPE.EMBED, type);
+  // console.log('DONATE_TYPE.EMBED', DONATE_TYPE.EMBED, type);
   let wrapStyles = cx(
     styles.wrap,
     {

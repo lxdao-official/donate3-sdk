@@ -100,7 +100,7 @@ function App() {
     }
   };
 
-  console.log('>??>>>>>>>>>', showSemiModal);
+  // console.log('>??>>>>>>>>>', showSemiModal);
   return (
     <>
       {type === DONATE_TYPE.EMBED && (showForm || showDonorList) ? (
