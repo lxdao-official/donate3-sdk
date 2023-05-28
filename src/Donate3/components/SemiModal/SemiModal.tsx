@@ -37,7 +37,7 @@ function SemiModal() {
             <UserAvatar></UserAvatar>
             <div
               className={styles.semidonatebtn}
-              style={{ background: color }}
+              style={{ background: color, cursor: 'pointer' }}
               onClick={() => {
                 setShowLoading(true);
                 if (openConnectModal) {
@@ -45,7 +45,7 @@ function SemiModal() {
                 }
               }}
             >
-                <span>Connect wallet for donation</span> 
+              <span>Connect wallet for donation</span>
             </div>
             <Footer></Footer>
           </div>

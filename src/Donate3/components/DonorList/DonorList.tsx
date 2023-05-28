@@ -41,7 +41,8 @@ function DonorList() {
   const makeTopDom = (datas: DonorResult | undefined) => {
     if (!datas) return;
     let dom: JSX.Element[] = [];
-    const records = datas?.records?.slice(0, 3);
+    let records = datas?.records?.slice(0, 3);
+    // records.push(records[0]);
     if (records) {
       dom = records?.map((item: DonorRecord, index: number) => {
         return (
@@ -55,6 +56,17 @@ function DonorList() {
         );
       });
     }
+    if (records.length < 3) {
+      Array.from({ length: 3 - records.length }).forEach((val, index) => {
+        return dom.push(
+          <div key={index + records.length} className={styles.topitem}></div>,
+        );
+      });
+    }
+    const tmp = dom[1];
+    dom[1] = dom[0];
+    dom[0] = tmp;
+
     return dom;
   };
 
