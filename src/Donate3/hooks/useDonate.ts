@@ -41,6 +41,7 @@ export const useCreateDonate = () => {
 export const useFetchDonors = (
   toAddress: `0x${string}` | undefined,
   orderByType: string,
+  chainType: string,
 ) => {
   const _fetchDonors = async () => {
     // console.log('-----_fetchDonors2');
@@ -51,6 +52,8 @@ export const useFetchDonors = (
           orderByType,
           pageNo: '0',
           pageSize: '20',
+          coinType: '0',
+          chainType: chainType,
         }),
       {
         method: 'GET',

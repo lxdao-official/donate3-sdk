@@ -7,8 +7,8 @@ import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
 import { useCreateDonate } from '../../hooks/useDonate';
 import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
+import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
   DONATE_VALUE_MAP,
@@ -17,6 +17,9 @@ import {
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
+interface contractMap {
+  [key: number]: `0x${string}`;
+}
 
 function FormSection() {
   const { openChainModal } = useChainModal();
@@ -26,6 +29,10 @@ function FormSection() {
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const createDonate = useCreateDonate();
   const shortcutOption = useRef(null);
+  const CONTRACT_MAP: contractMap = {
+    5: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
+    80001: '0x7382dC1A182352F26AE5b927725171aa0b522ac3',
+  };
 
   const {
     toAddress,
@@ -70,7 +77,7 @@ function FormSection() {
 
   const asyncFunc = async (transactionData: any) => {
     const createDonateArgs = {
-      chainType: 4 || chain?.id || 0,
+      chainType: chain?.id || 0,
       coinType: 0, //TODO, 这里我应该传什么？有哪些值？
       fromAddress: fromAddress,
       userId: fromAddress,
@@ -92,24 +99,24 @@ function FormSection() {
     // error:writeError,
     writeAsync,
   } = useContractWrite({
-    address: '0x7382dC1A182352F26AE5b927725171aa0b522ac3',
+    address: CONTRACT_MAP[chain?.id || 0],
     abi: abi,
     functionName: 'donateToken',
     mode: 'recklesslyUnprepared',
     onError(error) {
-      const errMsg = error?.reason
-      console.log(errMsg)
+      const errMsg = error?.reason;
+      console.log(errMsg);
       if (errMsg?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
-      }else if (errMsg?.includes('The donor address is equal to receive')) {
-        toast(String("The donor address is equal to receive"));
+      } else if (errMsg?.includes('The donor address is equal to receive')) {
+        toast(String('The donor address is equal to receive'));
       } else if (errMsg) {
         toast(String(errMsg));
       }
       setShowLoading(false);
     },
     onSuccess(data) {
-      console.log('useContractWrite success', data,transactionData);
+      console.log('useContractWrite success', data, transactionData);
       setShowLoading(false);
       toast('正在同步数据，需要 1-5 分钟展示');
       asyncFunc(data);
@@ -132,12 +139,12 @@ function FormSection() {
 
   const handleDonate = async () => {
     if (isConnected) {
-      if(showLoading){
-        return
+      if (showLoading) {
+        return;
       }
       setShowLoading(true);
       await writeAsync?.({
-        recklesslySetUnpreparedArgs:donateTokenArgs
+        recklesslySetUnpreparedArgs: donateTokenArgs,
       });
       console.log(transactionData);
     } else {
@@ -181,7 +188,7 @@ function FormSection() {
           <div className={styles.title}>Payment Method</div>
           <div className={styles.methodinput} onClick={openChainModal}>
             <div className={styles.cointxt}>
-              {primaryCoin==='ETH'?<Eth />:<Polygon/>}
+              {primaryCoin === 'ETH' ? <Eth /> : <Polygon />}
               <span>{primaryCoin}</span>
               <span>{chain?.name}</span>
             </div>
@@ -196,16 +203,13 @@ function FormSection() {
           onClick={handleEthAmount}
         >
           <div data-amount={donateVal[0]}>
-            {donateVal[0]}{' '}
-            {primaryCoin}
+            {donateVal[0]} {primaryCoin}
           </div>
           <div data-amount={donateVal[1]}>
-            {donateVal[1]}{' '}
-            {primaryCoin}
+            {donateVal[1]} {primaryCoin}
           </div>
           <div data-amount={donateVal[2]}>
-            {donateVal[2]}{' '}
-            {primaryCoin}
+            {donateVal[2]} {primaryCoin}
           </div>
         </div>
         <fieldset className={styles.fieldset}>
@@ -238,11 +242,7 @@ function FormSection() {
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}
-          {showLoading ? (
-            <div>Confirm in wallet...</div>
-          ) : (
-            <div>DONATE</div>
-          )}
+          {showLoading ? <div>Confirm in wallet...</div> : <div>DONATE</div>}
         </button>
         {donateCreateSuccess ? (
           <Success

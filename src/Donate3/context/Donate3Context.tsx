@@ -50,7 +50,11 @@ const Donate3Provider: React.FC<{
 
   const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();
-  const { donors: donorList } = useFetchDonors(toAddress, '1');
+  const { donors: donorList } = useFetchDonors(
+    toAddress,
+    '1',
+    chain?.id.toString() || '0',
+  );
   const total = donorList?.records?.length;
   // console.log(
   //   '----------all context----------:',
