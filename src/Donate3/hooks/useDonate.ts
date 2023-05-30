@@ -38,6 +38,7 @@ export const useCreateDonate = () => {
   return createDonate;
 };
 
+// unused
 export const useFetchDonors = (
   toAddress: `0x${string}` | undefined,
   orderByType: string,
@@ -65,7 +66,7 @@ export const useFetchDonors = (
     );
     const json = await res.json();
 
-    const { code, result } = json;
+    const { result } = json;
     return result;
   };
 

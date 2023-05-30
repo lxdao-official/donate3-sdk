@@ -118,7 +118,7 @@ function FormSection() {
     onSuccess(data) {
       console.log('useContractWrite success', data, transactionData);
       setShowLoading(false);
-      toast('正在同步数据，需要 1-5 分钟展示');
+      toast('Syncing data, take 1-5 minutes to show');
       asyncFunc(data);
     },
   });
