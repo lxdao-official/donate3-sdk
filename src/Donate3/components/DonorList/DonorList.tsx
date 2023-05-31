@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import React, { useContext } from 'react';
+import { useNetwork } from 'wagmi';
 import { DonorRecord, DonorResult } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Close } from '../../images/close.svg';
@@ -9,12 +10,20 @@ import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './DonorList.module.css';
 
 function DonorList() {
+  const { chain } = useNetwork();
+
   let cx = classNames.bind(styles);
 
-  const { donorList, setShowDonorList, showDonorList } =
+  const { donorList, setShowDonorList, showDonorList, loadingDonorList } =
     useContext(Donate3Context);
   const makeDonateDonorAvatar = (datas: DonorResult | undefined) => {
-    if (!datas) return;
+    if (loadingDonorList) {
+      return <div>Loading...</div>;
+    }
+    if (!datas) {
+      return <div>Be the first person to support him!</div>;
+    }
+
     let dom: JSX.Element[] = [];
     const records = datas?.records;
     if (records) {
@@ -50,7 +59,8 @@ function DonorList() {
             <div className={styles.topimg}>
               <Avatar address={item.fromAddress} width={'60px'}></Avatar>
             </div>
-            <div className={styles.amount}>${item.usdValue}</div>
+            <div className={styles.amount}>{item.usdValue}</div>
+            <div className={styles.unit}>{chain?.nativeCurrency?.symbol}</div>
             {/* <div className={styles.count}>捐赠{records.length}次</div> */}
           </div>
         );

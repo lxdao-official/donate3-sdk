@@ -176,6 +176,9 @@
 .msg textarea {
   height: 96px;
   width: 100%;
+  max-width: 305px;
+  min-width: 305px;
+  max-height: 175px;
   border: 0;
   background: rgb(26 56 96 / 8%);
   border-radius: 4px;

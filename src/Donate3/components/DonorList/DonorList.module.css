@@ -92,8 +92,15 @@
   font-weight: 600;
   font-size: 16px;
   color: #000000;
-  margin-bottom: 5px;
+  line-height: 12px;
 }
+
+.unit{
+  font-weight: 600;
+  font-size: 10px;
+  color: #000000;
+}
+
 
 .count{
   font-weight: 400;
@@ -117,7 +124,6 @@
   width: 40px;
   height: 40px;
   margin: 10px 9px;
-  background-color: #396AFF;
 }
 
 .lastavatar{

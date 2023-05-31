@@ -1,3 +1,6 @@
+*{
+  font-family: "Inter", sans-serif;
+}
 .app {
   text-align: center;
   width: 366px;

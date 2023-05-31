@@ -21,8 +21,8 @@ export type PrimaryCoinType = {
 export const PRIMARY_COIN: PrimaryCoinType = {
   Ethereum: 'ETH',
   Goerli: 'ETH',
-  Polygon: 'Matic',
-  'Polygon Mumbai': 'Matic',
+  Polygon: 'MATIC',
+  'Polygon Mumbai': 'MATIC',
 };
 
 export const DONATE_VALUE_MAP: PrimaryCoinType = {

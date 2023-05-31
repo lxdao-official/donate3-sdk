@@ -23,6 +23,8 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   isConnected: false,
   showLoading: false,
   setShowLoading: () => {},
+  loadingDonorList: true,
+  setLoadingDonorList: () => {},
   demo: false,
   chain: '',
   chains: [],
@@ -46,6 +48,7 @@ const Donate3Provider: React.FC<{
   const [showDonorList, setShowDonorList] = React.useState(false);
   const [showSemiModal, setShowSemiModal] = React.useState(false);
   const [showLoading, setShowLoading] = React.useState(false);
+  const [loadingDonorList, setLoadingDonorList] = React.useState(true);
   const [donorList, setDonorList] = React.useState<DonorResult>();
   const { chain, chains } = useNetwork();
 
@@ -59,6 +62,7 @@ const Donate3Provider: React.FC<{
   React.useEffect(() => {
     (async () => {
       try {
+        setLoadingDonorList(true);
         const res = await fetch(
           `https://api.donate3.xyz/api/v1/donate/queryByParam?` +
             new URLSearchParams({
@@ -86,6 +90,8 @@ const Donate3Provider: React.FC<{
         setDonorList(result);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoadingDonorList(false);
       }
     })();
   }, [chain]);
@@ -120,6 +126,8 @@ const Donate3Provider: React.FC<{
         isConnected,
         showLoading,
         setShowLoading,
+        loadingDonorList,
+        setLoadingDonorList,
         demo,
         chain,
         chains,

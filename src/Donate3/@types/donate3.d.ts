@@ -15,6 +15,8 @@ export type Donate3ContextType = {
   isConnected: boolean;
   setShowLoading: React.Dispatch<React.SetStateAction<boolean>>;
   showLoading: boolean;
+  loadingDonorList: boolean;
+  setLoadingDonorList: React.Dispatch<React.SetStateAction<boolean>>;
   demo: boolean;
   chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
   chains: Chain[];
