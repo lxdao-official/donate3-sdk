@@ -47,7 +47,9 @@ function UserAvatar(props: { normalmode?: boolean }) {
     >
       <div className={styles.donateusers}>{makeDonateUserAvatar()}</div>
       {type === DONATE_TYPE.FLOAT ? (
-        <div className={styles.donateuserdec}>已有{total}人向他捐赠</div>
+        <div className={styles.donateuserdec}>
+          {total} people have donated to him/her
+        </div>
       ) : null}
     </div>
   );

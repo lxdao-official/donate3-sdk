@@ -12,5 +12,5 @@
       "donate3-sdk/*": ["src/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*"]
+  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*","custom.d.ts"]
 }
