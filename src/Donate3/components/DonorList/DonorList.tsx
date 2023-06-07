@@ -8,9 +8,12 @@ import { ReactComponent as SortBg } from '../../images/sortbg.svg';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './DonorList.module.css';
+import { EXPLORER_URL_MAP } from '../../utils/const';
+
 
 function DonorList() {
   const { chain } = useNetwork();
+
 
   let cx = classNames.bind(styles);
 
@@ -29,11 +32,16 @@ function DonorList() {
     if (records) {
       dom = records?.map((item: DonorRecord, index: number) => {
         return (
-          <Avatar
-            key={index}
-            address={item.fromAddress}
-            className={styles.itemavatar}
-          ></Avatar>
+          <div key={index} style={{ cursor: 'pointer' }}>
+            <Avatar
+              onClick={() => {
+                window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
+              }}
+              address={item.fromAddress}
+              className={styles.itemavatar}
+            ></Avatar>
+          </div>
+
         );
       });
     }
@@ -57,7 +65,9 @@ function DonorList() {
         return (
           <div key={index} className={styles.topitem}>
             <div className={styles.topimg}>
-              <Avatar address={item.fromAddress} width={'60px'}></Avatar>
+              <Avatar onClick={() => {
+                window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
+              }} address={item.fromAddress} width={'60px'}></Avatar>
             </div>
             <div className={styles.amount}>{item.usdValue}</div>
             <div className={styles.unit}>{chain?.nativeCurrency?.symbol}</div>

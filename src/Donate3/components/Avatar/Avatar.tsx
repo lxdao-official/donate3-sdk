@@ -5,6 +5,7 @@ import { getNounsBase64 } from '../../utils/nouns';
 import styles from './Avatar.module.css';
 
 export interface Props {
+  onClick?: () => void;
   width?: string;
   address?: string;
   children?: any;
@@ -15,12 +16,12 @@ export interface Props {
 function Avatar(props: Props) {
   let cx = classNames.bind(styles);
   const myStyle = {
-    // backgroundImage: `url('${props.address}')`,
     width: props.width,
     height: props.width,
     borderRadius: props.width,
+    onClick: props.onClick,
   };
-  // console.log('>>>>>', props.address, props.address?.length);
+
   const base64Hash =
     props.address?.length === 42
       ? getNounsBase64(props.address || ZERO_ADDRESS)
@@ -30,6 +31,7 @@ function Avatar(props: Props) {
     <>
       {base64Hash ? (
         <img
+          onClick={props.onClick}
           className={cx(styles.avatar, props.className)}
           alt="avatar"
           src={`data:image/svg+xml;base64,${base64Hash}`}

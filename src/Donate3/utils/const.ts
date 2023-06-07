@@ -31,3 +31,16 @@ export const DONATE_VALUE_MAP: PrimaryCoinType = {
   Polygon: [0.5, 5, 25],
   'Polygon Mumbai': [0.5, 5, 25],
 };
+
+
+export type Explores = {
+  [key: number]: string;
+}
+export const EXPLORER_URL_MAP: Explores = {
+  0: 'https://etherscan.io/address/',
+  1: 'https://etherscan.io/address/',
+  56: 'https://bscscan.com/address/',
+  137: 'https://polygonscan.com/address/',
+  80001: 'https://mumbai.polygonscan.com/address/',
+  5: 'https://goerli.etherscan.io/address/',
+}

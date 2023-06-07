@@ -6,8 +6,12 @@ import { DONATE_TYPE } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './UserAvatar.module.css';
+import { EXPLORER_URL_MAP } from '../../utils/const';
+import { useNetwork } from 'wagmi';
 
 function UserAvatar(props: { normalmode?: boolean }) {
+  const { chain } = useNetwork();
+
   let cx = classNames.bind(styles);
   const { type, donorList, total, setShowDonorList } =
     React.useContext(Donate3Context);
@@ -18,11 +22,17 @@ function UserAvatar(props: { normalmode?: boolean }) {
     if (records) {
       dom = records?.map((item: DonorRecord, index: number) => {
         return (
-          <Avatar
-            key={index}
-            address={item.fromAddress}
-            width={'40px'}
-          ></Avatar>
+          <div key={index} style={{ cursor: 'pointer' }}>
+            <Avatar
+              onClick={
+                () => {
+                  window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
+                }
+              }
+              address={item.fromAddress}
+              width={'40px'}
+            ></Avatar>
+          </div>
         );
       });
     }
