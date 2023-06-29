@@ -23,7 +23,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, provider, webSocketProvider } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [polygon],
+  [polygon, goerli, polygonMumbai],
   // [polygonMumbai],
   [publicProvider()],
 );
