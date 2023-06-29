@@ -30,8 +30,9 @@ function FormSection() {
   const createDonate = useCreateDonate();
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
-    5: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
-    80001: '0x7382dC1A182352F26AE5b927725171aa0b522ac3',
+    5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
+    80001: '0xac511F51C3a89639072144aB539192eca267F823',
+    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162'
   };
 
   const {

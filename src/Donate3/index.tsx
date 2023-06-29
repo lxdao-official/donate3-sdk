@@ -6,7 +6,7 @@ import {
 } from '@rainbow-me/rainbowkit';
 import React from 'react';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { goerli, polygonMumbai } from 'wagmi/chains';
+import { goerli, polygon, polygonMumbai } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
 import Donate3Provider from './context/Donate3Context';
@@ -23,13 +23,13 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, provider, webSocketProvider } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [goerli, polygonMumbai],
+  [polygon],
   // [polygonMumbai],
   [publicProvider()],
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit demo',
+  appName: 'Donate3',
   chains,
 });
 
