@@ -87,8 +87,8 @@ function FormSection() {
       message: message,
       // status: 0, // TODO 这里的状态有哪些值？
       toAddress: toAddress,
-      usdValue: String(amount), // 这里是否可以支持 int 和 string 两种类型？
-      value: String(amount), // 这里是否可以支持 int 和 string 两种类型？
+      usdValue: parseInt(amount).toFixed(1), // 这里是否可以支持 int 和 string 两种类型？
+      value: parseInt(amount).toFixed(1), // 这里是否可以支持 int 和 string 两种类型？
     };
     const result = await createDonate(createDonateArgs);
     setDonateCreateSuccess(true);

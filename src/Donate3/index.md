@@ -9,7 +9,7 @@ const config = {
   type: 'embed', // 0 Float mode，1 Normal mode float\embed
   color: "#666",
   title: "0xhardman",
-  toAddress: "0xacf9dD5172cE19BFD910b8E8252a2E7b47C977df",
+  toAddress: "0xb15115A15d5992A756D003AE74C0b832918fAb75",
   demo:false
 }
 export default () => <Donate3 config={...config}/>
