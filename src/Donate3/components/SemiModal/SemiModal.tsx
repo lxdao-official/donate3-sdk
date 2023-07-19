@@ -27,11 +27,11 @@ function SemiModal() {
             <div className={styles.semiimg}>
               <img
                 className={styles.walleticon}
-                src={'https://i.328888.xyz/2023/03/12/vkcMH.png'}
+                src={'https://lxdao-donate3.s3.amazonaws.com/wallet.png'}
               ></img>
               <img
                 className={styles.btcicon}
-                src="https://i.328888.xyz/2023/03/12/vkRxF.png"
+                src="https://lxdao-donate3.s3.amazonaws.com/coin.png"
               ></img>
             </div>
             <UserAvatar></UserAvatar>
