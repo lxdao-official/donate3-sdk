@@ -75,6 +75,9 @@ function FormSection() {
   ];
 
   // console.log('合约参数:', donateTokenArgs);
+  function isInteger(str: string) {
+    return /^\d+$/.test(str);
+  }
 
   const asyncFunc = async (transactionData: any) => {
     const createDonateArgs = {
@@ -87,8 +90,8 @@ function FormSection() {
       message: message,
       // status: 0, // TODO 这里的状态有哪些值？
       toAddress: toAddress,
-      usdValue: parseInt(amount).toFixed(1), // 这里是否可以支持 int 和 string 两种类型？
-      value: parseInt(amount).toFixed(1), // 这里是否可以支持 int 和 string 两种类型？
+      usdValue: isInteger(amount) ? parseFloat(amount).toFixed(1) : amount, // 这里是否可以支持 int 和 string 两种类型？
+      value: isInteger(amount) ? parseFloat(amount).toFixed(1) : amount, // 这里是否可以支持 int 和 string 两种类型？
     };
     const result = await createDonate(createDonateArgs);
     setDonateCreateSuccess(true);
@@ -222,6 +225,7 @@ function FormSection() {
           className={styles.pricebtn}
           placeholder="Enter Price Manually"
           value={amount}
+          type='number'
           onFocus={handleManualAmountFocus}
           onChange={handleManualAmountChange}
         ></input>
