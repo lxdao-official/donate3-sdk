@@ -20,6 +20,7 @@ export type Donate3ContextType = {
   demo: boolean;
   chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
   chains: Chain[];
+  avatar: `https://nftstorage.link/ipfs/${string}`;
 };
 export interface DonorRecord {
   chainType: string;
