@@ -39,7 +39,7 @@ function Header({ normalmode }: HeaderProps) {
       >
         <fieldset className={styles.fieldset}>
           <legend>
-            <IPFSAvatar src={avatar} address={toAddress} className={styles.avatar} />
+            <IPFSAvatar ipfsSrc={avatar} address={toAddress} className={styles.avatar} />
           </legend>
         </fieldset>
         {normalmode ? null : (

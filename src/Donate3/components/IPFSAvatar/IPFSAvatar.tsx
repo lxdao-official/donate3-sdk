@@ -5,16 +5,18 @@ import { ZERO_ADDRESS } from '../../utils/const';
 import { getNounsBase64 } from '../../utils/nouns';
 import styles from './IPFSAvatar.module.css';
 
+export type TIPFSSrc = `https://nftstorage.link/ipfs/${string}`;
+
 export interface IIPFSAvatarProps {
   children?: React.ReactNode;
   className?: string;
-  src: string;
+  ipfsSrc: TIPFSSrc;
   address?: `0x${string}`;
 }
 
 // avatar for ipfs
 // ipfs src >> base64 >> default img
-const IPFSAvatar = ({ className, src: ipfsSrc, address }: IIPFSAvatarProps) => {
+const IPFSAvatar = ({ className, ipfsSrc, address }: IIPFSAvatarProps) => {
   let cx = classNames.bind(styles);
 
   const base64Hash =
@@ -28,7 +30,11 @@ const IPFSAvatar = ({ className, src: ipfsSrc, address }: IIPFSAvatarProps) => {
       : DEFAULT_AVATAR;
 
     return ipfsSrc ? (
-      <Img3 className={cx(styles.avatar, className)} src={ipfsSrc} alt="Avatar" />
+      <Img3
+        className={cx(styles.avatar, className)}
+        src={ipfsSrc}
+        alt="Avatar"
+      />
     ) : (
       <img alt={ALT} src={SRC} className={cx(styles.avatar, className)} />
     );
