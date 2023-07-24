@@ -10,6 +10,7 @@ donate3Roots.forEach((root) => {
     title:root.dataset.donate3Title,
     toAddress:root.dataset.donate3ToAddress,
     demo:root.dataset.donate3Demo==='true'?true:false,
+    avatar:root.dataset.donate3Avatar
   }
   console.log('donate3: ', config,root.dataset);
   const reactRoot = ReactDOM.createRoot(root);

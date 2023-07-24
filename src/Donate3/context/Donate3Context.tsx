@@ -28,6 +28,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   demo: false,
   chain: '',
   chains: [],
+  avatar: '',
 });
 
 const Donate3Provider: React.FC<{
@@ -37,6 +38,7 @@ const Donate3Provider: React.FC<{
   color: string;
   title: string;
   demo: boolean;
+  avatar: string;
 }> = ({
   children,
   toAddress,
@@ -44,6 +46,7 @@ const Donate3Provider: React.FC<{
   color = '#764abc',
   title = 'Donate3',
   demo = false,
+  avatar
 }) => {
   const [showDonorList, setShowDonorList] = React.useState(false);
   const [showSemiModal, setShowSemiModal] = React.useState(false);
@@ -59,6 +62,7 @@ const Donate3Provider: React.FC<{
   //   '1',
   //   chain?.id.toString() || '0',
   // );
+
   React.useEffect(() => {
     (async () => {
       try {
@@ -131,6 +135,7 @@ const Donate3Provider: React.FC<{
         demo,
         chain,
         chains,
+        avatar
       }}
     >
       {children}

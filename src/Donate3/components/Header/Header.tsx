@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import React from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
 import { DONATE_TYPE } from '../../utils/const';
-import Avatar from '../Avatar/Avatar';
+import IPFSAvatar from '../IPFSAvatar/IPFSAvatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './Header.module.css';
 
@@ -11,7 +11,7 @@ export interface HeaderProps {
 }
 
 function Header({ normalmode }: HeaderProps) {
-  const { type, toAddress, title, setShowDonorList } =
+  const { type, toAddress, title, setShowDonorList, avatar } =
     React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
@@ -39,7 +39,7 @@ function Header({ normalmode }: HeaderProps) {
       >
         <fieldset className={styles.fieldset}>
           <legend>
-            <Avatar address={toAddress} className={styles.avatar}></Avatar>
+            <IPFSAvatar src={avatar} address={toAddress} className={styles.avatar} />
           </legend>
         </fieldset>
         {normalmode ? null : (
