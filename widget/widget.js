@@ -1,18 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Donate3 from '../src/Donate3/index';
+import { getFasterIpfsLink } from '../src/Donate3/utils/ipfsTools';
 
-const donate3Roots = document.querySelectorAll('[data-donate3-to-address]');
+const donate3Roots = document.querySelectorAll('[data-donate3-cid]');
+
 donate3Roots.forEach((root) => {
-  const config = {
-    type:root.dataset.donate3Type,
-    color:root.dataset.donate3Color,
-    title:root.dataset.donate3Title,
-    toAddress:root.dataset.donate3ToAddress,
-    demo:root.dataset.donate3Demo==='true'?true:false,
-    avatar:root.dataset.donate3Avatar
-  }
-  console.log('donate3: ', config,root.dataset);
-  const reactRoot = ReactDOM.createRoot(root);
-  reactRoot.render(<Donate3 config={config} />);
+  const cid = root.dataset.donate3Cid;
+
+  // If specified, use the gateway
+  getFasterIpfsLink({
+    ipfs: `https://nftstorage.link/ipfs/${cid}`,
+    timeout: 4000,
+  })
+    .then(({ type, color, name, address, avatar }) => {
+      const config = {
+        type,
+        color,
+        title: name,
+        toAddress: address,
+        avatar,
+        demo: false,
+      };
+      const reactRoot = ReactDOM.createRoot(root);
+      reactRoot.render(<Donate3 config={config} />);
+    })
+    .catch(() => {
+      console.error('error', 'getFasterIpfsLink-error');
+    });
 });
