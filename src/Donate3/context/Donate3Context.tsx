@@ -33,6 +33,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
 
 const Donate3Provider: React.FC<{
   children: React.ReactNode;
+  accountType: number;
   toAddress: `0x${string}` | undefined;
   safeAccounts?: Account[] | undefined;
   type: floatType | embedType;
@@ -42,6 +43,7 @@ const Donate3Provider: React.FC<{
   avatar: string;
 }> = ({
   children,
+  accountType,
   toAddress,
   safeAccounts,
   type = DONATE_TYPE.EMBED,
@@ -65,7 +67,7 @@ const Donate3Provider: React.FC<{
   //   chain?.id.toString() || '0',
   // );
 
-  let toAddressReal = toAddress;
+  let toAddressReal = accountType === 0 ? toAddress : '0x';
   React.useEffect(() => {
     (async () => {
       try {
@@ -104,16 +106,17 @@ const Donate3Provider: React.FC<{
   }, [chain, toAddressReal]);
   console.log(donorList);
   if (
+    accountType === 1 &&
     safeAccounts &&
     safeAccounts.length &&
     safeAccounts.some(
       (item: Account) =>
-        item.network && item.address && item.network === chain?.network,
+        item.networkId && item.address && item.networkId === chain?.id,
     )
   ) {
     toAddressReal = (
       safeAccounts.find(
-        (item: Account) => item.network === chain?.network,
+        (item: Account) => item.networkId === chain?.id,
       ) as Account
     ).address;
   }
