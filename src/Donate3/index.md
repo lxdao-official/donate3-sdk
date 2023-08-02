@@ -10,6 +10,7 @@ const config = {
   color: "#666",
   title: "0xhardman",
   toAddress: "0xb15115A15d5992A756D003AE74C0b832918fAb75",
+  safeAccounts: [], // [{network: 'goerli', address: '0xd2567eb0893c8b5de7deac1cb66d8d60178767e8'}]
   demo:false
 }
 export default () => <Donate3 config={...config}/>

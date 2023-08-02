@@ -32,7 +32,7 @@ function FormSection() {
   const CONTRACT_MAP: contractMap = {
     5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
     80001: '0xac511F51C3a89639072144aB539192eca267F823',
-    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162'
+    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
   };
 
   const {
@@ -225,7 +225,7 @@ function FormSection() {
           className={styles.pricebtn}
           placeholder="Enter Price Manually"
           value={amount}
-          type='number'
+          type="number"
           onFocus={handleManualAmountFocus}
           onChange={handleManualAmountChange}
         ></input>

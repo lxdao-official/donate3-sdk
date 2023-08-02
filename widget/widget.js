@@ -13,12 +13,13 @@ donate3Roots.forEach((root) => {
     ipfs: `https://nftstorage.link/ipfs/${cid}`,
     timeout: 4000,
   })
-    .then(({ type, color, name, address, avatar }) => {
+    .then(({ type, color, name, address, avatar, safeAccounts }) => {
       const config = {
         type,
         color,
         title: name,
         toAddress: address,
+        safeAccounts,
         avatar,
         demo: false,
       };
