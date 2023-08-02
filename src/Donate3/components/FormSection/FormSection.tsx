@@ -47,7 +47,7 @@ function FormSection() {
   const timeout = 5; // s
 
   useEffect(() => {
-    if (toAddress?.length === 2 && chain) {
+    if (!toAddress) {
       toast('unsupport chain');
     }
   }, [toAddress, chain]);
@@ -249,7 +249,7 @@ function FormSection() {
           type="button"
           className={styles.donate3btn}
           style={{ background: color }}
-          disabled={!writeAsync || toAddress?.length === 2}
+          disabled={!writeAsync || !toAddress}
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}

@@ -67,7 +67,7 @@ const Donate3Provider: React.FC<{
   //   chain?.id.toString() || '0',
   // );
 
-  let toAddressReal = accountType === 0 ? toAddress : '0x';
+  let toAddressReal = accountType === 0 ? toAddress : undefined;
   React.useEffect(() => {
     (async () => {
       try {
