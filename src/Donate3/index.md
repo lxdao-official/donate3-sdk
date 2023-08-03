@@ -11,6 +11,8 @@ const config = {
   title: "0xhardman",
   accountType: 1, // 账户类型 0： EOA， 1：safe account
   toAddress: "0xb15115A15d5992A756D003AE74C0b832918fAb75",
+  // avatar:'https://nftstorage.link/ipfs/bafkreidovf46msp6yqpsbfbl2n6whvdyfsupwwpucdguvkgt2isdnbac2i',
+  avatar:'',
   safeAccounts: [{networkId: 5, address: '0xd2567eb0893c8b5de7deac1cb66d8d60178767e8'}], // [{networkId: 5, address: '0xd2567eb0893c8b5de7deac1cb66d8d60178767e8'}]
   demo:false
 }
