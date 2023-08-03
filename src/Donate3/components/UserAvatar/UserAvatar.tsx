@@ -1,13 +1,12 @@
 import classNames from 'classnames/bind';
 import React from 'react';
+import { useNetwork } from 'wagmi';
 import { DonorRecord } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
-import { DONATE_TYPE } from '../../utils/const';
+import { DONATE_TYPE, EXPLORER_URL_MAP } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './UserAvatar.module.css';
-import { EXPLORER_URL_MAP } from '../../utils/const';
-import { useNetwork } from 'wagmi';
 
 function UserAvatar(props: { normalmode?: boolean }) {
   const { chain } = useNetwork();
@@ -24,11 +23,12 @@ function UserAvatar(props: { normalmode?: boolean }) {
         return (
           <div key={index} style={{ cursor: 'pointer' }}>
             <Avatar
-              onClick={
-                () => {
-                  window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
-                }
-              }
+              onClick={() => {
+                window.open(
+                  `${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`,
+                  '_blank',
+                );
+              }}
               address={item.fromAddress}
               width={'40px'}
             ></Avatar>

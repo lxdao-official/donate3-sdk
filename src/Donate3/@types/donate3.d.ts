@@ -1,5 +1,10 @@
 // @types.donate3.d.ts
 import { embedType, floatType } from '../utils/const';
+export interface Account {
+  networkId: number,
+  network?: string,
+  address: `0x${string}` | undefined
+}
 export type Donate3ContextType = {
   donorList?: DonorResult;
   toAddress: `0x${string}` | undefined;

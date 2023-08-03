@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useAccount, useNetwork } from 'wagmi';
-import { Donate3ContextType, DonorResult } from '../@types/donate3';
+import { Account, Donate3ContextType, DonorResult } from '../@types/donate3';
 
 // import DonorResultMockData from '../Mock/DonorResult.json';
 import {
@@ -33,7 +33,9 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
 
 const Donate3Provider: React.FC<{
   children: React.ReactNode;
+  accountType: number;
   toAddress: `0x${string}` | undefined;
+  safeAccounts?: Account[] | undefined;
   type: floatType | embedType;
   color: string;
   title: string;
@@ -41,12 +43,14 @@ const Donate3Provider: React.FC<{
   avatar: string;
 }> = ({
   children,
+  accountType,
   toAddress,
+  safeAccounts,
   type = DONATE_TYPE.EMBED,
   color = '#764abc',
   title = 'Donate3',
   demo = false,
-  avatar
+  avatar,
 }) => {
   const [showDonorList, setShowDonorList] = React.useState(false);
   const [showSemiModal, setShowSemiModal] = React.useState(false);
@@ -63,6 +67,7 @@ const Donate3Provider: React.FC<{
   //   chain?.id.toString() || '0',
   // );
 
+  let toAddressReal = accountType === 0 ? toAddress : undefined;
   React.useEffect(() => {
     (async () => {
       try {
@@ -98,8 +103,24 @@ const Donate3Provider: React.FC<{
         setLoadingDonorList(false);
       }
     })();
-  }, [chain]);
+  }, [chain, toAddressReal]);
   console.log(donorList);
+  if (
+    accountType === 1 &&
+    safeAccounts &&
+    safeAccounts.length &&
+    safeAccounts.some(
+      (item: Account) =>
+        item.networkId && item.address && item.networkId === chain?.id,
+    )
+  ) {
+    toAddressReal = (
+      safeAccounts.find(
+        (item: Account) => item.networkId === chain?.id,
+      ) as Account
+    ).address;
+  }
+
   const total = donorList?.records?.length;
 
   React.useEffect(() => {
@@ -118,7 +139,7 @@ const Donate3Provider: React.FC<{
       value={{
         total,
         donorList,
-        toAddress,
+        toAddress: toAddressReal,
         fromAddress,
         title,
         type,
@@ -135,7 +156,7 @@ const Donate3Provider: React.FC<{
         demo,
         chain,
         chains,
-        avatar
+        avatar,
       }}
     >
       {children}
