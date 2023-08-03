@@ -17,14 +17,14 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   total: 0,
   title: 'Donate3',
   showDonorList: false,
-  setShowDonorList: () => {},
+  setShowDonorList: () => { },
   showSemiModal: false,
-  setShowSemiModal: () => {},
+  setShowSemiModal: () => { },
   isConnected: false,
   showLoading: false,
-  setShowLoading: () => {},
+  setShowLoading: () => { },
   loadingDonorList: true,
-  setLoadingDonorList: () => {},
+  setLoadingDonorList: () => { },
   demo: false,
   chain: '',
   chains: [],
@@ -52,28 +52,28 @@ const Donate3Provider: React.FC<{
   demo = false,
   avatar,
 }) => {
-  const [showDonorList, setShowDonorList] = React.useState(false);
-  const [showSemiModal, setShowSemiModal] = React.useState(false);
-  const [showLoading, setShowLoading] = React.useState(false);
-  const [loadingDonorList, setLoadingDonorList] = React.useState(true);
-  const [donorList, setDonorList] = React.useState<DonorResult>();
-  const { chain, chains } = useNetwork();
+    const [showDonorList, setShowDonorList] = React.useState(false);
+    const [showSemiModal, setShowSemiModal] = React.useState(false);
+    const [showLoading, setShowLoading] = React.useState(false);
+    const [loadingDonorList, setLoadingDonorList] = React.useState(true);
+    const [donorList, setDonorList] = React.useState<DonorResult>();
+    const { chain, chains } = useNetwork();
 
-  const { address: fromAddress, isConnected } = useAccount();
-  // const [donorList, setDonorList] = React.useState<DonorResult>();
-  // const { donors: donorList } = useFetchDonors(
-  //   toAddress,
-  //   '1',
-  //   chain?.id.toString() || '0',
-  // );
+    const { address: fromAddress, isConnected } = useAccount();
+    // const [donorList, setDonorList] = React.useState<DonorResult>();
+    // const { donors: donorList } = useFetchDonors(
+    //   toAddress,
+    //   '1',
+    //   chain?.id.toString() || '0',
+    // );
 
-  let toAddressReal = accountType === 0 ? toAddress : undefined;
-  React.useEffect(() => {
-    (async () => {
-      try {
-        setLoadingDonorList(true);
-        const res = await fetch(
-          `https://api.donate3.xyz/api/v1/donate/queryByParam?` +
+    let toAddressReal = accountType === 0 ? toAddress : undefined;
+    React.useEffect(() => {
+      (async () => {
+        try {
+          setLoadingDonorList(true);
+          const res = await fetch(
+            `https://api.donate3.xyz/api/v1/donate/queryByParam?` +
             new URLSearchParams({
               toAddress: toAddress || '',
               orderByType: '1',
@@ -82,86 +82,86 @@ const Donate3Provider: React.FC<{
               coinType: '0',
               chainType: chain?.id.toString() || '0',
             }),
-          {
-            method: 'GET',
-            mode: 'cors', // no-cors, *cors, same-origin
-            headers: {
-              'Content-Type': 'application/json',
+            {
+              method: 'GET',
+              mode: 'cors', // no-cors, *cors, same-origin
+              headers: {
+                'Content-Type': 'application/json',
+              },
             },
-          },
-        );
-        console.log(res);
-        const json = await res.json();
-        console.log(json);
+          );
+          console.log(res);
+          const json = await res.json();
+          console.log(json);
 
-        const { result } = json;
-        console.log(result);
-        setDonorList(result);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoadingDonorList(false);
+          const { result } = json;
+          console.log(result);
+          setDonorList(result);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoadingDonorList(false);
+        }
+      })();
+    }, [chain, toAddressReal]);
+    console.log(donorList);
+    if (
+      accountType === 1 &&
+      safeAccounts &&
+      safeAccounts.length &&
+      safeAccounts.some(
+        (item: Account) =>
+          item.networkId && item.address && item.networkId === chain?.id,
+      )
+    ) {
+      toAddressReal = (
+        safeAccounts.find(
+          (item: Account) => item.networkId === chain?.id,
+        ) as Account
+      ).address;
+    }
+
+    const total = donorList?.records?.length;
+
+    React.useEffect(() => {
+      if (isConnected) {
+        setShowSemiModal(false);
+      } else {
+        setShowSemiModal(true);
       }
-    })();
-  }, [chain, toAddressReal]);
-  console.log(donorList);
-  if (
-    accountType === 1 &&
-    safeAccounts &&
-    safeAccounts.length &&
-    safeAccounts.some(
-      (item: Account) =>
-        item.networkId && item.address && item.networkId === chain?.id,
-    )
-  ) {
-    toAddressReal = (
-      safeAccounts.find(
-        (item: Account) => item.networkId === chain?.id,
-      ) as Account
-    ).address;
-  }
+      if (demo) {
+        setShowSemiModal(false);
+      }
+    }, [isConnected]);
 
-  const total = donorList?.records?.length;
-
-  React.useEffect(() => {
-    if (isConnected) {
-      setShowSemiModal(false);
-    } else {
-      setShowSemiModal(true);
-    }
-    if (demo) {
-      setShowSemiModal(false);
-    }
-  }, [isConnected]);
-
-  return (
-    <Donate3Context.Provider
-      value={{
-        total,
-        donorList,
-        toAddress: toAddressReal,
-        fromAddress,
-        title,
-        type,
-        color,
-        showDonorList,
-        setShowDonorList,
-        showSemiModal,
-        setShowSemiModal,
-        isConnected,
-        showLoading,
-        setShowLoading,
-        loadingDonorList,
-        setLoadingDonorList,
-        demo,
-        chain,
-        chains,
-        avatar,
-      }}
-    >
-      {children}
-    </Donate3Context.Provider>
-  );
-};
+    return (
+      <Donate3Context.Provider
+        value={{
+          total,
+          donorList,
+          toAddress: toAddressReal,
+          fromAddress,
+          title,
+          type,
+          color,
+          showDonorList,
+          setShowDonorList,
+          showSemiModal,
+          setShowSemiModal,
+          isConnected,
+          showLoading,
+          setShowLoading,
+          loadingDonorList,
+          setLoadingDonorList,
+          demo,
+          chain,
+          chains,
+          avatar,
+        }}
+      >
+        {children}
+      </Donate3Context.Provider>
+    );
+  };
 
 export default Donate3Provider;

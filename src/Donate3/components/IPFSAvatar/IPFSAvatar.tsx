@@ -23,7 +23,7 @@ const IPFSAvatar = ({ className, ipfsSrc, address }: IIPFSAvatarProps) => {
     address?.length === 42 ? getNounsBase64(address || ZERO_ADDRESS) : null;
 
   const memoImgNodes = useMemo(() => {
-    const DEFAULT_AVATAR = 'https://i.328888.xyz/2023/03/12/vk3wZ.png';
+    const DEFAULT_AVATAR = 'https://nftstorage.link/ipfs/bafkreidu3tvlrtolnaxdfvofgduisb45mepd3n6ndebdfjoezc3ue6r7vy';
     const ALT = base64Hash ? 'avatarBase64Hash' : 'avatarDefault';
     const SRC = base64Hash
       ? `data:image/svg+xml;base64,${base64Hash}`
