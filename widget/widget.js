@@ -53,9 +53,8 @@ const getDonate3Params = (root, isIpfs) => {
   }
 };
 
-donate3Roots.forEach((root) => {
-  const config = getDonate3Params(root, ipfsFlag);
-  console.log(config, 'config');
+donate3Roots.forEach(async (root) => {
+  const config = await getDonate3Params(root, ipfsFlag);
   const reactRoot = ReactDOM.createRoot(root);
 
   reactRoot.render(<Donate3 config={config} />);
