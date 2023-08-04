@@ -46,13 +46,16 @@ const getDonate3Params = (root, isIpfs) => {
       toAddress: root.dataset.donate3ToAddress,
       demo: root.dataset.donate3Demo === 'true' ? true : false,
       avatar: root.dataset.donate3Avatar,
-      safeAccounts: root.dataset.donate3SafeAccounts,
+      safeAccounts:
+        root.dataset.donate3Safeaccounts &&
+        JSON.parse(root.dataset.donate3Safeaccounts),
     };
   }
 };
 
 donate3Roots.forEach((root) => {
   const config = getDonate3Params(root, ipfsFlag);
+  console.log(config, 'config');
   const reactRoot = ReactDOM.createRoot(root);
 
   reactRoot.render(<Donate3 config={config} />);
