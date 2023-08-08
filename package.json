@@ -1,6 +1,6 @@
 {
   "name": "donate3-sdk",
-  "version": "1.0.10",
+  "version": "1.0.18",
   "description": "Donate3 from LXDAO",
   "license": "MIT",
   "module": "dist/index.js",
@@ -18,8 +18,6 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
-    "prepublishOnly": "father doctor && npm run build",
-    "prepublish": "father build & pnpm widget",
     "start": "npm run dev",
     "widget": "webpack --config widget/webpack.config.js"
   },
