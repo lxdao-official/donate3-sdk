@@ -30,9 +30,16 @@ function FormSection() {
   const createDonate = useCreateDonate();
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
-    5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
-    80001: '0xac511F51C3a89639072144aB539192eca267F823',
-    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
+    // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
+    // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
+    // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
+    1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
+    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
+    69: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
+    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
+    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
+    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
+    6: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
   };
 
   const {
