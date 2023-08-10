@@ -1,7 +1,11 @@
-export const Linea = {
+import { Chain } from '@rainbow-me/rainbowkit';
+
+export const Linea: Chain = {
   id: 59_144,
   name: 'Linea Mainnet',
   network: 'linea-mainnet',
+  iconUrl: 'https://lineascan.build/images/svg/brands/main.svg',
+  iconBackground: '#000',
   nativeCurrency: { name: 'Linea Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
     infura: {
