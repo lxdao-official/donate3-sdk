@@ -20,11 +20,20 @@ const getInfoFromIpfs = async (root) => {
       timeout: 4000,
     });
 
-    const { type = 0, color, name, address, avatar, safeAccounts } = info;
+    const {
+      type = 0,
+      color,
+      name,
+      address,
+      avatar,
+      accountType,
+      safeAccounts,
+    } = info;
     return {
       type,
       color,
       title: name,
+      accountType,
       toAddress: address,
       safeAccounts,
       avatar,
@@ -46,6 +55,7 @@ const getDonate3Params = (root, isIpfs) => {
       toAddress: root.dataset.donate3ToAddress,
       demo: root.dataset.donate3Demo === 'true' ? true : false,
       avatar: root.dataset.donate3Avatar,
+      accountType: root.dataset.accountType,
       safeAccounts:
         root.dataset.donate3Safeaccounts &&
         JSON.parse(root.dataset.donate3Safeaccounts),
