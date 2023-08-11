@@ -6,9 +6,17 @@ import {
 } from '@rainbow-me/rainbowkit';
 import React from 'react';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { goerli, polygon, polygonMumbai } from 'wagmi/chains';
+import {
+  arbitrum,
+  goerli,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
+import { Linea } from './chains/linea';
 import Donate3Provider from './context/Donate3Context';
 import globalcss from './globalcss';
 
@@ -23,7 +31,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, provider, webSocketProvider } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [polygon, goerli, polygonMumbai],
+  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai],
   // [polygonMumbai],
   [publicProvider()],
 );

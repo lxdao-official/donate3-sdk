@@ -25,10 +25,11 @@ function Header({ normalmode }: HeaderProps) {
         <div>Donate to {title}</div>
         <div>
           To:
-          {toAddress &&
-            `${toAddress.slice(0, 6)}...${toAddress.slice(
-              toAddress.length - 4,
-            )}`}
+          {toAddress
+            ? `${toAddress.slice(0, 6)}...${toAddress.slice(
+                toAddress.length - 4,
+              )}`
+            : 'Unsupported Network'}
         </div>
       </div>
       <div
@@ -39,7 +40,11 @@ function Header({ normalmode }: HeaderProps) {
       >
         <fieldset className={styles.fieldset}>
           <legend>
-            <IPFSAvatar ipfsSrc={avatar} address={toAddress} className={styles.avatar} />
+            <IPFSAvatar
+              ipfsSrc={avatar}
+              address={toAddress}
+              className={styles.avatar}
+            />
           </legend>
         </fieldset>
         {normalmode ? null : (

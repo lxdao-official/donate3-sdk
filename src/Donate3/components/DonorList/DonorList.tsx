@@ -1,25 +1,24 @@
 import classNames from 'classnames/bind';
 import React, { useContext } from 'react';
 import { useNetwork } from 'wagmi';
-import { DonorRecord, DonorResult } from '../../@types/donate3';
+import { DonorItem } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Close } from '../../images/close.svg';
 import { ReactComponent as SortBg } from '../../images/sortbg.svg';
+import { EXPLORER_URL_MAP } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './DonorList.module.css';
-import { EXPLORER_URL_MAP } from '../../utils/const';
-
 
 function DonorList() {
   const { chain } = useNetwork();
-
 
   let cx = classNames.bind(styles);
 
   const { donorList, setShowDonorList, showDonorList, loadingDonorList } =
     useContext(Donate3Context);
-  const makeDonateDonorAvatar = (datas: DonorResult | undefined) => {
+
+  const makeDonateDonorAvatar = (datas: DonorItem[] | undefined) => {
     if (loadingDonorList) {
       return <div>Loading...</div>;
     }
@@ -28,26 +27,28 @@ function DonorList() {
     }
 
     let dom: JSX.Element[] = [];
-    const records = datas?.records;
+    const records = datas;
     if (records) {
-      dom = records?.map((item: DonorRecord, index: number) => {
+      dom = records?.map((item: DonorItem, index: number) => {
         return (
           <div key={index} style={{ cursor: 'pointer' }}>
             <Avatar
               onClick={() => {
-                window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
+                window.open(
+                  `${EXPLORER_URL_MAP[chain?.id || 0]}${item.address}`,
+                  '_blank',
+                );
               }}
-              address={item.fromAddress}
+              address={item.address}
               className={styles.itemavatar}
             ></Avatar>
           </div>
-
         );
       });
     }
     dom.push(
       <TotalCircle
-        key={'lastitem'}
+        key={'lastItem'}
         size={40}
         className={styles.lastavatar}
       ></TotalCircle>,
@@ -55,21 +56,38 @@ function DonorList() {
     return dom;
   };
 
-  const makeTopDom = (datas: DonorResult | undefined) => {
-    if (!datas) return;
+  const makeTopDom = (datas: DonorItem[] | undefined) => {
+    if (!datas?.length) return;
     let dom: JSX.Element[] = [];
-    let records = datas?.records?.slice(0, 3);
+    let records = datas?.slice(0, 3);
+    const formatAmount = (v: string, i: number) => {
+      let n = Number(v);
+      n /= 10 ** 18;
+      if (i) {
+        return n.toFixed(2);
+      }
+      return n;
+    };
     // records.push(records[0]);
-    if (records) {
-      dom = records?.map((item: DonorRecord, index: number) => {
+    if (datas.length) {
+      dom = records?.map((item: DonorItem, index: number) => {
         return (
           <div key={index} className={styles.topitem}>
             <div className={styles.topimg}>
-              <Avatar onClick={() => {
-                window.open(`${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`, '_blank')
-              }} address={item.fromAddress} width={'60px'}></Avatar>
+              <Avatar
+                onClick={() => {
+                  window.open(
+                    `${EXPLORER_URL_MAP[chain?.id || 0]}${item.address}`,
+                    '_blank',
+                  );
+                }}
+                address={item.address}
+                width={'60px'}
+              ></Avatar>
             </div>
-            <div className={styles.amount}>{item.usdValue}</div>
+            <div className={styles.amount}>
+              {formatAmount(item.totaldonation, index)}
+            </div>
             <div className={styles.unit}>{chain?.nativeCurrency?.symbol}</div>
             {/* <div className={styles.count}>捐赠{records.length}次</div> */}
           </div>

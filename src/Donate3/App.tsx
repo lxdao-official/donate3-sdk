@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import styles from './App.module.css';
 import DonateButton from './components/DonateButton/DonateButton';
 import DonorList from './components/DonorList/DonorList';
@@ -18,8 +19,15 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [dialogStyle, setDialogStyle] = useState({});
 
-  const { type, showDonorList, setShowDonorList, showSemiModal, color, demo } =
-    React.useContext(Donate3Context);
+  const {
+    type,
+    toAddress,
+    showDonorList,
+    setShowDonorList,
+    showSemiModal,
+    color,
+    demo,
+  } = React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
   const handleSwitchDialog = (event: any) => {
@@ -48,6 +56,10 @@ function App() {
   const handleShowForm = (e: any) => {
     handleSwitchDialog(e);
     setShowForm(!showForm);
+
+    if (!showForm && !toAddress) {
+      toast('unsupport chain');
+    }
   };
 
   const renderDonate3Button = (type: DONATE_TYPE) => {
