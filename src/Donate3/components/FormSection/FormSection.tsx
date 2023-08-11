@@ -5,7 +5,6 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import { useCreateDonate } from '../../hooks/useDonate';
 import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Polygon } from '../../images/polygon.svg';
@@ -27,7 +26,6 @@ function FormSection() {
   const [message, setMessage] = useState(' ');
   const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
-  const createDonate = useCreateDonate();
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
     // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
@@ -87,30 +85,6 @@ function FormSection() {
     },
   ];
 
-  // console.log('合约参数:', donateTokenArgs);
-  function isInteger(str: string) {
-    return /^\d+$/.test(str);
-  }
-
-  const asyncFunc = async (transactionData: any) => {
-    const createDonateArgs = {
-      chainType: chain?.id || 0,
-      coinType: 0, //TODO, 这里我应该传什么？有哪些值？
-      fromAddress: fromAddress,
-      userId: fromAddress,
-      hash: transactionData?.hash, // 这里我取 transaction hash
-      // id: transactionData?.hash, // 这里的 id 我也暂时取了 hash，因为 hash 是唯一的
-      message: message,
-      // status: 0, // TODO 这里的状态有哪些值？
-      toAddress: toAddress,
-      usdValue: isInteger(amount) ? parseFloat(amount).toFixed(1) : amount, // 这里是否可以支持 int 和 string 两种类型？
-      value: isInteger(amount) ? parseFloat(amount).toFixed(1) : amount, // 这里是否可以支持 int 和 string 两种类型？
-    };
-    const result = await createDonate(createDonateArgs);
-    setDonateCreateSuccess(true);
-    console.log(result);
-  };
-
   const {
     data: transactionData,
     // error:writeError,
@@ -136,7 +110,6 @@ function FormSection() {
       console.log('useContractWrite success', data, transactionData);
       setShowLoading(false);
       toast('Syncing data, take 1-5 minutes to show');
-      asyncFunc(data);
     },
   });
 

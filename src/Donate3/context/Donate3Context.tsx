@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAccount, useNetwork } from 'wagmi';
-import { Account, Donate3ContextType, DonorResult } from '../@types/donate3';
+import { Account, Donate3ContextType, DonorItem } from '../@types/donate3';
 import { getFasterIpfsLink } from '../utils/ipfsTools';
 
 // import DonorResultMockData from '../Mock/DonorResult.json';
@@ -59,7 +59,7 @@ const Donate3Provider: React.FC<{
   const [showSemiModal, setShowSemiModal] = React.useState(false);
   const [showLoading, setShowLoading] = React.useState(false);
   const [loadingDonorList, setLoadingDonorList] = React.useState(true);
-  const [donorList, setDonorList] = React.useState<DonorResult>();
+  const [donorList, setDonorList] = React.useState<DonorItem[]>();
   const { chain, chains } = useNetwork();
   const [nftData, setNftData] = useState<{
     accountType?: number;
@@ -119,18 +119,19 @@ const Donate3Provider: React.FC<{
   }, [cid]);
 
   React.useEffect(() => {
+    if (!toAddressReal) {
+      return;
+    }
+
     (async () => {
       try {
         setLoadingDonorList(true);
         const res = await fetch(
-          `https://api.donate3.xyz/api/v1/donate/queryByParam?` +
+          // `https://donate3.0xhardman.xyz/donates?` +
+          `https://donate3.0xhardman.xyz/donates/ranking?` +
             new URLSearchParams({
-              toAddress: toAddress || '',
-              orderByType: '1',
-              pageNo: '0',
-              pageSize: '20',
-              coinType: '0',
-              chainType: chain?.id.toString() || '0',
+              address: toAddressReal || '',
+              chainId: chain?.id.toString() || '0',
             }),
           {
             method: 'GET',
@@ -144,7 +145,7 @@ const Donate3Provider: React.FC<{
         const json = await res.json();
         console.log(json);
 
-        const { result } = json;
+        const { data: result } = json;
         console.log(result);
         setDonorList(result);
       } catch (error) {
@@ -170,8 +171,8 @@ const Donate3Provider: React.FC<{
       ) as Account
     ).address;
   }
-
-  const total = donorList?.records?.length;
+  // 暂时未能从接口获取到数据
+  const total = 0;
   React.useEffect(() => {
     if (isConnected) {
       setShowSemiModal(false);

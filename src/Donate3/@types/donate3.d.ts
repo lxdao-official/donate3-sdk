@@ -5,8 +5,15 @@ export interface Account {
   network?: string,
   address: `0x${string}` | undefined
 }
+
+export interface DonorItem {
+  address: `0x${string}` | undefined;
+  top: string;
+  totaldonation: string;
+}
+
 export type Donate3ContextType = {
-  donorList?: DonorResult;
+  donorList?: DonorItem[];
   toAddress: `0x${string}` | undefined;
   fromAddress: `0x${string}` | undefined;
   type: floatType | embedType;
