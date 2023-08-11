@@ -120,6 +120,7 @@ const Donate3Provider: React.FC<{
 
   React.useEffect(() => {
     if (!toAddressReal) {
+      setDonorList([]);
       return;
     }
 
@@ -147,8 +148,9 @@ const Donate3Provider: React.FC<{
 
         const { data: result } = json;
         console.log(result);
-        setDonorList(result);
+        setDonorList(result?.length ? result : []);
       } catch (error) {
+        setDonorList([]);
         console.log(error);
       } finally {
         setLoadingDonorList(false);
