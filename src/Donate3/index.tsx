@@ -7,6 +7,7 @@ import {
 import React from 'react';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import {
+  sepolia,
   arbitrum,
   goerli,
   mainnet,
@@ -31,7 +32,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, provider, webSocketProvider } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai],
+  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai, sepolia],
   // [polygonMumbai],
   [publicProvider()],
 );
