@@ -41,7 +41,8 @@ function FormSection() {
     59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // mubai
+    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
+    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
   };
 
   const {
@@ -191,6 +192,8 @@ function FormSection() {
               {chain?.id as number === 5 && <Eth />}
               {chain?.id as number === 80001 && <Polygon />}
               {chain?.id as number === 11155111 && <Eth />}
+              {chain?.id as number === 420 && <Optimism />}
+
               <span>{primaryCoin}</span>
               <span>{chain?.name}</span>
             </div>

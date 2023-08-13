@@ -14,6 +14,7 @@ import {
   optimism,
   polygon,
   polygonMumbai,
+  optimismGoerli
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
@@ -32,7 +33,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, provider, webSocketProvider } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai, sepolia],
+  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai, sepolia, optimismGoerli],
   // [polygonMumbai],
   [publicProvider()],
 );
