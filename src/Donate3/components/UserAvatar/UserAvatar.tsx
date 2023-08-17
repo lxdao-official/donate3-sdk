@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import { useNetwork } from 'wagmi';
-import { DonorRecord } from '../../@types/donate3';
+import { DonorItem } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
 import { DONATE_TYPE, EXPLORER_URL_MAP } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
@@ -17,19 +17,19 @@ function UserAvatar(props: { normalmode?: boolean }) {
   const makeDonateUserAvatar = () => {
     if (!donorList) return;
     let dom: JSX.Element[] = [];
-    const records = donorList?.records?.slice(0, 5);
+    const records = donorList?.slice(0, 5);
     if (records) {
-      dom = records?.map((item: DonorRecord, index: number) => {
+      dom = records?.map((item: DonorItem, index: number) => {
         return (
           <div key={index} style={{ cursor: 'pointer' }}>
             <Avatar
               onClick={() => {
                 window.open(
-                  `${EXPLORER_URL_MAP[chain?.id || 0]}${item.fromAddress}`,
+                  `${EXPLORER_URL_MAP[chain?.id || 0]}${item.address}`,
                   '_blank',
                 );
               }}
-              address={item.fromAddress}
+              address={item.address}
               width={'40px'}
             ></Avatar>
           </div>

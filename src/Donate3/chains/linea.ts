@@ -2,7 +2,7 @@ import { Chain } from '@rainbow-me/rainbowkit';
 
 export const Linea: Chain = {
   id: 59_144,
-  name: 'Linea Mainnet',
+  name: 'Linea',
   network: 'linea-mainnet',
   iconUrl: 'https://lineascan.build/images/svg/brands/main.svg',
   iconBackground: '#000',
