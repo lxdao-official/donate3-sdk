@@ -4,7 +4,7 @@
 
 ## Features
 
-- [![npm (tag)](https://img.shields.io/npm/v/1.0.23Donate3)](https://www.npmjs.com/package/@lxdao/Donate3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/Donate3) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps. 
+- [![npm (tag)](https://img.shields.io/npm/v/donate3-sdk)](https://www.npmjs.com/package/@lxdao/Donate3) ![npm (downloads)](https://img.shields.io/npm/dm/donate3-sdk) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps. 
 - [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3) <b>\<Uploader3 \/\></b> is a React-based Web3 image upload component that supports multiple image uploads, image cropping, and uploading images to Web3 Storage providers (like IPFS). There are two ways for uploading, by using a backend API or the Uploader3 Connector.
 - [![npm (tag)](https://img.shields.io/npm/v/@lxdao/uploader3)](https://www.npmjs.com/package/@lxdao/uploader3-connector) ![npm (downloads)](https://img.shields.io/npm/dm/@lxdao/uploader3-connector) <b>Uploader3 Connector</b> is a connector for Uploader3. Currently, it only supports NFT.storage IPFS service provider.
 
