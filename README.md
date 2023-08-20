@@ -70,19 +70,6 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 <script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.25/dist/webpack/bundle.js"></script>
 ```
 
-## Sponsors
-
-<a href="https://fil.org/" target="_blank"><img width="200" src="https://bafkreidhplaw3hpo6gmhrkqwzvw2ejnvxuuai2r5vsjhzjxmosanagrgoy.ipfs.nftstorage.link/" /></a>
-
-If you are willing to support this project, please contact with the project PM [DAODAO](https://twitter.com/daodao).
-
-## Contributors
-
-- [@ufoqhmdt](https://github.com/ufoqhmdt)
-- [@brucexu-eth](https://github.com/brucexu-eth)
-- [@daodao](https://github.com/daodao)
-- [@hardman](https://github.com/hardman)
-
 ## License
 
 [MIT](/LICENSE) License
