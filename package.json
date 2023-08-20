@@ -19,6 +19,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install && dumi setup",
     "start": "npm run dev",
+    "sync:version": "node ./scripts/syncVersion2Readme.js",
     "widget": "webpack --config widget/webpack.config.js"
   },
   "commitlint": {
