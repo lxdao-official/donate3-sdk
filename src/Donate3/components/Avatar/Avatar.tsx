@@ -16,6 +16,7 @@ export interface Props {
 function Avatar(props: Props) {
   let cx = classNames.bind(styles);
   const myStyle = {
+    maxWidth: props.width,
     width: props.width,
     height: props.width,
     borderRadius: props.width,
