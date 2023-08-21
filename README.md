@@ -67,7 +67,7 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
   data-donate3-safe-accounts='[{"networkId":1,"address":"0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"}]'
   data-donate3-to-address="0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"
 ></div>
-<script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.27/dist/webpack/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.28/dist/webpack/bundle.js"></script>
 ```
 
 ## License
