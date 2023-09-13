@@ -1,21 +1,21 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber, ethers } from 'ethers';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { BigNumber,ethers } from 'ethers';
+import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
+import toast,{ Toaster } from 'react-hot-toast';
 import { useContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
 import { ReactComponent as Arbitrum } from '../../images/arb.svg';
+import { ReactComponent as Eth } from '../../images/eth.svg';
 import { ReactComponent as Linea } from '../../images/linea.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
+import { ReactComponent as Optimism } from '../../images/op.svg';
 import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
-  DONATE_VALUE_MAP,
-  PrimaryCoinType,
-  PRIMARY_COIN,
+DONATE_VALUE_MAP,
+PrimaryCoinType,
+PRIMARY_COIN
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
@@ -125,10 +125,16 @@ function FormSection() {
     }
   }, [isConnected]);
 
+  const onSuccessModalClose = () => {
+    setAmount('0');
+    setMessage('');
+  };
+
   useEffect(() => {
     if (donateCreateSuccess) {
       setTimeout(() => {
         setDonateCreateSuccess(false);
+        onSuccessModalClose();
       }, timeout * 1000);
     }
   }, [donateCreateSuccess]);
@@ -185,15 +191,15 @@ function FormSection() {
           <div className={styles.methodinput} onClick={openChainModal}>
             <div className={styles.cointxt}>
               {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {chain?.id as number === 1 && <Eth />}
-              {chain?.id as number === 10 && <Optimism />}
-              {chain?.id as number === 59144 && <Linea />}
-              {chain?.id as number === 137 && <Polygon />}
-              {chain?.id as number === 42161 && <Arbitrum />}
-              {chain?.id as number === 5 && <Eth />}
-              {chain?.id as number === 80001 && <Polygon />}
-              {chain?.id as number === 11155111 && <Eth />}
-              {chain?.id as number === 420 && <Optimism />}
+              {(chain?.id as number) === 1 && <Eth />}
+              {(chain?.id as number) === 10 && <Optimism />}
+              {(chain?.id as number) === 59144 && <Linea />}
+              {(chain?.id as number) === 137 && <Polygon />}
+              {(chain?.id as number) === 42161 && <Arbitrum />}
+              {(chain?.id as number) === 5 && <Eth />}
+              {(chain?.id as number) === 80001 && <Polygon />}
+              {(chain?.id as number) === 11155111 && <Eth />}
+              {(chain?.id as number) === 420 && <Optimism />}
 
               <span>{primaryCoin}</span>
               <span>{chain?.name}</span>
