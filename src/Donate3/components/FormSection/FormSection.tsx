@@ -115,6 +115,7 @@ function FormSection() {
       console.log('useContractWrite success', data, transactionData);
       setShowLoading(false);
       toast('Syncing data, take 1-5 minutes to show');
+      setDonateCreateSuccess(true);
     },
   });
 
