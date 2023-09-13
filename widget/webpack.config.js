@@ -10,16 +10,15 @@ module.exports = {
   entry: './widget/widget.js',
   output: {
     filename: './webpack/bundle.js',
-    // filename: './webpack/[name].js',
   },
   cache: {
     type: 'filesystem',
     allowCollectingMemory: true,
   },
-  externals: {
-    react: 'window.React',
-    'react-dom': 'window.ReactDOM',
-  },
+  // externals: {
+  //   react: 'window.React',
+  //   'react-dom': 'window.ReactDOM',
+  // },
   devtool: false,
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
