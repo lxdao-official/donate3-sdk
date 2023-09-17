@@ -10,6 +10,7 @@ A donate in cryptocurrency component（Give me a cup of coffee）
 
 - [Getting Started](https://donate3.xyz/)
 - [`<Donate3 />`](https://donate3.xyz/components/Donate3)
+- Markdown Link
 
 ## Development
 
@@ -69,6 +70,14 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 ></div>
 <script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.30/dist/webpack/bundle.js"></script>
 ```
+
+The third way is that you can add the corresponding link to the markdown.
+
+```
+<a href="Your Donate3 Link" target="_blank"><img src="https://www.donate3.xyz/Donate3ToMe.svg" alt="Donate3 To Me"></a>
+```
+
+<a href="https://www.donate3.xyz/demo" target="_blank"><img src="https://www.donate3.xyz/Donate3ToMe.svg" alt="Donate3 To Me"></a>
 
 ## License
 
