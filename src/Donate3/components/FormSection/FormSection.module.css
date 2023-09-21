@@ -1,20 +1,20 @@
 @keyframes blowUpModal {
   0% {
-    transform:scale(0);
+    transform: scale(0);
   }
   100% {
-    transform:scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes blowUpModalTwo {
   0% {
-    transform:scale(1);
-    opacity:1;
+    transform: scale(1);
+    opacity: 1;
   }
   100% {
-    transform:scale(0);
-    opacity:0;
+    transform: scale(0);
+    opacity: 0;
   }
 }
 
@@ -47,10 +47,10 @@
 }
 
 .methodinput div {
-  background: rgb(26 56 96 / 8%);
-  height: 40px;
-  line-height: 40px;
-  flex: 1;
+  /* background: rgb(26 56 96 / 8%); */
+  /* height: 40px; */
+  /* line-height: 40px; */
+  /* flex: 1; */
 }
 
 .methodinput input {
@@ -60,37 +60,39 @@
   background: rgb(26 56 96 / 8%);
 }
 
-.cointxt{
-  font-size: 16px;
-  line-height: 19px;
+.cointxt {
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
-  flex:5 !important;
+  justify-content: center;
 }
 
-.cointxt svg{
-  margin: 0 15px;
+.cointxt svg {
+  /* margin: 0 15px; */
 }
 
-.cointxt span:nth-child(2){
+.cointxt span:nth-child(2) {
   font-weight: 500;
-  color: #3E4343;
+  color: #3e4343;
 }
 
-.cointxt span:nth-child(3){
+.cointxt span:nth-child(3) {
   font-weight: 400;
-  color: #C1CBCA;
+  color: #c1cbca;
   margin: 0 15px;
   font-size: small;
 }
 
-.switch{
-  flex:1 !important;
+.switch {
+  /* flex: 1 !important; */
   cursor: pointer;
-  display: flex;
-  align-content: center;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  /* display: flex; */
+  /* align-content: center; */
+  /* flex-wrap: wrap; */
+  /* justify-content: space-evenly; */
+  width: 18px;
+  height: 18px;
 }
 
 .footermark {
@@ -110,7 +112,6 @@
   justify-content: space-between;
 }
 
-
 .shortcutoption div {
   width: 30%;
   height: 40px;
@@ -123,12 +124,12 @@
 }
 
 .shortcutoption div:hover {
-  border: 2px solid  #396AFF;
+  border: 2px solid #396aff;
   cursor: pointer;
 }
 
-.shortcutoption .active{
-  border: 2px solid  #396AFF;
+.shortcutoption .active {
+  border: 2px solid #396aff;
   cursor: pointer;
 }
 
@@ -160,8 +161,9 @@
   width: 306px;
 }
 
-.pricebtn:focus-visible,.msg textarea:focus-visible{
-  outline: #396AFF auto 1px;
+.pricebtn:focus-visible,
+.msg textarea:focus-visible {
+  outline: #396aff auto 1px;
 }
 
 .msg div {
@@ -189,16 +191,16 @@
   box-sizing: border-box;
 }
 
-.msg textarea::placeholder{
+.msg textarea::placeholder {
   font-weight: 400;
   font-size: 16px;
-  color: #C1CBCA;
+  color: #c1cbca;
 }
 
 .donate3btn {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;;
+  justify-content: space-evenly;
   align-items: center;
   height: 41px;
   background: #396aff;
@@ -207,13 +209,13 @@
   border: 0px;
   padding: 0 47px;
 }
-.donate3btn svg{
+.donate3btn svg {
   animation: loading 3s linear infinite;
 }
-.donate3btn:disabled{
-  background-color: #D7D7E0 !important;
+.donate3btn:disabled {
+  background-color: #d7d7e0 !important;
 }
-.donate3btn:hover{
+.donate3btn:hover {
   background: #1f93ff;
 }
 
@@ -235,10 +237,24 @@
 
 @keyframes loading {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
+.chainInput {
+  width: 49%;
+  display: flex;
+  background: rgb(26 56 96 / 8%);
+  align-items: center;
+  height: 40px;
+  justify-content: space-evenly;
+}
+
+.chainName {
+  display: inline-black;
+  font-size: 13px;
+  font-weight: 500;
+}

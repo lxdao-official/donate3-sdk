@@ -18,7 +18,11 @@ PrimaryCoinType,
 PRIMARY_COIN
 } from '../../utils/const';
 import Success from '../Success/Success';
+
+
+
 import styles from './FormSection.module.css';
+import CoinPart from './components/CoinPart';
 interface contractMap {
   [key: number]: `0x${string}`;
 }
@@ -188,25 +192,29 @@ function FormSection() {
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
-          <div className={styles.methodinput} onClick={openChainModal}>
-            <div className={styles.cointxt}>
-              {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {(chain?.id as number) === 1 && <Eth />}
-              {(chain?.id as number) === 10 && <Optimism />}
-              {(chain?.id as number) === 59144 && <Linea />}
-              {(chain?.id as number) === 137 && <Polygon />}
-              {(chain?.id as number) === 42161 && <Arbitrum />}
-              {(chain?.id as number) === 5 && <Eth />}
-              {(chain?.id as number) === 80001 && <Polygon />}
-              {(chain?.id as number) === 11155111 && <Eth />}
-              {(chain?.id as number) === 420 && <Optimism />}
+          <div className={styles.methodinput}>
+            <div className={styles.chainInput} onClick={openChainModal}>
+              <div className={styles.cointxt}>
+                {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
+                {(chain?.id as number) === 1 && <Eth />}
+                {(chain?.id as number) === 10 && <Optimism />}
+                {(chain?.id as number) === 59144 && <Linea />}
+                {(chain?.id as number) === 137 && <Polygon />}
+                {(chain?.id as number) === 42161 && <Arbitrum />}
+                {(chain?.id as number) === 5 && <Eth />}
+                {(chain?.id as number) === 80001 && <Polygon />}
+                {(chain?.id as number) === 11155111 && <Eth />}
+                {(chain?.id as number) === 420 && <Optimism />}
+                {/* <span>{primaryCoin}</span> */}
+              </div>
+              <div className={styles.chainName}>{chain?.name}</div>
+              <div className={styles.switch}>
+                <Switch />
+              </div>
+            </div>
 
-              <span>{primaryCoin}</span>
-              <span>{chain?.name}</span>
-            </div>
-            <div className={styles.switch}>
-              <Switch />
-            </div>
+            {/* multi-coin*/}
+            <CoinPart />
           </div>
         </div>
         <div

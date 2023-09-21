@@ -1,0 +1,13 @@
+.coinPartWrapper {
+  background: rgb(26 56 96 / 8%);
+  width: 49%;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: space-evenly;
+}
+
+.coinPartWrapper .coinName {
+  font-size: 13px;
+  font-weight: 500;
+}
