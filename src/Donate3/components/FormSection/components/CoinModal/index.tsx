@@ -46,12 +46,12 @@ const CoinModal = ({ onPress, visible }: ICoinModalProps) => {
   ];
 
   return visible ? (
-    <div className={styles.coinModalWrapper} onClick={onPress}>
+    <div className={styles.coinModalWrapper}>
       <div className={styles.mask}></div>
       <div className={styles.main}>
         <div className={styles.top}>
           <div>Switch Networks</div>
-          <div className={styles.closeBtn}>
+          <div className={styles.closeBtn} onClick={onPress}>
             <CloseIcon />
           </div>
         </div>
