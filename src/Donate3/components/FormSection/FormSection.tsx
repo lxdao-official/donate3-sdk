@@ -13,16 +13,15 @@ import { ReactComponent as Optimism } from '../../images/op.svg';
 import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
-DONATE_VALUE_MAP,
-PrimaryCoinType,
-PRIMARY_COIN
+  DONATE_VALUE_MAP,
+  PrimaryCoinType,
+  PRIMARY_COIN,
 } from '../../utils/const';
 import Success from '../Success/Success';
 
-
-
-import styles from './FormSection.module.css';
+import CoinModal from './components/CoinModal';
 import CoinPart from './components/CoinPart';
+import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
 }
@@ -59,6 +58,7 @@ function FormSection() {
     chain,
   } = React.useContext(Donate3Context);
   const timeout = 5; // s
+  const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (!toAddress) {
@@ -184,6 +184,14 @@ function FormSection() {
     0.001, 0.01, 0.5,
   ];
 
+  const handleClickCoinPart = () => {
+    setCoinModalVisible(true);
+  };
+
+  const handleClickCoinModal = () => {
+    setCoinModalVisible(false);
+  };
+
   return (
     <>
       <div>
@@ -214,7 +222,7 @@ function FormSection() {
             </div>
 
             {/* multi-coin*/}
-            <CoinPart />
+            <CoinPart onPress={handleClickCoinPart} />
           </div>
         </div>
         <div
@@ -272,6 +280,7 @@ function FormSection() {
           />
         ) : null}
       </section>
+      <CoinModal visible={coinModalVisible} onPress={handleClickCoinModal} />
     </>
   );
 }

@@ -4,9 +4,13 @@ import { ReactComponent as Switch } from '../../../../images/switch.svg';
 
 import styles from './index.module.css';
 
-const CoinPart = () => {
+interface ICoinPartProps {
+  onPress: () => void;
+}
+
+const CoinPart = ({ onPress }: ICoinPartProps) => {
   return (
-    <div className={styles.coinPartWrapper}>
+    <div className={styles.coinPartWrapper} onClick={onPress}>
       <div className={styles.coinIcon}>
         <Eth />
       </div>

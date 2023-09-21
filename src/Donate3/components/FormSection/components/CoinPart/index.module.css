@@ -5,6 +5,7 @@
   align-items: center;
   height: 40px;
   justify-content: space-evenly;
+  cursor: pointer;
 }
 
 .coinPartWrapper .coinName {
