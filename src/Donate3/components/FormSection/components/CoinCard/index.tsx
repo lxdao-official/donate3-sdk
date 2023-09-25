@@ -1,22 +1,35 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 import styles from './index.module.css';
 
 interface ICoinCardProps {
-  icon: ReactNode;
+  icon: string;
   name: string;
   selected: boolean;
+  address: string | '';
+  onCoinCardClick: (address: string) => void;
 }
 
-const CoinCard = ({ icon, name, selected }: ICoinCardProps) => {
+const CoinCard = ({
+  icon,
+  name,
+  selected,
+  address,
+  onCoinCardClick,
+}: ICoinCardProps) => {
+  const handleClickCoinCard = () => {
+    onCoinCardClick(address);
+  };
+
   return (
     <div
+      onClick={handleClickCoinCard}
       className={`${styles.coinCardWrapper} ${
         selected ? styles.coinCardSelected : null
       }`}
     >
       <div className={styles.left}>
-        <div className={styles.icon}>{icon}</div>
+        <img src={icon} className={styles.icon}></img>
         <div className={styles.name}>{name}</div>
       </div>
 

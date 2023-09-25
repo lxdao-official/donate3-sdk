@@ -31,7 +31,7 @@ export const useCreateDonate = () => {
     });
     const json = await res.json();
     const { code, result } = json;
-    console.log(':::', code, result);
+    // console.log(':::', code, result);
     return result;
   }, []);
 

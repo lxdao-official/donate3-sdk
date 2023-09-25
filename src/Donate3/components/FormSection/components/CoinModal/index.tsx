@@ -1,68 +1,37 @@
 import React from 'react';
-import { CloseIcon } from './CloseIcon';
-
-import { ReactComponent as EthSvg } from '../../../../images/eth.svg';
+import { IToken } from '../../config';
 import CoinCard from '../CoinCard';
-
+import { CloseIcon } from './CloseIcon';
 import styles from './index.module.css';
 
 interface ICoinModalProps {
-  onPress: () => void;
+  onClosePress: () => void;
   visible: boolean;
+  tokens: IToken[] | [];
+  onCoinCardClick: (address: string) => void;
 }
 
-const CoinModal = ({ onPress, visible }: ICoinModalProps) => {
-  const cardInfo = [
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: false,
-    },
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: false,
-    },
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: false,
-    },
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: false,
-    },
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: true,
-    },
-    {
-      icon: <EthSvg />,
-      name: 'USDC',
-      selected: false,
-    },
-  ];
-
+const CoinModal = ({ onClosePress, visible, tokens, onCoinCardClick }: ICoinModalProps) => {
   return visible ? (
     <div className={styles.coinModalWrapper}>
       <div className={styles.mask}></div>
       <div className={styles.main}>
         <div className={styles.top}>
-          <div>Switch Networks</div>
-          <div className={styles.closeBtn} onClick={onPress}>
+          <div>Switch Tokens</div>
+          <div className={styles.closeBtn} onClick={onClosePress}>
             <CloseIcon />
           </div>
         </div>
-        <div className={styles.content}>
-          {cardInfo.map(({ icon, name, selected }) => {
+        <div className={styles.content}> 
+          {tokens.map(({ logo, name, selected, address }) => {
             return (
               <CoinCard
-                icon={icon}
+                icon={logo}
                 name={name}
-                selected={selected}
+                selected={selected!}
                 key={name}
+                address={address}
+                onCoinCardClick={onCoinCardClick}
               />
             );
           })}

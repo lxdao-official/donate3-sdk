@@ -1,8 +1,15 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber,ethers } from 'ethers';
-import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
-import toast,{ Toaster } from 'react-hot-toast';
+import { BigNumber, ethers } from 'ethers';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { useContractWrite } from 'wagmi';
+import {
+  arbitrum,
+  mainnet,
+  optimism,
+  polygon,
+  polygonMumbai,
+} from 'wagmi/chains';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Arbitrum } from '../../images/arb.svg';
@@ -18,9 +25,10 @@ import {
   PRIMARY_COIN,
 } from '../../utils/const';
 import Success from '../Success/Success';
+import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import CoinPart from './components/CoinPart';
+import { arbitrumTokensInfo, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, testNetTokensInfo } from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -44,7 +52,7 @@ function FormSection() {
     59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
+    11155111: '0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579', // sepolia
     420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
   };
 
@@ -59,6 +67,8 @@ function FormSection() {
   } = React.useContext(Donate3Context);
   const timeout = 5; // s
   const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
+  const [tokenList, setTokenList] = useState<IToken[] | []>([]);
+  const [selectedToken, setSelectedToken] = useState<IToken>();
 
   useEffect(() => {
     if (!toAddress) {
@@ -84,7 +94,7 @@ function FormSection() {
 
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
   let donateTokenArgs = [
-    // pid,
+    selectedToken?.address,
     amountIn,
     toAddress,
     bytesMsg,
@@ -101,7 +111,7 @@ function FormSection() {
   } = useContractWrite({
     address: CONTRACT_MAP[chain?.id || 0],
     abi: abi,
-    functionName: 'donateToken',
+    functionName: 'donate',
     mode: 'recklesslyUnprepared',
     onError(error) {
       const errMsg = error?.reason;
@@ -188,9 +198,64 @@ function FormSection() {
     setCoinModalVisible(true);
   };
 
-  const handleClickCoinModal = () => {
+  const handleClickCoinModalClose = () => {
     setCoinModalVisible(false);
   };
+
+  // filter token info by chain
+  const genTokenInfo = () => {
+    switch (chain?.id) {
+      case mainnet.id:
+        return mainnetTokensInfo
+      case optimism.id:
+        return optimismTokensInfo
+      case polygon.id:
+        return polygonTokensInfo
+      case arbitrum.id:
+        return arbitrumTokensInfo
+      case polygonMumbai.id:
+        return polygonTokensInfo
+      default:
+        return testNetTokensInfo
+    }
+  };
+
+  const getTokenInfoByChainId = () => {
+    const tokens = genTokenInfo()
+    setTokenList(tokens);
+    setSelectedToken(tokens[0]);
+  };
+
+  useEffect(() => {
+    if (chain?.id) {
+      getTokenInfoByChainId();
+    }
+  }, [chain?.id]);
+
+
+  const genNewTokenInfo = (v: string) => {
+    let temp = [...tokenList];
+    // set all item as false
+    temp = temp.map((item) => {
+      return {
+        ...item,
+        selected: false
+      }
+    })
+    // set selected true
+    const index = temp.findIndex((item) => item.address === v);
+    temp[index].selected = true;
+
+    setSelectedToken(temp[index])
+
+    return temp;
+  }
+
+
+  const handleClickCoinCard = (v: string) => {
+    setTokenList(genNewTokenInfo(v))
+    handleClickCoinModalClose();
+  }
 
   return (
     <>
@@ -222,7 +287,7 @@ function FormSection() {
             </div>
 
             {/* multi-coin*/}
-            <CoinPart onPress={handleClickCoinPart} />
+            <CoinPart onPress={handleClickCoinPart} token={selectedToken} />
           </div>
         </div>
         <div
@@ -231,13 +296,13 @@ function FormSection() {
           onClick={handleEthAmount}
         >
           <div data-amount={donateVal[0]}>
-            {donateVal[0]} {primaryCoin}
+            {donateVal[0]} {selectedToken?.symbol}
           </div>
           <div data-amount={donateVal[1]}>
-            {donateVal[1]} {primaryCoin}
+            {donateVal[1]} {selectedToken?.symbol}
           </div>
           <div data-amount={donateVal[2]}>
-            {donateVal[2]} {primaryCoin}
+            {donateVal[2]} {selectedToken?.symbol}
           </div>
         </div>
         <fieldset className={styles.fieldset}>
@@ -280,7 +345,13 @@ function FormSection() {
           />
         ) : null}
       </section>
-      <CoinModal visible={coinModalVisible} onPress={handleClickCoinModal} />
+
+      <CoinModal
+        tokens={tokenList}
+        visible={coinModalVisible}
+        onClosePress={handleClickCoinModalClose}
+        onCoinCardClick={handleClickCoinCard}
+      />
     </>
   );
 }

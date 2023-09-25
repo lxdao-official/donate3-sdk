@@ -145,10 +145,8 @@ const Donate3Provider: React.FC<{
         );
 
         const json = await res.json();
-        console.log(json);
 
         const { data: result } = json;
-        console.log(result);
         setDonorList(result?.length ? result : []);
       } catch (error) {
         setDonorList([]);
@@ -158,7 +156,7 @@ const Donate3Provider: React.FC<{
       }
     })();
   }, [chain, toAddressReal]);
-  console.log(donorList);
+
   if (
     accountType === 1 &&
     safeAccounts &&
