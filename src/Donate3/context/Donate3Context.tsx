@@ -8,8 +8,9 @@ import {
   DONATE_TYPE,
   embedType,
   floatType,
-  ZERO_ADDRESS,
+  ZERO_ADDRESS
 } from '../utils/const';
+
 export const Donate3Context = React.createContext<Donate3ContextType>({
   toAddress: ZERO_ADDRESS,
   fromAddress: ZERO_ADDRESS,
@@ -36,7 +37,7 @@ const Donate3Provider: React.FC<{
   children: React.ReactNode;
   cid: string;
   accountType: number;
-  toAddress: `0x${string}` | undefined;
+  toAddress: `${string}` | undefined;
   safeAccounts?: Account[] | undefined;
   type: floatType | embedType;
   color: string;
@@ -74,13 +75,14 @@ const Donate3Provider: React.FC<{
   const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();
   // const { donors: donorList } = useFetchDonors(
-  //   toAddress,
+  //   toAddress, 
   //   '1',
   //   chain?.id.toString() || '0',
   // );
   let toAddressReal =
     accountType === 0 || accountType === undefined ? toAddress : undefined;
 
+// Get data from `https://nftstorage.link/ipfs/${cid}` (After users press "confirmed" in "Get Widget" page).
   useEffect(() => {
     if (!cid) {
       return;
