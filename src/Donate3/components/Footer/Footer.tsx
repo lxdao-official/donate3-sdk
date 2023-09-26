@@ -7,7 +7,7 @@ function Footer() {
     <footer className={styles.appfooter}>
       <span>Power by</span>
       <Logo className={styles.logo} />
-      <span>Donate3</span>
+      <span>Donate3 Solana</span>
     </footer>
   );
 }
