@@ -11,13 +11,10 @@ import globalcss from './globalcss';
 
 const Donate3 = (props: any) => {
   // console.log('--------------', props, { ...props.config });
-const network = WalletAdapterNetwork.Devnet;
-const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+  const network = WalletAdapterNetwork.Devnet;
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
   
-
-const Donate3 = (props: any) => {
-  // console.log('--------------', props, { ...props.config });
   return (
     <React.StrictMode>
       <ConnectionProvider endpoint={endpoint}>
