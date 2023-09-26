@@ -9,7 +9,7 @@ module.exports = {
   mode: 'production',
   entry: './widget/widget.js',
   output: {
-    filename: './webpack/bundle.js',
+    filename: './webpack/bundle-solana.js',
   },
   cache: {
     type: 'filesystem',
