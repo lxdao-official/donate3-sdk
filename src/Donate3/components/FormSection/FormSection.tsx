@@ -5,13 +5,6 @@ import toast,{ Toaster } from 'react-hot-toast';
 import { useContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Arbitrum } from '../../images/arb.svg';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Linea } from '../../images/linea.svg';
-import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
 DONATE_VALUE_MAP,
 PrimaryCoinType,
@@ -19,6 +12,7 @@ PRIMARY_COIN
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
+
 interface contractMap {
   [key: number]: `0x${string}`;
 }
@@ -30,6 +24,7 @@ function FormSection() {
   const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const shortcutOption = useRef(null);
+  
   const CONTRACT_MAP: contractMap = {
     // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
     // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
