@@ -128,7 +128,7 @@ function App() {
         ></div>
       ) : null}
       <div
-        className={showForm ? `${styles.app} dialogSlideInUp ` : styles.hidden}
+        className={showForm ? styles.app : styles.hidden}
         style={{ ...dialogStyle }}
       >
         {demo ? <div className={styles.demomask}></div> : null}
