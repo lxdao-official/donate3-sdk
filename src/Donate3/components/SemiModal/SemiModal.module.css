@@ -80,7 +80,7 @@
 
 .semidonatebtn svg,
 .donate3btn svg {
-  animation: 'loading' 3s linear infinite;
+  animation: loading 3s linear infinite;
 }
 
 @keyframes loading {

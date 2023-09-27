@@ -139,7 +139,6 @@ function FormSection() {
       }).then((data: string) => {
         if (!data) {
           toast(String('Cancel'));
-          setShowLoading(false);
           return;
         }
         console.log('useContractWrite success', data);

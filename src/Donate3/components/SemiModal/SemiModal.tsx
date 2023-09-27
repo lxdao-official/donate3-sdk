@@ -1,17 +1,21 @@
 import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import classNames from 'classnames/bind';
 import { PetraWallet } from 'petra-plugin-wallet-adapter';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
+import { ReactComponent as Loading } from '../../images/loading.svg';
 import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './SemiModal.module.css';
 function SemiModal() {
   let cx = classNames.bind(styles);
   const { connect } = useWallet();
-  const { showSemiModal, isConnected, setShowLoading, color } =
+  const { showSemiModal, isConnected, setShowLoading, showLoading, color } =
     useContext(Donate3Context);
 
+  useEffect(() => {
+    if (isConnected) setShowLoading(false);
+  }, [isConnected]);
   return (
     <>
       {showSemiModal ? (
@@ -38,11 +42,12 @@ function SemiModal() {
             <div
               className={styles.semidonatebtn}
               style={{ background: color, cursor: 'pointer' }}
-              onClick={() => {
+              onClick={async () => {
                 setShowLoading(true);
                 connect(new PetraWallet().name);
               }}
             >
+              {showLoading ? <Loading></Loading> : null}
               <span>Connect wallet for donation</span>
             </div>
             <Footer></Footer>

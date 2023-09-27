@@ -64,6 +64,9 @@ const Donate3Provider: React.FC<{
   const [fromAddress, setFromAddress] = React.useState('');
   const [isConnected, setIsConnected] = React.useState(false);
   const { network, account, connected } = useWallet();
+  const [toAddressReal, SetToAddressReal] = React.useState(
+    accountType === 0 || accountType === undefined ? toAddress : undefined,
+  );
   const [nftData, setNftData] = useState<{
     accountType?: number;
     address?: string;
@@ -85,8 +88,6 @@ const Donate3Provider: React.FC<{
   //   '1',
   //   chain?.id.toString() || '0',
   // );
-  let toAddressReal =
-    accountType === 0 || accountType === undefined ? toAddress : undefined;
 
   useEffect(() => {
     if (!cid) {
@@ -99,10 +100,11 @@ const Donate3Provider: React.FC<{
       .then((res: any) => {
         setNftData(res);
         let accountTypeNft = res.accountType;
-        toAddressReal =
+        SetToAddressReal(
           accountTypeNft === 0 || accountTypeNft === undefined
             ? res.address
-            : undefined;
+            : undefined,
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -149,23 +151,6 @@ const Donate3Provider: React.FC<{
     // })();
   }, [/*chain,*/ toAddressReal]);
   console.log(donorList);
-  if (
-    accountType === 1 &&
-    safeAccounts &&
-    safeAccounts.length &&
-    safeAccounts.some(
-      (item: Account) =>
-        item.networkId &&
-        item.address &&
-        item.networkId === parseInt(network?.chainId ?? '1'),
-    )
-  ) {
-    toAddressReal = (
-      safeAccounts.find(
-        (item: Account) => item.networkId === parseInt(network?.chainId ?? '1'),
-      ) as Account
-    ).address;
-  }
 
   useEffect(() => {
     let count = (donorList && donorList.length) || 0;
