@@ -5,7 +5,6 @@ import styles from './App.module.css';
 import DonateButton from './components/DonateButton/DonateButton';
 // import DonorList from './components/DonorList/DonorList';
 import Footer from './components/Footer/Footer';
-import FormSection from './components/FormSection/FormSection';
 import Header from './components/Header/Header';
 import SemiModal from './components/SemiModal/SemiModal';
 import UserAvatar from './components/UserAvatar/UserAvatar';
@@ -13,6 +12,7 @@ import { Donate3Context } from './context/Donate3Context';
 import { ReactComponent as Close } from './images/close.svg';
 import { DONATE_TYPE } from './utils/const';
 
+import FormSection from './components/FormSection/FormSection';
 import { getElementPosition } from './utils/index';
 
 function App() {
@@ -30,6 +30,7 @@ function App() {
   } = React.useContext(Donate3Context);
 
   let cx = classNames.bind(styles);
+
   const handleSwitchDialog = (event: any) => {
     const defaultStyle = {
       right: 0,
@@ -64,6 +65,7 @@ function App() {
 
   const renderDonate3Button = (type: DONATE_TYPE) => {
     const bgStyle = { background: color };
+
     if (type === DONATE_TYPE.FLOAT) {
       return (
         <div
@@ -116,7 +118,8 @@ function App() {
   return (
     <>
       {type === DONATE_TYPE.EMBED && (showForm || showDonorList) ? (
-        <div style={{ inset: 0, margin: 'auto' }}
+        <div
+          style={{ inset: 0, margin: 'auto' }}
           className={styles.mask}
           onClick={() => {
             setShowForm(false);
@@ -125,7 +128,7 @@ function App() {
         ></div>
       ) : null}
       <div
-        className={showForm ? `${styles.app} dialogSlideInUp` : styles.hidden}
+        className={showForm ? `${styles.app} dialogSlideInUp ` : styles.hidden}
         style={{ ...dialogStyle }}
       >
         {demo ? <div className={styles.demomask}></div> : null}

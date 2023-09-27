@@ -1,15 +1,19 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-import { Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
+import {
+  PublicKey,
+  SystemProgram,
+  Transaction,
+  TransactionSignature,
+} from '@solana/web3.js';
 
-import React,{ MouseEvent,useEffect,useRef,useState} from 'react';
-import toast,{ Toaster } from 'react-hot-toast';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
 import { ReactComponent as Sol } from '../../images/sol.svg';
+import { ReactComponent as Switch } from '../../images/switch.svg';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
-import { SPL_DONATE_TOKEN_ID } from '../../utils/const';
 
 function FormSection() {
   const [amount, setAmount] = useState('0');
@@ -79,31 +83,34 @@ function FormSection() {
     // const pubKey = new PublicKey("7BzGMomgbswT6ynUmbkqA2mh2h9oGNgfKwfR2GrEmvRT");
     let signature: TransactionSignature = '';
     try {
-        const destAddress = new PublicKey("FrmjU1XPp5cPeJSabTAYSffg4VBv98D2wpkKar9Y8tNF");
-        const amount = 1_000_000;
+      const destAddress = new PublicKey(
+        'FrmjU1XPp5cPeJSabTAYSffg4VBv98D2wpkKar9Y8tNF',
+      );
+      const amount = 1_000_000;
 
-        console.log(amount);
+      console.log(amount);
 
-        const transaction = new Transaction().add(
-            SystemProgram.transfer({
-                fromPubkey: publicKey,
-                toPubkey: destAddress,
-                lamports: amount,
-            })
-        );
-        toast(`handleDonate: ${publicKey.toBase58()} to ${destAddress.toBase58()} amount: ${amount}`);
-        signature = await sendTransaction(transaction, connection);
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: destAddress,
+          lamports: amount,
+        }),
+      );
+      toast(
+        `handleDonate: ${publicKey.toBase58()} to ${destAddress.toBase58()} amount: ${amount}`,
+      );
+      signature = await sendTransaction(transaction, connection);
 
-        await connection.confirmTransaction(signature, 'confirmed');
-        toast(`Transaction confirmed: ${signature}`);
-        // console.log('success', `Transaction success!`, signature);
-        setShowLoading(false);
+      await connection.confirmTransaction(signature, 'confirmed');
+      toast(`Transaction confirmed: ${signature}`);
+      // console.log('success', `Transaction success!`, signature);
+      setShowLoading(false);
     } catch (error: any) {
-        // console.log('error', `Transaction failed! ${error?.message}`, signature);
-        toast(`Transaction failed! ${error?.message}`);
-        return;
+      // console.log('error', `Transaction failed! ${error?.message}`, signature);
+      toast(`Transaction failed! ${error?.message}`);
+      return;
     }
-      
   };
 
   const handleEthAmount = (event: MouseEvent<HTMLElement>) => {
@@ -128,9 +135,7 @@ function FormSection() {
     setAmount(event.target.value);
   };
 
-  const donateVal = [
-    0.001, 0.01, 0.5,
-  ];
+  const donateVal = [0.001, 0.01, 0.5];
 
   return (
     <>
