@@ -12,26 +12,19 @@ export type UFOType = {
 };
 
 export type PrimaryCoinType = {
-  Ethereum: string | number[];
-  Goerli: string | number[];
-  Polygon: string | number[];
-  'Polygon Mumbai': string | number[];
+  Mainnet: string | number[]; 
+  Testnet: string | number[];
 };
 
 export const PRIMARY_COIN: PrimaryCoinType = {
-  Ethereum: 'ETH',
-  Goerli: 'ETH',
-  Polygon: 'MATIC',
-  'Polygon Mumbai': 'MATIC',
+  Mainnet: 'APT',
+  Testnet: 'APT'
 };
 
 export const DONATE_VALUE_MAP: PrimaryCoinType = {
-  Ethereum: [0.001, 0.01, 0.5],
-  Goerli: [0.001, 0.01, 0.5],
-  Polygon: [0.5, 5, 25],
-  'Polygon Mumbai': [0.5, 5, 25],
-};
-
+  Mainnet: [0.1, 1, 10],
+  Testnet: [1, 10 , 20]
+}
 
 export type Explores = {
   [key: number]: string;
@@ -39,6 +32,7 @@ export type Explores = {
 export const EXPLORER_URL_MAP: Explores = {
   0: 'https://etherscan.io/address/',
   1: 'https://etherscan.io/address/',
+  2: 'https://etherscan.io/address/',
   56: 'https://bscscan.com/address/',
   137: 'https://polygonscan.com/address/',
   80001: 'https://mumbai.polygonscan.com/address/',

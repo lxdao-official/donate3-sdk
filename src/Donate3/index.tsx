@@ -21,6 +21,8 @@ import App from './App';
 import { Linea } from './chains/linea';
 import Donate3Provider from './context/Donate3Context';
 import globalcss from './globalcss';
+import { AptosWalletAdapterProvider } from "@aptos-labs/wallet-adapter-react";
+import { PetraWallet } from "petra-plugin-wallet-adapter";
 
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
@@ -50,26 +52,35 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
+const wallets = [new PetraWallet()];
+
 const Donate3 = (props: any) => {
   // console.log('--------------', props, { ...props.config });
   return (
     <React.StrictMode>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          appInfo={{
-            appName: 'Donate3',
-            learnMoreUrl: 'https://donate3.xyz',
-            disclaimer: Disclaimer,
-          }}
-          chains={chains}
-          showRecentTransactions={true}
-        >
-          <Global styles={globalcss} />
-          <Donate3Provider {...props.config} type={props.config.type}>
-            <App />
-          </Donate3Provider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <AptosWalletAdapterProvider 
+      plugins={wallets}
+      onError={(error)=>{
+        console.log("Custom error handling", error);
+      }}
+      >
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider
+            appInfo={{
+              appName: 'Donate3',
+              learnMoreUrl: 'https://donate3.xyz',
+              disclaimer: Disclaimer,
+            }}
+            chains={chains}
+            showRecentTransactions={true}
+          >
+            <Global styles={globalcss} />
+            <Donate3Provider {...props.config} type={props.config.type}>
+              <App />
+            </Donate3Provider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </AptosWalletAdapterProvider>
     </React.StrictMode>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useAccount, useNetwork } from 'wagmi';
 import { Account, Donate3ContextType, DonorItem } from '../@types/donate3';
 import { getFasterIpfsLink } from '../utils/ipfsTools';
 
 // import DonorResultMockData from '../Mock/DonorResult.json';
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import {
   DONATE_TYPE,
   embedType,
@@ -61,7 +61,9 @@ const Donate3Provider: React.FC<{
   const [showLoading, setShowLoading] = React.useState(false);
   const [loadingDonorList, setLoadingDonorList] = React.useState(true);
   const [donorList, setDonorList] = React.useState<DonorItem[]>();
-  const { chain, chains } = useNetwork();
+  const [fromAddress, setFromAddress] = React.useState('');
+  const [isConnected, setIsConnected] = React.useState(false);
+  const { network, account, connected } = useWallet();
   const [nftData, setNftData] = useState<{
     accountType?: number;
     address?: string;
@@ -70,8 +72,13 @@ const Donate3Provider: React.FC<{
     color: string;
     type: string;
   }>();
+  useEffect(() => {
+    setFromAddress(account?.address ?? '');
+  }, [account]);
+  useEffect(() => {
+    setIsConnected(connected);
+  }, [connected]);
 
-  const { address: fromAddress, isConnected } = useAccount();
   // const [donorList, setDonorList] = React.useState<DonorResult>();
   // const { donors: donorList } = useFetchDonors(
   //   toAddress,
@@ -92,27 +99,10 @@ const Donate3Provider: React.FC<{
       .then((res: any) => {
         setNftData(res);
         let accountTypeNft = res.accountType;
-        let safeAccountsNft = res.safeAccounts;
         toAddressReal =
           accountTypeNft === 0 || accountTypeNft === undefined
             ? res.address
             : undefined;
-
-        if (
-          accountTypeNft === 1 &&
-          safeAccountsNft &&
-          safeAccountsNft.length &&
-          safeAccountsNft.some(
-            (item: Account) =>
-              item.networkId && item.address && item.networkId === chain?.id,
-          )
-        ) {
-          toAddressReal = (
-            safeAccountsNft.find(
-              (item: Account) => item.networkId === chain?.id,
-            ) as Account
-          ).address;
-        }
       })
       .catch((err) => {
         console.log(err);
@@ -125,39 +115,39 @@ const Donate3Provider: React.FC<{
       return;
     }
 
-    (async () => {
-      try {
-        setLoadingDonorList(true);
-        const res = await fetch(
-          `https://backend.donate3.xyz/donates/ranking?` +
-            // `https://donate3.0xhardman.xyz/donates/ranking?` +
-            new URLSearchParams({
-              address: toAddressReal || '',
-              chainId: chain?.id.toString() || '0',
-            }),
-          {
-            method: 'GET',
-            mode: 'cors', // no-cors, *cors, same-origin
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        );
+    // (async () => {
+    //   try {
+    //     setLoadingDonorList(true);
+    //     const res = await fetch(
+    //       `https://backend.donate3.xyz/donates/ranking?` +
+    //         // `https://donate3.0xhardman.xyz/donates/ranking?` +
+    //         new URLSearchParams({
+    //           address: toAddressReal || '',
+    //           chainId: chain?.id.toString() || '0',
+    //         }),
+    //       {
+    //         method: 'GET',
+    //         mode: 'cors', // no-cors, *cors, same-origin
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //         },
+    //       },
+    //     );
 
-        const json = await res.json();
-        console.log(json);
+    //     const json = await res.json();
+    //     console.log(json);
 
-        const { data: result } = json;
-        console.log(result);
-        setDonorList(result?.length ? result : []);
-      } catch (error) {
-        setDonorList([]);
-        console.log(error);
-      } finally {
-        setLoadingDonorList(false);
-      }
-    })();
-  }, [chain, toAddressReal]);
+    //     const { data: result } = json;
+    //     console.log(result);
+    //     setDonorList(result?.length ? result : []);
+    //   } catch (error) {
+    //     setDonorList([]);
+    //     console.log(error);
+    //   } finally {
+    //     setLoadingDonorList(false);
+    //   }
+    // })();
+  }, [/*chain,*/ toAddressReal]);
   console.log(donorList);
   if (
     accountType === 1 &&
@@ -165,12 +155,14 @@ const Donate3Provider: React.FC<{
     safeAccounts.length &&
     safeAccounts.some(
       (item: Account) =>
-        item.networkId && item.address && item.networkId === chain?.id,
+        item.networkId &&
+        item.address &&
+        item.networkId === parseInt(network?.chainId ?? '1'),
     )
   ) {
     toAddressReal = (
       safeAccounts.find(
-        (item: Account) => item.networkId === chain?.id,
+        (item: Account) => item.networkId === parseInt(network?.chainId ?? '1'),
       ) as Account
     ).address;
   }
@@ -212,8 +204,8 @@ const Donate3Provider: React.FC<{
         loadingDonorList,
         setLoadingDonorList,
         demo,
-        chain,
-        chains,
+        chain: network,
+        chains: [],
         avatar: (nftData?.avatar ||
           avatar) as `https://nftstorage.link/ipfs/${string}`,
       }}

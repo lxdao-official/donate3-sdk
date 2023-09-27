@@ -1,14 +1,14 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
 import classNames from 'classnames/bind';
+import { PetraWallet } from 'petra-plugin-wallet-adapter';
 import React, { useContext } from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
 import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './SemiModal.module.css';
-
 function SemiModal() {
   let cx = classNames.bind(styles);
-  const { openConnectModal } = useConnectModal();
+  const { connect } = useWallet();
   const { showSemiModal, isConnected, setShowLoading, color } =
     useContext(Donate3Context);
 
@@ -40,9 +40,7 @@ function SemiModal() {
               style={{ background: color, cursor: 'pointer' }}
               onClick={() => {
                 setShowLoading(true);
-                if (openConnectModal) {
-                  openConnectModal();
-                }
+                connect(new PetraWallet().name);
               }}
             >
               <span>Connect wallet for donation</span>

@@ -1,21 +1,14 @@
-import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber,ethers } from 'ethers';
-import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
-import toast,{ Toaster } from 'react-hot-toast';
-import { useContractWrite } from 'wagmi';
-import abi from '../../abi.json';
+import { useWallet } from '@aptos-labs/wallet-adapter-react';
+import { BigNumber, ethers } from 'ethers';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Arbitrum } from '../../images/arb.svg';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Linea } from '../../images/linea.svg';
+import { ReactComponent as Apt } from '../../images/apt.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
-DONATE_VALUE_MAP,
-PrimaryCoinType,
-PRIMARY_COIN
+  DONATE_VALUE_MAP,
+  PrimaryCoinType,
+  PRIMARY_COIN,
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
@@ -24,25 +17,15 @@ interface contractMap {
 }
 
 function FormSection() {
-  const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState(' ');
-  const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
+  const [primaryCoin, setPrimaryCoin] = useState<string>('Apt');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
+  const { connected, account, signAndSubmitTransaction, network } = useWallet();
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
-    // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
-    // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
-    // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
-    1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
-    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
-    10: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
-    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
-    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
-    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
-    80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
-    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
+    1: '0x25b17e60373de2cc9a9bb80b0bab56bd0fa8203c56c7c45708770cb6caacb969::donate::donate_to_user', // Apots Mainnet
+    2: '0x25b17e60373de2cc9a9bb80b0bab56bd0fa8203c56c7c45708770cb6caacb969::donate::donate_to_user', // Apots Testnet
   };
 
   const {
@@ -75,7 +58,7 @@ function FormSection() {
 
   let amountIn: BigNumber | '' = 0 || '';
   if (!Number.isNaN(Number(amount))) {
-    amountIn = amount && ethers.utils.parseEther(amount.toString());
+    amountIn = amount && ethers.utils.parseUnits(amount.toString(), 8);
   }
 
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
@@ -90,34 +73,34 @@ function FormSection() {
     },
   ];
 
-  const {
-    data: transactionData,
-    // error:writeError,
-    writeAsync,
-  } = useContractWrite({
-    address: CONTRACT_MAP[chain?.id || 0],
-    abi: abi,
-    functionName: 'donateToken',
-    mode: 'recklesslyUnprepared',
-    onError(error) {
-      const errMsg = error?.reason;
-      console.log(errMsg);
-      if (errMsg?.includes('insufficient')) {
-        toast(String('insufficient funds for gas'));
-      } else if (errMsg?.includes('The donor address is equal to receive')) {
-        toast(String('The donor address is equal to receive'));
-      } else if (errMsg) {
-        toast(String(errMsg));
-      }
-      setShowLoading(false);
-    },
-    onSuccess(data) {
-      console.log('useContractWrite success', data, transactionData);
-      setShowLoading(false);
-      toast('Syncing data, take 1-5 minutes to show');
-      setDonateCreateSuccess(true);
-    },
-  });
+  // const {
+  //   data: transactionData,
+  //   // error:writeError,
+  //   writeAsync,
+  // } = useContractWrite({
+  //   address: CONTRACT_MAP[chain?.id || 0],
+  //   abi: abi,
+  //   functionName: 'donateToken',
+  //   mode: 'recklesslyUnprepared',
+  //   onError(error) {
+  //     const errMsg = error?.reason;
+  //     console.log(errMsg);
+  //     if (errMsg?.includes('insufficient')) {
+  //       toast(String('insufficient funds for gas'));
+  //     } else if (errMsg?.includes('The donor address is equal to receive')) {
+  //       toast(String('The donor address is equal to receive'));
+  //     } else if (errMsg) {
+  //       toast(String(errMsg));
+  //     }
+  //     setShowLoading(false);
+  //   },
+  //   onSuccess(data) {
+  //     console.log('useContractWrite success', data, transactionData);
+  //     setShowLoading(false);
+  //     toast('Syncing data, take 1-5 minutes to show');
+  //     setDonateCreateSuccess(true);
+  //   },
+  // });
 
   useEffect(() => {
     if (isConnected) {
@@ -145,10 +128,25 @@ function FormSection() {
         return;
       }
       setShowLoading(true);
-      await writeAsync?.({
-        recklesslySetUnpreparedArgs: donateTokenArgs,
+      // await writeAsync?.({
+      //   recklesslySetUnpreparedArgs: donateTokenArgs,
+      // });
+      signAndSubmitTransaction({
+        type: 'entry_function_payload',
+        function: CONTRACT_MAP[parseInt(network?.chainId ?? '2')],
+        type_arguments: ['0x1::aptos_coin::AptosCoin'],
+        arguments: ['', amountIn.toString(), toAddress, message],
+      }).then((data: string) => {
+        if (!data) {
+          toast(String('Cancel'));
+          setShowLoading(false);
+          return;
+        }
+        console.log('useContractWrite success', data);
+        setShowLoading(false);
+        toast('Syncing data, take 1-5 minutes to show');
+        setDonateCreateSuccess(true);
       });
-      console.log(transactionData);
     } else {
       toast('Please connect wallet first!');
     }
@@ -188,25 +186,15 @@ function FormSection() {
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
-          <div className={styles.methodinput} onClick={openChainModal}>
+          <div className={styles.methodinput}>
             <div className={styles.cointxt}>
-              {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {(chain?.id as number) === 1 && <Eth />}
-              {(chain?.id as number) === 10 && <Optimism />}
-              {(chain?.id as number) === 59144 && <Linea />}
-              {(chain?.id as number) === 137 && <Polygon />}
-              {(chain?.id as number) === 42161 && <Arbitrum />}
-              {(chain?.id as number) === 5 && <Eth />}
-              {(chain?.id as number) === 80001 && <Polygon />}
-              {(chain?.id as number) === 11155111 && <Eth />}
-              {(chain?.id as number) === 420 && <Optimism />}
-
+              <Apt />
               <span>{primaryCoin}</span>
               <span>{chain?.name}</span>
             </div>
-            <div className={styles.switch}>
+            {/* <div className={styles.switch}>
               <Switch />
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -251,7 +239,7 @@ function FormSection() {
           type="button"
           className={styles.donate3btn}
           style={{ background: color }}
-          disabled={!writeAsync || !toAddress}
+          disabled={!toAddress}
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}
