@@ -9,8 +9,8 @@
     "baseUrl": "./",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
-      "donate3-sdk": ["src"],
-      "donate3-sdk/*": ["src/*", "*"]
+      "donate3-sdk-solana": ["src"],
+      "donate3-sdk-solana/*": ["src/*", "*"]
     }
   },
   "include": [".dumi/**/*", ".dumirc.ts", "src/**/*","custom.d.ts"]

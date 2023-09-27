@@ -1,44 +1,24 @@
-import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber,ethers } from 'ethers';
-import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
+
+import React,{ MouseEvent,useEffect,useRef,useState,useCallback } from 'react';
 import toast,{ Toaster } from 'react-hot-toast';
-import { useContractWrite } from 'wagmi';
-import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import {
-DONATE_VALUE_MAP,
-PrimaryCoinType,
-PRIMARY_COIN
-} from '../../utils/const';
+import { ReactComponent as Loading } from '../../images/loading.svg';
+import { ReactComponent as Switch } from '../../images/switch.svg';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
-
-interface contractMap {
-  [key: number]: `0x${string}`;
-}
+import { SPL_DONATE_TOKEN_ID } from '../../utils/const';
 
 function FormSection() {
-  const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState(' ');
-  const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const shortcutOption = useRef(null);
-  
-  const CONTRACT_MAP: contractMap = {
-    // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
-    // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
-    // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
-    1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
-    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
-    10: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
-    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
-    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
-    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
-    80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
-    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
-  };
+
+  const primaryCoin = 'SOL';
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
 
   const {
     toAddress,
@@ -47,7 +27,6 @@ function FormSection() {
     setShowLoading,
     showLoading,
     color,
-    chain,
   } = React.useContext(Donate3Context);
   const timeout = 5; // s
 
@@ -55,7 +34,7 @@ function FormSection() {
     if (!toAddress) {
       toast('unsupport chain');
     }
-  }, [toAddress, chain]);
+  }, [toAddress]);
 
   useEffect(() => {
     if (toAddress === fromAddress) {
@@ -63,56 +42,22 @@ function FormSection() {
     }
   }, [toAddress, fromAddress]);
 
-  useEffect(() => {
-    const name: any = chain?.name;
-    setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
-  }, [chain]);
+  // let amountIn: '';
+  // if (!Number.isNaN(Number(amount))) {
+  //   amountIn = amount && ethers.utils.parseEther(amount.toString());
+  // }
 
-  let amountIn: BigNumber | '' = 0 || '';
-  if (!Number.isNaN(Number(amount))) {
-    amountIn = amount && ethers.utils.parseEther(amount.toString());
-  }
-
-  const bytesMsg = ethers.utils.toUtf8Bytes(message);
-  let donateTokenArgs = [
-    // pid,
-    amountIn,
-    toAddress,
-    bytesMsg,
-    [],
-    {
-      value: amountIn,
-    },
-  ];
-
-  const {
-    data: transactionData,
-    // error:writeError,
-    writeAsync,
-  } = useContractWrite({
-    address: CONTRACT_MAP[chain?.id || 0],
-    abi: abi,
-    functionName: 'donateToken',
-    mode: 'recklesslyUnprepared',
-    onError(error) {
-      const errMsg = error?.reason;
-      console.log(errMsg);
-      if (errMsg?.includes('insufficient')) {
-        toast(String('insufficient funds for gas'));
-      } else if (errMsg?.includes('The donor address is equal to receive')) {
-        toast(String('The donor address is equal to receive'));
-      } else if (errMsg) {
-        toast(String(errMsg));
-      }
-      setShowLoading(false);
-    },
-    onSuccess(data) {
-      console.log('useContractWrite success', data, transactionData);
-      setShowLoading(false);
-      toast('Syncing data, take 1-5 minutes to show');
-      setDonateCreateSuccess(true);
-    },
-  });
+  // const bytesMsg = ethers.utils.toUtf8Bytes(message);
+  // let donateTokenArgs = [
+  //   // pid,
+  //   amountIn,
+  //   toAddress,
+  //   bytesMsg,
+  //   [],
+  //   {
+  //     value: amountIn,
+  //   },
+  // ];
 
   useEffect(() => {
     if (isConnected) {
@@ -140,10 +85,37 @@ function FormSection() {
         return;
       }
       setShowLoading(true);
-      await writeAsync?.({
-        recklesslySetUnpreparedArgs: donateTokenArgs,
-      });
-      console.log(transactionData);
+
+      if (!publicKey) {
+        console.log('error', `Send Transaction: Wallet not connected!`);
+        return;
+      }
+
+      // const pubKey = new PublicKey("7BzGMomgbswT6ynUmbkqA2mh2h9oGNgfKwfR2GrEmvRT");
+      let signature: TransactionSignature = '';
+      try {
+          const destAddress = new PublicKey(toAddress!);
+          const amount = 1_000_000;
+
+          console.log(amount);
+
+          const transaction = new Transaction().add(
+              SystemProgram.transfer({
+                  fromPubkey: publicKey,
+                  toPubkey: destAddress,
+                  lamports: amount,
+              })
+          );
+
+          signature = await sendTransaction(transaction, connection);
+
+          await connection.confirmTransaction(signature, 'confirmed');
+          console.log('success', `Transaction success!`, signature);
+      } catch (error: any) {
+          console.log('error', `Transaction failed! ${error?.message}`, signature);
+          return;
+      }
+      
     } else {
       toast('Please connect wallet first!');
     }
@@ -159,19 +131,19 @@ function FormSection() {
     setAmount(amount);
   };
 
-  const handleManualAmountChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setAmount(event.target.value);
-  };
-
   const handleManualAmountFocus = () => {
     shortcutOption?.current?.childNodes?.forEach((item) => {
       item.classList.remove(styles.active);
     });
   };
 
-  const donateVal = DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType] || [
+  const handleManualAmountChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setAmount(event.target.value);
+  };
+
+  const donateVal = [
     0.001, 0.01, 0.5,
   ];
 
@@ -183,21 +155,10 @@ function FormSection() {
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
-          <div className={styles.methodinput} onClick={openChainModal}>
+          <div className={styles.methodinput}>
             <div className={styles.cointxt}>
-              {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {(chain?.id as number) === 1 && <Eth />}
-              {(chain?.id as number) === 10 && <Optimism />}
-              {(chain?.id as number) === 59144 && <Linea />}
-              {(chain?.id as number) === 137 && <Polygon />}
-              {(chain?.id as number) === 42161 && <Arbitrum />}
-              {(chain?.id as number) === 5 && <Eth />}
-              {(chain?.id as number) === 80001 && <Polygon />}
-              {(chain?.id as number) === 11155111 && <Eth />}
-              {(chain?.id as number) === 420 && <Optimism />}
-
               <span>{primaryCoin}</span>
-              <span>{chain?.name}</span>
+              <span>SOLANA</span>
             </div>
             <div className={styles.switch}>
               <Switch />
@@ -246,7 +207,7 @@ function FormSection() {
           type="button"
           className={styles.donate3btn}
           style={{ background: color }}
-          disabled={!writeAsync || !toAddress}
+          disabled={!toAddress}
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}

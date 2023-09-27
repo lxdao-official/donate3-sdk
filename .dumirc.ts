@@ -3,7 +3,7 @@ import { defineConfig } from 'dumi';
 export default defineConfig({
   outputPath: 'docs-dist',
   themeConfig: {
-    name: 'donate3-sdk',
+    name: 'donate3-sdk-solana',
   },
   srcTranspilerOptions: {
     swc: {

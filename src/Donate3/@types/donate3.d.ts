@@ -1,5 +1,5 @@
 // @types.donate3.d.ts
-import { embedType, floatType } from '../utils/const';
+// import { embedType, floatType } from '../utils/const';
 export interface Account {
   networkId: number,
   network?: string,
@@ -14,9 +14,9 @@ export interface DonorItem {
 
 export type Donate3ContextType = {
   donorList?: DonorItem[];
-  toAddress: `0x${string}` | undefined;
-  fromAddress: `0x${string}` | undefined;
-  type: floatType | embedType;
+  toAddress: string | undefined;
+  fromAddress: string | undefined;
+  // type: floatType | embedType;
   color?: string;
   total?: number;
   title?: string;
@@ -30,9 +30,9 @@ export type Donate3ContextType = {
   loadingDonorList: boolean;
   setLoadingDonorList: React.Dispatch<React.SetStateAction<boolean>>;
   demo: boolean;
-  chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
-  chains: Chain[];
-  avatar: `https://nftstorage.link/ipfs/${string}`;
+  // chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
+  // chains: Chain[];
+  // avatar: `https://nftstorage.link/ipfs/${string}`;
 };
 export interface DonorRecord {
   chainType: string;

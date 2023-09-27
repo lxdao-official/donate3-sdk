@@ -1,3 +1,4 @@
+import { PublicKey } from '@solana/web3.js';
 export const ZERO_ADDRESS = '11111111111111111111111111111111';
 export enum DONATE_TYPE {
   FLOAT = 'float',
@@ -39,11 +40,17 @@ export const DONATE_VALUE_MAP: PrimaryCoinType = {
 export type Explores = {
   [key: number]: string;
 }
-export const EXPLORER_URL_MAP: Explores = {
-  0: 'https://etherscan.io/address/',
-  1: 'https://etherscan.io/address/',
-  56: 'https://bscscan.com/address/',
-  137: 'https://polygonscan.com/address/',
-  80001: 'https://mumbai.polygonscan.com/address/',
-  5: 'https://goerli.etherscan.io/address/',
-}
+
+export const EXPLORER_URL_MAP = "https://solscan.io/account/"
+export const SPL_DONATE_TOKEN_ID = new PublicKey(
+  '5qVVcj3hit8XZb5xN1S351EAoRPkuB3ZjY5RWzWpq8gq'
+);
+
+// export const EXPLORER_URL_MAP: Explores = {
+//   0: 'https://etherscan.io/address/',
+//   1: 'https://etherscan.io/address/',
+//   56: 'https://bscscan.com/address/',
+//   137: 'https://polygonscan.com/address/',
+//   80001: 'https://mumbai.polygonscan.com/address/',
+//   5: 'https://goerli.etherscan.io/address/',
+// }

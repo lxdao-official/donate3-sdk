@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import styles from './App.module.css';
 import DonateButton from './components/DonateButton/DonateButton';
-import DonorList from './components/DonorList/DonorList';
+// import DonorList from './components/DonorList/DonorList';
 import Footer from './components/Footer/Footer';
 import FormSection from './components/FormSection/FormSection';
 import Header from './components/Header/Header';
@@ -138,7 +138,7 @@ function App() {
         className={showDonorList ? `${styles.app} dialogZoomIn` : styles.hidden}
         style={{ ...dialogStyle }}
       >
-        <DonorList />
+        {/* <DonorList /> */}
       </div>
 
       {renderDonate3Button(type)}

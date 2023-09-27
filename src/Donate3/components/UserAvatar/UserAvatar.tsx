@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import React from 'react';
-import { useNetwork } from 'wagmi';
 import { DonorItem } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
 import { DONATE_TYPE, EXPLORER_URL_MAP } from '../../utils/const';
@@ -9,7 +8,6 @@ import TotalCircle from '../TotalCircle/TotalCircle';
 import styles from './UserAvatar.module.css';
 
 function UserAvatar(props: { normalmode?: boolean }) {
-  const { chain } = useNetwork();
 
   let cx = classNames.bind(styles);
   const { type, donorList, total, setShowDonorList } =
@@ -25,7 +23,7 @@ function UserAvatar(props: { normalmode?: boolean }) {
             <Avatar
               onClick={() => {
                 window.open(
-                  `${EXPLORER_URL_MAP[chain?.id || 0]}${item.address}`,
+                  `${EXPLORER_URL_MAP}${item.address}`,
                   '_blank',
                 );
               }}
