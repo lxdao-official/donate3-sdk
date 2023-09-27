@@ -7,7 +7,7 @@ import {
 } from '@solana/web3.js';
 
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Sol } from '../../images/sol.svg';
@@ -139,9 +139,9 @@ function FormSection() {
 
   return (
     <>
-      {/* <div>
+      <div>
         <Toaster position="top-center" reverseOrder={false} />
-      </div> */}
+      </div>
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
