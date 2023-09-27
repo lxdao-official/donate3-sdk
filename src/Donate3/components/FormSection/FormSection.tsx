@@ -1,11 +1,12 @@
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { Keypair, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, TransactionSignature } from '@solana/web3.js';
 
-import React,{ MouseEvent,useEffect,useRef,useState,useCallback } from 'react';
+import React,{ MouseEvent,useEffect,useRef,useState} from 'react';
 import toast,{ Toaster } from 'react-hot-toast';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
+import { ReactComponent as Sol } from '../../images/sol.svg';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
 import { SPL_DONATE_TOKEN_ID } from '../../utils/const';
@@ -42,23 +43,6 @@ function FormSection() {
     }
   }, [toAddress, fromAddress]);
 
-  // let amountIn: '';
-  // if (!Number.isNaN(Number(amount))) {
-  //   amountIn = amount && ethers.utils.parseEther(amount.toString());
-  // }
-
-  // const bytesMsg = ethers.utils.toUtf8Bytes(message);
-  // let donateTokenArgs = [
-  //   // pid,
-  //   amountIn,
-  //   toAddress,
-  //   bytesMsg,
-  //   [],
-  //   {
-  //     value: amountIn,
-  //   },
-  // ];
-
   useEffect(() => {
     if (isConnected) {
       setShowLoading(false);
@@ -80,45 +64,46 @@ function FormSection() {
   }, [donateCreateSuccess]);
 
   const handleDonate = async () => {
-    if (isConnected) {
-      if (showLoading) {
-        return;
-      }
-      setShowLoading(true);
+    console.log('handleDonate', isConnected, showLoading);
 
-      if (!publicKey) {
-        console.log('error', `Send Transaction: Wallet not connected!`);
-        return;
-      }
-
-      // const pubKey = new PublicKey("7BzGMomgbswT6ynUmbkqA2mh2h9oGNgfKwfR2GrEmvRT");
-      let signature: TransactionSignature = '';
-      try {
-          const destAddress = new PublicKey(toAddress!);
-          const amount = 1_000_000;
-
-          console.log(amount);
-
-          const transaction = new Transaction().add(
-              SystemProgram.transfer({
-                  fromPubkey: publicKey,
-                  toPubkey: destAddress,
-                  lamports: amount,
-              })
-          );
-
-          signature = await sendTransaction(transaction, connection);
-
-          await connection.confirmTransaction(signature, 'confirmed');
-          console.log('success', `Transaction success!`, signature);
-      } catch (error: any) {
-          console.log('error', `Transaction failed! ${error?.message}`, signature);
-          return;
-      }
-      
-    } else {
-      toast('Please connect wallet first!');
+    if (showLoading) {
+      return;
     }
+    setShowLoading(true);
+
+    if (!publicKey) {
+      console.log('error', `Send Transaction: Wallet not connected!`);
+      return;
+    }
+
+    // const pubKey = new PublicKey("7BzGMomgbswT6ynUmbkqA2mh2h9oGNgfKwfR2GrEmvRT");
+    let signature: TransactionSignature = '';
+    try {
+        const destAddress = new PublicKey("FrmjU1XPp5cPeJSabTAYSffg4VBv98D2wpkKar9Y8tNF");
+        const amount = 1_000_000;
+
+        console.log(amount);
+
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: publicKey,
+                toPubkey: destAddress,
+                lamports: amount,
+            })
+        );
+        toast(`handleDonate: ${publicKey.toBase58()} to ${destAddress.toBase58()} amount: ${amount}`);
+        signature = await sendTransaction(transaction, connection);
+
+        await connection.confirmTransaction(signature, 'confirmed');
+        toast(`Transaction confirmed: ${signature}`);
+        // console.log('success', `Transaction success!`, signature);
+        setShowLoading(false);
+    } catch (error: any) {
+        // console.log('error', `Transaction failed! ${error?.message}`, signature);
+        toast(`Transaction failed! ${error?.message}`);
+        return;
+    }
+      
   };
 
   const handleEthAmount = (event: MouseEvent<HTMLElement>) => {
@@ -157,8 +142,9 @@ function FormSection() {
           <div className={styles.title}>Payment Method</div>
           <div className={styles.methodinput}>
             <div className={styles.cointxt}>
+              <Sol width={28} height={28} />
               <span>{primaryCoin}</span>
-              <span>SOLANA</span>
+              <span>Solana</span>
             </div>
             <div className={styles.switch}>
               <Switch />
@@ -193,16 +179,6 @@ function FormSection() {
           onFocus={handleManualAmountFocus}
           onChange={handleManualAmountChange}
         ></input>
-        <div className={styles.msg}>
-          <div>Message</div>
-          <textarea
-            placeholder="Will be published on chain"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.currentTarget.value);
-            }}
-          ></textarea>
-        </div>
         <button
           type="button"
           className={styles.donate3btn}
@@ -223,7 +199,5 @@ function FormSection() {
     </>
   );
 }
-
-//
 
 export default React.memo(FormSection);

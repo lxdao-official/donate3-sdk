@@ -1,5 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
-export const ZERO_ADDRESS = '11111111111111111111111111111111';
+export const ZERO_ADDRESS = '11111111111111111111111111111111111111111111';
+export const MY_ADDRESS = '9KUpYG22qNKSW3XkpZmBCyFiy1JsFC7rw6o4c7iUomEk';
 export enum DONATE_TYPE {
   FLOAT = 'float',
   EMBED = 'embed',

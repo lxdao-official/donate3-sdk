@@ -18,6 +18,11 @@
   }
 }
 
+.inset {
+  inset: 0;
+  margin: auto;
+}
+
 .appcontent {
   flex: 1;
   display: flex;

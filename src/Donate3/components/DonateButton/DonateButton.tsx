@@ -19,7 +19,7 @@ function DonateButton() {
     },
   );
   return (
-    <div className={wrapStyles} style={{ background: color }}>
+    <div className={wrapStyles} style={{ background: color, width: 270 }}>
       <Logo className={styles.img}></Logo>
       <span>Donate3</span>
       {type === DONATE_TYPE.EMBED ? (

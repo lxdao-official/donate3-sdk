@@ -16,7 +16,7 @@ export type Donate3ContextType = {
   donorList?: DonorItem[];
   toAddress: string | undefined;
   fromAddress: string | undefined;
-  // type: floatType | embedType;
+  type: floatType | embedType;
   color?: string;
   total?: number;
   title?: string;
@@ -30,9 +30,9 @@ export type Donate3ContextType = {
   loadingDonorList: boolean;
   setLoadingDonorList: React.Dispatch<React.SetStateAction<boolean>>;
   demo: boolean;
-  // chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
-  // chains: Chain[];
-  // avatar: `https://nftstorage.link/ipfs/${string}`;
+  chain: (Chain & { unsupported?: boolean | undefined }) | undefined;
+  chains: Chain[];
+  avatar: `https://nftstorage.link/ipfs/${string}`;
 };
 export interface DonorRecord {
   chainType: string;

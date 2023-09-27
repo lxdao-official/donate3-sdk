@@ -116,7 +116,7 @@ function App() {
   return (
     <>
       {type === DONATE_TYPE.EMBED && (showForm || showDonorList) ? (
-        <div
+        <div style={{ inset: 0, margin: 'auto' }}
           className={styles.mask}
           onClick={() => {
             setShowForm(false);
