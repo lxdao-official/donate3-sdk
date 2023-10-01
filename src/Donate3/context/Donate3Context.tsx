@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Account, Donate3ContextType, DonorItem } from '../@types/donate3';
-// import { getFasterIpfsLink } from '../utils/ipfsTools';
+import { getFasterIpfsLink } from '../utils/ipfsTools';
 
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import {
@@ -19,14 +19,14 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   total: 0,
   title: 'Donate3',
   showDonorList: false,
-  setShowDonorList: () => {},
+  setShowDonorList: () => { },
   showSemiModal: false,
-  setShowSemiModal: () => {},
+  setShowSemiModal: () => { },
   isConnected: false,
   showLoading: false,
-  setShowLoading: () => {},
+  setShowLoading: () => { },
   loadingDonorList: true,
-  setLoadingDonorList: () => {},
+  setLoadingDonorList: () => { },
   demo: false,
   chain: '',
   chains: [],
@@ -35,7 +35,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
 
 const Donate3Provider: React.FC<{
   children: React.ReactNode;
-  // cid: string;
+  cid: string;
   accountType: number;
   toAddress: `${string}` | undefined;
   safeAccounts?: Account[] | undefined;
@@ -46,117 +46,85 @@ const Donate3Provider: React.FC<{
   avatar: string;
 }> = ({
   children,
-  accountType,
+  cid,
   toAddress,
+  color = '#764abc',
   title = 'Donate3',
   demo = false,
+  avatar,
 }) => {
-  const { publicKey } = useWallet();
+    const { publicKey, } = useWallet();
+    const [isConnected, setIsConnected] = useState(false);
+    const [showDonorList, setShowDonorList] = React.useState(false);
+    const [total, setTotal] = useState(0);
+    const [showSemiModal, setShowSemiModal] = React.useState(false);
+    const [showLoading, setShowLoading] = React.useState(false);
+    const [loadingDonorList, setLoadingDonorList] = React.useState(true);
+    const [donorList, setDonorList] = React.useState<DonorItem[]>();
+    const [toAddressReal, setToAddressReal] = React.useState<string | undefined>(ZERO_ADDRESS);
+    const [nftData, setNftData] = useState<{
+      accountType?: number;
+      address?: string;
+      safeAccounts?: { networkId: number; address: string }[];
+      avatar?: string;
+      color: string;
+      type: string;
+    }>();
 
-  const [isConnected, setIsConnected] = useState(false);
-  const [showDonorList, setShowDonorList] = React.useState(false);
-  const [total, setTotal] = useState(0);
-  const [showSemiModal, setShowSemiModal] = React.useState(false);
-  const [showLoading, setShowLoading] = React.useState(false);
-  const [loadingDonorList, setLoadingDonorList] = React.useState(true);
-  const [donorList, setDonorList] = React.useState<DonorItem[]>();
-  // const { chain, chains } = useNetwork();
-  // const { address: fromAddress, isConnected } = useAccount();
-  // const [nftData, setNftData] = useState<{
-  //   accountType?: number;
-  //   address?: string;
-  //   safeAccounts?: { networkId: number; address: string }[];
-  //   avatar?: string;
-  //   color: string;
-  //   type: string;
-  // }>();
+    let fromAddressReal = publicKey?.toBase58() || undefined;
 
-  let fromAddressReal = publicKey?.toBase58() || undefined;
-  let toAddressReal =
-    accountType === 0 || accountType === undefined ? toAddress : undefined;
-  
 
-  useEffect(() => {
-    if (!toAddressReal) {
-      setDonorList([]);
-      return;
-    }
-
-    (async () => {
-      try {
-        setLoadingDonorList(true);
-        const res = await fetch(
-          `https://backend.donate3.xyz/donates/ranking?` +
-            // `https://donate3.0xhardman.xyz/donates/ranking?` +
-            new URLSearchParams({
-              address: toAddressReal || '',
-              chainId: '0',
-            }),
-          {
-            method: 'GET',
-            mode: 'cors', // no-cors, *cors, same-origin
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        );
-
-        const json = await res.json();
-        console.log(json);
-
-        const { data: result } = json;
-        console.log(result);
-        setDonorList(result?.length ? result : []);
-      } catch (error) {
-        setDonorList([]);
-        console.log(error);
-      } finally {
-        setLoadingDonorList(false);
+    useEffect(() => {
+      if (!cid) {
+        return;
       }
-    })();
-  }, [toAddressReal]);
+      getFasterIpfsLink({
+        ipfs: `https://nftstorage.link/ipfs/${cid}`,
+        timeout: 4000,
+      })
+        .then((res: any) => {
+          setNftData(res);
+          setToAddressReal(res.address)
+          console.log(res.address)
+        })
+    }, [cid]);
 
-  useEffect(() => {
-    let count = (donorList && donorList.length) || 0;
-    setTotal(count);
-  }, [donorList]);
+    useEffect(() => {
+      if (publicKey) {
+        setShowSemiModal(false);
+        setIsConnected(true);
+        fromAddressReal = publicKey.toBase58()
+      } else {
+        setShowSemiModal(true);
+      }
+      if (demo) {
+        setShowSemiModal(false);
+      }
+    }, [publicKey]);
 
-  useEffect(() => {
-    if (publicKey) {
-      setShowSemiModal(false);
-      setIsConnected(true);
-      fromAddressReal = publicKey.toBase58()
-    } else {
-      setShowSemiModal(true);
-    }
-    if (demo) {
-      setShowSemiModal(false);
-    }
-  }, [publicKey]);
-
-  return (
-    <Donate3Context.Provider
-      value={{
-        total,
-        donorList,
-        toAddress: ZERO_ADDRESS,
-        fromAddress: MY_ADDRESS,
-        title,
-        showDonorList,
-        setShowDonorList,
-        showSemiModal,
-        setShowSemiModal,
-        isConnected,
-        showLoading,
-        setShowLoading,
-        loadingDonorList,
-        setLoadingDonorList,
-        demo,
-      }}
-    >
-      {children}
-    </Donate3Context.Provider>
-  );
-};
+    return (
+      <Donate3Context.Provider
+        value={{
+          total,
+          donorList,
+          toAddress: toAddressReal,
+          fromAddress: fromAddressReal,
+          title,
+          showDonorList,
+          setShowDonorList,
+          showSemiModal,
+          setShowSemiModal,
+          isConnected,
+          showLoading,
+          setShowLoading,
+          loadingDonorList,
+          setLoadingDonorList,
+          demo,
+        }}
+      >
+        {children}
+      </Donate3Context.Provider>
+    );
+  };
 
 export default Donate3Provider;

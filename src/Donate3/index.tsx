@@ -9,23 +9,28 @@ import App from './App';
 import Donate3Provider from './context/Donate3Context';
 import globalcss from './globalcss';
 
+const networks = [
+  WalletAdapterNetwork.Devnet,
+  WalletAdapterNetwork.Testnet,
+  WalletAdapterNetwork.Mainnet
+];
+
 const Donate3 = (props: any) => {
-  // console.log('--------------', props, { ...props.config });
-  const network = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
-  const wallets = useMemo(() => [new PhantomWalletAdapter()], [network]);
+
+  const endpoint = useMemo(() => clusterApiUrl(WalletAdapterNetwork.Devnet), networks);
+  const wallets = useMemo(() => [new PhantomWalletAdapter()], networks);
 
   return (
     <React.StrictMode>
       <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets} autoConnect>
+        <WalletProvider wallets={wallets}>
           <Global styles={globalcss} />
           <Donate3Provider {...props.config} type={props.config.type}>
             <App />
           </Donate3Provider>
-          </WalletProvider>
+        </WalletProvider>
       </ConnectionProvider>
-    </React.StrictMode>
+    </React.StrictMode >
   );
 };
 
