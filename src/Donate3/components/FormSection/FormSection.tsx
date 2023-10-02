@@ -28,7 +28,7 @@ import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import { arbitrumTokensInfo, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, testNetTokensInfo } from './config';
+import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, testNetTokensInfo } from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -115,7 +115,6 @@ function FormSection() {
     mode: 'recklesslyUnprepared',
     onError(error) {
       const errMsg = error?.reason;
-      console.log(errMsg);
       if (errMsg?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
       } else if (errMsg?.includes('The donor address is equal to receive')) {
@@ -153,12 +152,39 @@ function FormSection() {
     }
   }, [donateCreateSuccess]);
 
+
+  const erc20TokenApprove = async () => {
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum!)
+    const signer = provider.getSigner();
+    const tokenAddress = selectedToken?.address;
+    const tokenAbi = selectedToken?.abi;
+
+    const contract = new ethers.Contract(
+      tokenAddress!,
+      tokenAbi!,
+      signer,
+    );
+
+    try {
+      await contract.approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const handleDonate = async () => {
     if (isConnected) {
       if (showLoading) {
         return;
       }
       setShowLoading(true);
+
+      // ERC20 token should approve
+      if (donateTokenArgs[0] !== DEFAULT_COIN_ADDRESS) {
+        await erc20TokenApprove();
+      }
+
       await writeAsync?.({
         recklesslySetUnpreparedArgs: donateTokenArgs,
       });
@@ -221,8 +247,10 @@ function FormSection() {
   };
 
   const getTokenInfoByChainId = () => {
-    const tokens = genTokenInfo()
+    const tokens = genTokenInfo();
+    // @ts-ignore
     setTokenList(tokens);
+    // @ts-ignore
     setSelectedToken(tokens[0]);
   };
 
