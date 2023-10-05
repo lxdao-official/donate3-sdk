@@ -61,10 +61,11 @@ function FormSection() {
     color,
     chain,
   } = React.useContext(Donate3Context);
-  const timeout = 5; // s
+  const timeout = 10; // s
   const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
   const [tokenList, setTokenList] = useState<IToken[] | []>([]);
   const [selectedToken, setSelectedToken] = useState<IToken>();
+  const [transactionHash, setTransactionHash] = useState<string>("")
 
   useEffect(() => {
     if (!toAddress) {
@@ -114,9 +115,10 @@ function FormSection() {
         toast(String(errMsg));
       }
       setShowLoading(false);
+      setTransactionHash("");
     },
     onSuccess(data) {
-      console.log('useContractWrite success', data, transactionData);
+      setTransactionHash(data?.hash);
       setShowLoading(false);
       toast('Syncing data, take 1-5 minutes to show');
       setDonateCreateSuccess(true);
@@ -144,7 +146,7 @@ function FormSection() {
   }, [donateCreateSuccess]);
 
 
-  const erc20TokenApprove = async () => {
+  const erc20TokenApprove = async (_args: (string | never[] | BigNumber | Uint8Array | { value: "" | BigNumber; } | undefined)[]) => {
     // @ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum!)
     const signer = provider.getSigner();
@@ -155,7 +157,14 @@ function FormSection() {
       erc20tokenAbi!,
       signer,
     );
-    await contract.approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]);
+    contract.approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]).then(async (result: { wait: () => any; }) => {
+      await result.wait();
+      await writeAsync?.({
+        recklesslySetUnpreparedArgs: _args,
+      });
+    }).catch((err: any) => {
+      console.warn(err)
+    });
   }
 
   const handleDonate = async () => {
@@ -168,14 +177,14 @@ function FormSection() {
       const _donateTokenArgs = [...donateTokenArgs];
       // ERC20 token should approve
       if (donateTokenArgs[0] !== DEFAULT_COIN_ADDRESS) {
-        await erc20TokenApprove();
         _donateTokenArgs.pop();
+        await erc20TokenApprove(_donateTokenArgs);
+        return;
       }
-      setTimeout(async () => {
-        await writeAsync?.({
-          recklesslySetUnpreparedArgs: _donateTokenArgs,
-        });
-      }, 500);
+
+      await writeAsync?.({
+        recklesslySetUnpreparedArgs: _donateTokenArgs,
+      });
     } else {
       toast('Please connect wallet first!');
     }
@@ -356,10 +365,10 @@ function FormSection() {
         {donateCreateSuccess ? (
           <Success
             timeout={timeout}
-            toAddress={toAddress!}
+            transactionHash={transactionHash!}
             setDonateCreateSuccess={setDonateCreateSuccess}
           />
-        ) : null}
+        ) : null} 
       </section>
 
       <CoinModal
