@@ -1,48 +1,40 @@
-import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber,ethers } from 'ethers';
-import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
-import toast,{ Toaster } from 'react-hot-toast';
-import { useContractWrite } from 'wagmi';
-import abi from '../../abi.json';
+import { BigNumber, ethers } from 'ethers';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Arbitrum } from '../../images/arb.svg';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Linea } from '../../images/linea.svg';
+import { ReactComponent as Sol } from '../../images/sol.svg';
 import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
+import { Metaplex } from '@metaplex-foundation/js';
+import { getAssociatedTokenAddressSync } from '@solana/spl-token';
+import { PublicKey } from '@solana/web3.js';
 import {
-DONATE_VALUE_MAP,
-PrimaryCoinType,
-PRIMARY_COIN
+  useAnchorWallet,
+  useConnection,
+  useWallet,
+} from '@solana/wallet-adapter-react';
+import { AnchorProvider, BN, Program, utils, web3 } from '@coral-xyz/anchor';
+import { IDL } from '../../donate3';
+
+
+import {
+  DONATE_VALUE_MAP,
+  PrimaryCoinType,
+  PRIMARY_COIN
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
 interface contractMap {
-  [key: number]: `0x${string}`;
+  [key: number]: `${string}`;
 }
 
 function FormSection() {
-  const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState(' ');
   const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
-    // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
-    // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
-    // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
     1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
-    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
-    10: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
-    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
-    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
-    137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
-    80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
-    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
   };
 
   const {
@@ -52,15 +44,19 @@ function FormSection() {
     setShowLoading,
     showLoading,
     color,
-    chain,
   } = React.useContext(Donate3Context);
+  const { connection } = useConnection();
+  const { publicKey } = useWallet();
+  const wallet = useAnchorWallet();
+
   const timeout = 5; // s
 
   useEffect(() => {
     if (!toAddress) {
       toast('unsupport chain');
     }
-  }, [toAddress, chain]);
+    setPrimaryCoin(PRIMARY_COIN["Solana"] as string);
+  }, [toAddress]);
 
   useEffect(() => {
     if (toAddress === fromAddress) {
@@ -68,14 +64,9 @@ function FormSection() {
     }
   }, [toAddress, fromAddress]);
 
-  useEffect(() => {
-    const name: any = chain?.name;
-    setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
-  }, [chain]);
-
   let amountIn: BigNumber | '' = 0 || '';
   if (!Number.isNaN(Number(amount))) {
-    amountIn = amount && ethers.utils.parseEther(amount.toString());
+    amountIn = amount && ethers.utils.parseUnits(amount.toString(), '9');
   }
 
   const bytesMsg = ethers.utils.toUtf8Bytes(message);
@@ -90,34 +81,6 @@ function FormSection() {
     },
   ];
 
-  const {
-    data: transactionData,
-    // error:writeError,
-    writeAsync,
-  } = useContractWrite({
-    address: CONTRACT_MAP[chain?.id || 0],
-    abi: abi,
-    functionName: 'donateToken',
-    mode: 'recklesslyUnprepared',
-    onError(error) {
-      const errMsg = error?.reason;
-      console.log(errMsg);
-      if (errMsg?.includes('insufficient')) {
-        toast(String('insufficient funds for gas'));
-      } else if (errMsg?.includes('The donor address is equal to receive')) {
-        toast(String('The donor address is equal to receive'));
-      } else if (errMsg) {
-        toast(String(errMsg));
-      }
-      setShowLoading(false);
-    },
-    onSuccess(data) {
-      console.log('useContractWrite success', data, transactionData);
-      setShowLoading(false);
-      toast('Syncing data, take 1-5 minutes to show');
-      setDonateCreateSuccess(true);
-    },
-  });
 
   useEffect(() => {
     if (isConnected) {
@@ -145,10 +108,55 @@ function FormSection() {
         return;
       }
       setShowLoading(true);
-      await writeAsync?.({
-        recklesslySetUnpreparedArgs: donateTokenArgs,
-      });
-      console.log(transactionData);
+      let mintKey = web3.Keypair.generate();
+      const metaplex = Metaplex.make(connection);
+      const NftTokenAccount = getAssociatedTokenAddressSync(
+        mintKey.publicKey,
+        publicKey!,
+      );
+
+      const metadataPDA = metaplex
+        .nfts()
+        .pdas()
+        .metadata({ mint: mintKey.publicKey });
+
+      const mintMasterPDA = metaplex
+        .nfts()
+        .pdas()
+        .masterEdition({ mint: mintKey.publicKey });
+      const anchor_provider = new AnchorProvider(connection, wallet!, {});
+      const pg = new Program(
+        IDL,
+        '3yz5aQ6A5w5mWicriDkAHAqGEC4LDU2A9gLmtxTUbmdx',
+        anchor_provider,
+      );
+      // const pubKey = new PublicKey("7BzGMomgbswT6ynUmbkqA2mh2h9oGNgfKwfR2GrEmvRT");
+      // Serialize the payload
+
+      try {
+        await pg.methods
+          .transferLamports(new BN(amountIn.toString()), message)
+          .accounts({
+            signer: publicKey!,
+            to: new PublicKey(toAddress ?? ''),
+            tokenMint: mintKey.publicKey,
+            tokenAccount: NftTokenAccount,
+            metadataAccount: metadataPDA,
+            masterEdition: mintMasterPDA,
+            tokenMetadataProgram: new web3.PublicKey(
+              'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s',
+            ),
+            associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+          })
+          .signers([mintKey])
+          .rpc();
+
+        toast('Syncing data, take 1-5 minutes to show');
+        setDonateCreateSuccess(true);
+      } catch (error: any) {
+        toast(String(error));
+      }
+      setShowLoading(false);
     } else {
       toast('Please connect wallet first!');
     }
@@ -171,13 +179,14 @@ function FormSection() {
   };
 
   const handleManualAmountFocus = () => {
+    // @ts-ignore
     shortcutOption?.current?.childNodes?.forEach((item) => {
       item.classList.remove(styles.active);
     });
   };
 
-  const donateVal = DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType] || [
-    0.001, 0.01, 0.5,
+  const donateVal = DONATE_VALUE_MAP['Solana'] || [
+    0.1, 0.5, 5,
   ];
 
   return (
@@ -188,25 +197,16 @@ function FormSection() {
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
-          <div className={styles.methodinput} onClick={openChainModal}>
+          <div className={styles.methodinput} >
             <div className={styles.cointxt}>
-              {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {(chain?.id as number) === 1 && <Eth />}
-              {(chain?.id as number) === 10 && <Optimism />}
-              {(chain?.id as number) === 59144 && <Linea />}
-              {(chain?.id as number) === 137 && <Polygon />}
-              {(chain?.id as number) === 42161 && <Arbitrum />}
-              {(chain?.id as number) === 5 && <Eth />}
-              {(chain?.id as number) === 80001 && <Polygon />}
-              {(chain?.id as number) === 11155111 && <Eth />}
-              {(chain?.id as number) === 420 && <Optimism />}
+              {<Sol />}
 
-              <span>{primaryCoin}</span>
-              <span>{chain?.name}</span>
+              <span>{`SOL`}</span>
+              <span>{`Solana`}</span>
             </div>
-            <div className={styles.switch}>
+            {/* <div className={styles.switch}>
               <Switch />
-            </div>
+            </div> */}
           </div>
         </div>
         <div
@@ -251,7 +251,7 @@ function FormSection() {
           type="button"
           className={styles.donate3btn}
           style={{ background: color }}
-          disabled={!writeAsync || !toAddress}
+          disabled={!toAddress}
           onClick={handleDonate}
         >
           {showLoading ? <Loading></Loading> : null}

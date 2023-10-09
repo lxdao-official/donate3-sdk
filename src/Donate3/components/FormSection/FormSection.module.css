@@ -1,20 +1,22 @@
 @keyframes blowUpModal {
   0% {
-    transform:scale(0);
+    transform: scale(0);
   }
+
   100% {
-    transform:scale(1);
+    transform: scale(1);
   }
 }
 
 @keyframes blowUpModalTwo {
   0% {
-    transform:scale(1);
-    opacity:1;
+    transform: scale(1);
+    opacity: 1;
   }
+
   100% {
-    transform:scale(0);
-    opacity:0;
+    transform: scale(0);
+    opacity: 0;
   }
 }
 
@@ -42,7 +44,7 @@
   justify-content: space-between;
   border-radius: 4px;
   overflow: hidden;
-  cursor: pointer;
+  /* cursor: pointer; */
   user-select: none;
 }
 
@@ -60,32 +62,34 @@
   background: rgb(26 56 96 / 8%);
 }
 
-.cointxt{
+.cointxt {
   font-size: 16px;
   line-height: 19px;
   display: flex;
   align-items: center;
-  flex:5 !important;
+  flex: 5 !important;
 }
 
-.cointxt svg{
+.cointxt svg {
+  height: 28px;
+  width: 28px;
   margin: 0 15px;
 }
 
-.cointxt span:nth-child(2){
+.cointxt span:nth-child(2) {
   font-weight: 500;
   color: #3E4343;
 }
 
-.cointxt span:nth-child(3){
+.cointxt span:nth-child(3) {
   font-weight: 400;
   color: #C1CBCA;
   margin: 0 15px;
   font-size: small;
 }
 
-.switch{
-  flex:1 !important;
+.switch {
+  flex: 1 !important;
   cursor: pointer;
   display: flex;
   align-content: center;
@@ -123,12 +127,12 @@
 }
 
 .shortcutoption div:hover {
-  border: 2px solid  #396AFF;
+  border: 2px solid #396AFF;
   cursor: pointer;
 }
 
-.shortcutoption .active{
-  border: 2px solid  #396AFF;
+.shortcutoption .active {
+  border: 2px solid #396AFF;
   cursor: pointer;
 }
 
@@ -160,7 +164,8 @@
   width: 306px;
 }
 
-.pricebtn:focus-visible,.msg textarea:focus-visible{
+.pricebtn:focus-visible,
+.msg textarea:focus-visible {
   outline: #396AFF auto 1px;
 }
 
@@ -189,7 +194,7 @@
   box-sizing: border-box;
 }
 
-.msg textarea::placeholder{
+.msg textarea::placeholder {
   font-weight: 400;
   font-size: 16px;
   color: #C1CBCA;
@@ -198,7 +203,8 @@
 .donate3btn {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;;
+  justify-content: space-evenly;
+  ;
   align-items: center;
   height: 41px;
   background: #396aff;
@@ -207,13 +213,16 @@
   border: 0px;
   padding: 0 47px;
 }
-.donate3btn svg{
+
+.donate3btn svg {
   animation: loading 3s linear infinite;
 }
-.donate3btn:disabled{
+
+.donate3btn:disabled {
   background-color: #D7D7E0 !important;
 }
-.donate3btn:hover{
+
+.donate3btn:hover {
   background: #1f93ff;
 }
 
@@ -235,10 +244,10 @@
 
 @keyframes loading {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
-

@@ -17,6 +17,7 @@ function Header({ normalmode }: HeaderProps) {
   let cx = classNames.bind(styles);
   return (
     <header
+      style={{ cursor: "auto" }}
       className={cx(styles.header, {
         normalmode: normalmode && type === DONATE_TYPE.EMBED,
       })}
@@ -27,15 +28,15 @@ function Header({ normalmode }: HeaderProps) {
           To:
           {toAddress
             ? `${toAddress.slice(0, 6)}...${toAddress.slice(
-                toAddress.length - 4,
-              )}`
+              toAddress.length - 4,
+            )}`
             : 'Unsupported Network'}
         </div>
       </div>
       <div
         className={styles.avatarwrap}
         onClick={() => {
-          setShowDonorList(true);
+          // setShowDonorList(true);
         }}
       >
         <fieldset className={styles.fieldset}>

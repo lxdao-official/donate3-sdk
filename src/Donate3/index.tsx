@@ -5,6 +5,10 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import React from 'react';
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { clusterApiUrl } from '@solana/web3.js';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import {
   sepolia,
@@ -50,26 +54,34 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
+
+
 const Donate3 = (props: any) => {
+
+
   // console.log('--------------', props, { ...props.config });
   return (
     <React.StrictMode>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          appInfo={{
-            appName: 'Donate3',
-            learnMoreUrl: 'https://donate3.xyz',
-            disclaimer: Disclaimer,
-          }}
-          chains={chains}
-          showRecentTransactions={true}
-        >
-          <Global styles={globalcss} />
-          <Donate3Provider {...props.config} type={props.config.type}>
-            <App />
-          </Donate3Provider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <ConnectionProvider endpoint={clusterApiUrl(WalletAdapterNetwork.Devnet)}>
+        <WalletProvider wallets={[new PhantomWalletAdapter()]}>
+          <WagmiConfig client={wagmiClient}>
+            <RainbowKitProvider
+              appInfo={{
+                appName: 'Donate3',
+                learnMoreUrl: 'https://donate3.xyz',
+                disclaimer: Disclaimer,
+              }}
+              chains={chains}
+              showRecentTransactions={true}
+            >
+              <Global styles={globalcss} />
+              <Donate3Provider {...props.config} type={props.config.type}>
+                <App />
+              </Donate3Provider>
+            </RainbowKitProvider>
+          </WagmiConfig>
+        </WalletProvider>
+      </ConnectionProvider>
     </React.StrictMode>
   );
 };

@@ -7,12 +7,12 @@
   color: white;
 }
 
-.avatarwrap{
+.avatarwrap {
   position: relative;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
-.avatarwrap .total{
+.avatarwrap .total {
   position: absolute;
   left: 40px;
   top: 40px;
@@ -27,7 +27,7 @@
   min-width: 65px;
 }
 
-.normalmode .avatar{
+.normalmode .avatar {
   height: 90px;
   width: 90px;
   min-width: 90px;
@@ -40,11 +40,11 @@
   flex: 1;
 }
 
-.normalmode .recipientinfo{
+.normalmode .recipientinfo {
   text-align: center;
 }
 
-.normalmode .recipientinfo div{
+.normalmode .recipientinfo div {
   margin: 2px 0px;
 }
 
@@ -66,9 +66,16 @@
 .normalmode {
   flex-direction: column !important;
 }
-.normalmode :nth-child(1) { order: 2; }
-.normalmode :nth-child(2) { order: 1; }
-.normalmode .recipientinfo{
+
+.normalmode :nth-child(1) {
+  order: 2;
+}
+
+.normalmode :nth-child(2) {
+  order: 1;
+}
+
+.normalmode .recipientinfo {
   margin-bottom: 45px;
 }
 
@@ -86,6 +93,6 @@
   line-height: 15px;
 }
 
-.normalmode .fieldset{
+.normalmode .fieldset {
   width: 422px;
 }

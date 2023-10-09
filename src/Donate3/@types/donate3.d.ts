@@ -14,8 +14,8 @@ export interface DonorItem {
 
 export type Donate3ContextType = {
   donorList?: DonorItem[];
-  toAddress: `0x${string}` | undefined;
-  fromAddress: `0x${string}` | undefined;
+  toAddress: `${string}` | undefined;
+  fromAddress: `${string}` | undefined;
   type: floatType | embedType;
   color?: string;
   total?: number;

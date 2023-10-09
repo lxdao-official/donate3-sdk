@@ -16,6 +16,7 @@ export type PrimaryCoinType = {
   Goerli: string | number[];
   Polygon: string | number[];
   'Polygon Mumbai': string | number[];
+  "Solana": string | number[];
 };
 
 export const PRIMARY_COIN: PrimaryCoinType = {
@@ -23,6 +24,7 @@ export const PRIMARY_COIN: PrimaryCoinType = {
   Goerli: 'ETH',
   Polygon: 'MATIC',
   'Polygon Mumbai': 'MATIC',
+  "Solana": "SOL"
 };
 
 export const DONATE_VALUE_MAP: PrimaryCoinType = {
@@ -30,6 +32,7 @@ export const DONATE_VALUE_MAP: PrimaryCoinType = {
   Goerli: [0.001, 0.01, 0.5],
   Polygon: [0.5, 5, 25],
   'Polygon Mumbai': [0.5, 5, 25],
+  "Solana": [0.1, 0.5, 5]
 };
 
 
