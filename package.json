@@ -45,6 +45,7 @@
     ]
   },
   "dependencies": {
+    "@coral-xyz/anchor": "0.28.1-beta.2",
     "@emotion/react": "^11.10.6",
     "@ethersproject/solidity": "^5.7.0",
     "@lxdao/img3": "^1.1.0",
