@@ -16,7 +16,8 @@ export interface IToken {
   isErc20?: boolean;
 }
 
-export const DEFAULT_COIN_ADDRESS = '0x0000000000000000000000000000000000000000';
+export const DEFAULT_COIN_ADDRESS =
+  '0x0000000000000000000000000000000000000000';
 
 export const defaultMainnet = {
   logo: ethIcon,

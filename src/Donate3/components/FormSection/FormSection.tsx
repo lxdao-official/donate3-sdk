@@ -2,7 +2,7 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { BigNumber, ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { goerli, useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { erc20ABI, goerli, useContractWrite } from 'wagmi';
 import {
   arbitrum,
   mainnet,
@@ -12,7 +12,6 @@ import {
   sepolia,
 } from 'wagmi/chains';
 import abi from '../../abi.json';
-import erc20tokenAbi from "../../utils/erc20TokenAbi.json"
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Arbitrum } from '../../images/arb.svg';
 import { ReactComponent as Eth } from '../../images/eth.svg';
@@ -25,7 +24,17 @@ import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, goerliTokensInfo, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
+import {
+  arbitrumTokensInfo,
+  DEFAULT_COIN_ADDRESS,
+  goerliTokensInfo,
+  IToken,
+  mainnetTokensInfo,
+  optimismTokensInfo,
+  polygonTokensInfo,
+  sepoliaTokensInfo,
+  testNetTokensInfo,
+} from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -65,7 +74,7 @@ function FormSection() {
   const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
   const [tokenList, setTokenList] = useState<IToken[] | []>([]);
   const [selectedToken, setSelectedToken] = useState<IToken>();
-  const [transactionHash, setTransactionHash] = useState<string>("")
+  const [transactionHash, setTransactionHash] = useState<string>('');
 
   useEffect(() => {
     if (!toAddress) {
@@ -105,6 +114,9 @@ function FormSection() {
     abi: abi,
     functionName: 'donate',
     mode: 'recklesslyUnprepared',
+    overrides: {
+      gasLimit: BigNumber.from(228520),
+    },
     onError(error) {
       const errMsg = error?.reason;
       if (errMsg?.includes('insufficient')) {
@@ -115,7 +127,7 @@ function FormSection() {
         toast(String(errMsg));
       }
       setShowLoading(false);
-      setTransactionHash("");
+      setTransactionHash('');
     },
     onSuccess(data) {
       setTransactionHash(data?.hash);
@@ -145,27 +157,45 @@ function FormSection() {
     }
   }, [donateCreateSuccess]);
 
-
-  const erc20TokenApprove = async (_args: (string | never[] | BigNumber | Uint8Array | { value: "" | BigNumber; } | undefined)[]) => {
+  const erc20TokenApprove = async (
+    _args: (
+      | string
+      | never[]
+      | BigNumber
+      | Uint8Array
+      | { value: '' | BigNumber }
+      | undefined
+    )[],
+  ) => {
     // @ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum!)
+    const provider = new ethers.providers.Web3Provider(window.ethereum!);
     const signer = provider.getSigner();
     const tokenAddress = selectedToken?.address;
 
-    const contract = new ethers.Contract(
-      tokenAddress!,
-      erc20tokenAbi!,
-      signer,
+    const contract = new ethers.Contract(tokenAddress!, erc20ABI, signer);
+    let approveAmount = await contract.allowance(
+      fromAddress,
+      CONTRACT_MAP[chain?.id || 0],
     );
-    contract.approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]).then(async (result: { wait: () => any; }) => {
-      await result.wait();
+    if (BigNumber.from(approveAmount) < BigNumber.from(donateTokenArgs[1]!)) {
+      approveAmount = ethers.constants.MaxUint256;
+      contract
+        .approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]!)
+        .then(async (result: { wait: () => any }) => {
+          await result.wait();
+          await writeAsync?.({
+            recklesslySetUnpreparedArgs: _args,
+          });
+        })
+        .catch((err: any) => {
+          console.warn(err);
+        });
+    } else {
       await writeAsync?.({
         recklesslySetUnpreparedArgs: _args,
       });
-    }).catch((err: any) => {
-      console.warn(err)
-    });
-  }
+    }
+  };
 
   const handleDonate = async () => {
     if (isConnected) {
@@ -213,8 +243,8 @@ function FormSection() {
   };
 
   const donateVal = useMemo(() => {
-    return selectedToken?.isErc20 ? [1, 5, 10] : [0.001, 0.01, 0.5]
-  }, [selectedToken])
+    return selectedToken?.isErc20 ? [1, 5, 10] : [0.001, 0.01, 0.5];
+  }, [selectedToken]);
 
   const handleClickCoinPart = () => {
     setCoinModalVisible(true);
@@ -228,21 +258,21 @@ function FormSection() {
   const genTokenInfo = () => {
     switch (chain?.id) {
       case mainnet.id:
-        return mainnetTokensInfo
+        return mainnetTokensInfo;
       case optimism.id:
-        return optimismTokensInfo
+        return optimismTokensInfo;
       case polygon.id:
-        return polygonTokensInfo
+        return polygonTokensInfo;
       case arbitrum.id:
-        return arbitrumTokensInfo
+        return arbitrumTokensInfo;
       case polygonMumbai.id:
-        return polygonTokensInfo
+        return polygonTokensInfo;
       case sepolia.id:
-        return sepoliaTokensInfo
+        return sepoliaTokensInfo;
       case goerli.id:
-        return goerliTokensInfo
+        return goerliTokensInfo;
       default:
-        return testNetTokensInfo
+        return testNetTokensInfo;
     }
   };
 
@@ -260,30 +290,28 @@ function FormSection() {
     }
   }, [chain?.id]);
 
-
   const genNewTokenInfo = (v: string) => {
     let temp = [...tokenList];
     // set all item as false
     temp = temp.map((item) => {
       return {
         ...item,
-        selected: false
-      }
-    })
+        selected: false,
+      };
+    });
     // set selected true
     const index = temp.findIndex((item) => item.address === v);
     temp[index].selected = true;
 
-    setSelectedToken(temp[index])
+    setSelectedToken(temp[index]);
 
     return temp;
-  }
-
+  };
 
   const handleClickCoinCard = (v: string) => {
-    setTokenList(genNewTokenInfo(v))
+    setTokenList(genNewTokenInfo(v));
     handleClickCoinModalClose();
-  }
+  };
 
   return (
     <>
