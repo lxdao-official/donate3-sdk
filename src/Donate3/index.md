@@ -11,14 +11,14 @@ const config = {
   color: "#666",
   title: "Donate3",
   accountType: 1, // 账户类型 0： EOA， 1：safe account
-  toAddress: "0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579",
+  toAddress: "0xe395B9bA2F93236489ac953146485C435D1A267B",
   // avatar:'https://nftstorage.link/ipfs/bafkreidovf46msp6yqpsbfbl2n6whvdyfsupwwpucdguvkgt2isdnbac2i',
   avatar:'',
   safeAccounts:[{
-    networkId:1,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"
-    },{networkId:10,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:42161,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:137,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:59144,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:5,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:80001,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},
-    {networkId:11155111 ,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"},{networkId:420 ,address:"0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579"}],
-  // safeAccounts: [{networkId: 5, address: '0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579'}], // [{networkId: 5, address: '0xd2567eb0893c8b5de7deac1cb66d8d60178767e8'}]
+    networkId:1,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"
+    },{networkId:10,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:42161,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:137,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:59144,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:5,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:80001,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},
+    {networkId:11155111 ,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"},{networkId:420 ,address:"0xe395B9bA2F93236489ac953146485C435D1A267B"}],
+  // safeAccounts: [{networkId: 5, address: '0xe395B9bA2F93236489ac953146485C435D1A267B'}], // [{networkId: 5, address: '0xd2567eb0893c8b5de7deac1cb66d8d60178767e8'}]
   demo:false
 }
 export default () => <Donate3 config={...config}/>

@@ -2,7 +2,7 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { BigNumber, ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { useContractWrite } from 'wagmi';
+import { goerli, useContractWrite, usePrepareContractWrite } from 'wagmi';
 import {
   arbitrum,
   mainnet,
@@ -25,7 +25,7 @@ import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
+import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, goerliTokensInfo, IToken, mainnetTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -41,14 +41,14 @@ function FormSection() {
     // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
     // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
     // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
-    1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
-    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
-    10: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
-    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
-    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
+    1: '0xDD935a5aAC5Ae89E4A4b3f729C58562246A5fB01', // ETH
+    5: '0xBe0bB0e92426334C5F2Ef488D2dC741065200B79', // goerli
+    10: '0xa753c59E7aF6d7331ddF57Db7954bB234e470023', // optimism
+    42161: '0x5e0A4a381590B955c53646b0483B86F4AD78e8FE', // arb one
+    59144: '0x58706AC79f4A3d63519A623eE1a03f37afe59620', // linea
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579', // sepolia
+    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
     420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
   };
 
@@ -239,6 +239,8 @@ function FormSection() {
         return polygonTokensInfo
       case sepolia.id:
         return sepoliaTokensInfo
+      case goerli.id:
+        return goerliTokensInfo
       default:
         return testNetTokensInfo
     }
@@ -368,7 +370,7 @@ function FormSection() {
             transactionHash={transactionHash!}
             setDonateCreateSuccess={setDonateCreateSuccess}
           />
-        ) : null} 
+        ) : null}
       </section>
 
       <CoinModal

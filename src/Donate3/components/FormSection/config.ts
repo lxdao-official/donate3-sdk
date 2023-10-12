@@ -141,6 +141,17 @@ const sepoliaTokens = [
   },
 ];
 
+const goerliTokens = [
+  {
+    logo: ethIcon,
+    name: 'WETH',
+    symbol: 'WETH',
+    address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+    selected: false,
+    isErc20: true,
+  },
+];
+
 export const mainnetTokensInfo = [defaultMainnet, ...mainnetTokens];
 
 export const optimismTokensInfo = [defaultOptimism, ...optimismTokens];
@@ -150,5 +161,7 @@ export const polygonTokensInfo = [defaultPolygon, ...polygonTokens];
 export const arbitrumTokensInfo = [defaultArbitrum, ...arbitrumTokens];
 
 export const sepoliaTokensInfo = [defaultMainnet, ...sepoliaTokens];
+
+export const goerliTokensInfo = [defaultMainnet, ...goerliTokens];
 
 export const testNetTokensInfo = [defaultMainnet];
