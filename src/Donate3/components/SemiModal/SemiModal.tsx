@@ -5,6 +5,8 @@ import Footer from '../Footer/Footer';
 import UserAvatar from '../UserAvatar/UserAvatar';
 import styles from './SemiModal.module.css';
 import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletName } from '@solana/wallet-adapter-base';
+
 function SemiModal() {
   let cx = classNames.bind(styles);
   const { connect, select } = useWallet();
@@ -39,6 +41,7 @@ function SemiModal() {
               style={{ background: color, cursor: 'pointer' }}
               onClick={() => {
                 setShowLoading(true);
+                select("Phantom" as WalletName<'Phantom'>)
                 connect()
               }}
             >
