@@ -2,13 +2,14 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import { BigNumber, ethers } from 'ethers';
 import React, { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { erc20ABI, goerli, useContractWrite } from 'wagmi';
+import { erc20ABI, useContractWrite } from 'wagmi';
 import {
   arbitrum,
   mainnet,
   optimism,
   polygon,
   polygonMumbai,
+  optimismGoerli,
   sepolia,
 } from 'wagmi/chains';
 import abi from '../../abi.json';
@@ -24,17 +25,7 @@ import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import {
-  arbitrumTokensInfo,
-  DEFAULT_COIN_ADDRESS,
-  goerliTokensInfo,
-  IToken,
-  mainnetTokensInfo,
-  optimismTokensInfo,
-  polygonTokensInfo,
-  sepoliaTokensInfo,
-  testNetTokensInfo,
-} from './config';
+import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, goerliTokensInfo, IToken, mainnetTokensInfo, optimismGoerliTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -58,7 +49,7 @@ function FormSection() {
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
     11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
-    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
+    420: '0xD880809f80A62B6779D5015197FF6867175A471f',  //optimism goerli
   };
 
   const {
@@ -269,8 +260,8 @@ function FormSection() {
         return polygonTokensInfo;
       case sepolia.id:
         return sepoliaTokensInfo;
-      case goerli.id:
-        return goerliTokensInfo;
+      case optimismGoerli.id:
+        return optimismGoerliTokensInfo
       default:
         return testNetTokensInfo;
     }

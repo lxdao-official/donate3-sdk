@@ -93,6 +93,19 @@ const optimismTokens = [
   },
 ];
 
+const optimismGoerliTokens = [
+  {
+    logo: ethIcon,
+    name: 'WETH',
+    symbol: 'WETH',
+    address: '0x4200000000000000000000000000000000000006',
+    selected: false,
+    isErc20: true,
+  },
+]
+
+
+
 const polygonTokens = [
   {
     logo: usdcIcon,
@@ -156,6 +169,8 @@ const goerliTokens = [
 export const mainnetTokensInfo = [defaultMainnet, ...mainnetTokens];
 
 export const optimismTokensInfo = [defaultOptimism, ...optimismTokens];
+
+export const optimismGoerliTokensInfo = [defaultOptimism, ...optimismGoerliTokens];
 
 export const polygonTokensInfo = [defaultPolygon, ...polygonTokens];
 
