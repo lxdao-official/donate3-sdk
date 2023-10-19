@@ -258,8 +258,8 @@ function FormSection() {
         return arbitrumTokensInfo;
       case polygonMumbai.id:
         return polygonTokensInfo;
-      // case sepolia.id:
-      //   return sepoliaTokensInfo;
+      case sepolia.id:
+        return sepoliaTokensInfo;
       case optimismGoerli.id:
         return optimismGoerliTokensInfo
       case 59144:
