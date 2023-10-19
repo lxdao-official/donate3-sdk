@@ -10,7 +10,7 @@ import {
   polygon,
   polygonMumbai,
   optimismGoerli,
-  sepolia,
+  sepolia
 } from 'wagmi/chains';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
@@ -25,7 +25,7 @@ import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
 import CoinModal from './components/CoinModal';
-import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, goerliTokensInfo, IToken, mainnetTokensInfo, optimismGoerliTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
+import { arbitrumTokensInfo, DEFAULT_COIN_ADDRESS, goerliTokensInfo, IToken, lineaTokensInfo, mainnetTokensInfo, optimismGoerliTokensInfo, optimismTokensInfo, polygonTokensInfo, sepoliaTokensInfo, testNetTokensInfo } from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -105,9 +105,9 @@ function FormSection() {
     abi: abi,
     functionName: 'donate',
     mode: 'recklesslyUnprepared',
-    overrides: {
-      gasLimit: BigNumber.from(228520),
-    },
+    // overrides: {
+    //   gasLimit: BigNumber.from(228520),
+    // },
     onError(error) {
       const errMsg = error?.reason;
       if (errMsg?.includes('insufficient')) {
@@ -262,6 +262,8 @@ function FormSection() {
         return sepoliaTokensInfo;
       case optimismGoerli.id:
         return optimismGoerliTokensInfo
+      case 59144:
+        return lineaTokensInfo;
       default:
         return testNetTokensInfo;
     }

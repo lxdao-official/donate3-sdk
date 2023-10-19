@@ -79,7 +79,7 @@ const optimismTokens = [
     logo: usdcIcon,
     name: 'USD Coin',
     symbol: 'USDC',
-    address: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
+    address: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
     selected: false,
     isErc20: true,
   },
@@ -102,9 +102,7 @@ const optimismGoerliTokens = [
     selected: false,
     isErc20: true,
   },
-]
-
-
+];
 
 const polygonTokens = [
   {
@@ -153,6 +151,14 @@ const sepoliaTokens = [
     selected: false,
     isErc20: true,
   },
+  {
+    logo: ethIcon,
+    name: 'WETH',
+    symbol: 'WETH',
+    address: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
+    selected: false,
+    isErc20: true,
+  },
 ];
 
 const goerliTokens = [
@@ -166,18 +172,34 @@ const goerliTokens = [
   },
 ];
 
+const lineaTokens = [
+  {
+    logo: ethIcon,
+    name: 'WETH',
+    symbol: 'WETH',
+    address: '0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f',
+    selected: false,
+    isErc20: true,
+  },
+];
+
 export const mainnetTokensInfo = [defaultMainnet, ...mainnetTokens];
 
 export const optimismTokensInfo = [defaultOptimism, ...optimismTokens];
 
-export const optimismGoerliTokensInfo = [defaultOptimism, ...optimismGoerliTokens];
+export const optimismGoerliTokensInfo = [
+  defaultOptimism,
+  ...optimismGoerliTokens,
+];
 
-export const polygonTokensInfo = [defaultPolygon, ...polygonTokens];
+export const polygonTokensInfo = [defaultPolygon];
 
 export const arbitrumTokensInfo = [defaultArbitrum, ...arbitrumTokens];
 
 export const sepoliaTokensInfo = [defaultMainnet, ...sepoliaTokens];
 
 export const goerliTokensInfo = [defaultMainnet, ...goerliTokens];
+
+export const lineaTokensInfo = [defaultMainnet, ...lineaTokens];
 
 export const testNetTokensInfo = [defaultMainnet];
