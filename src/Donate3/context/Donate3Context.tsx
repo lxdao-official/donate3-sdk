@@ -133,7 +133,7 @@ const Donate3Provider: React.FC<{
             // `https://donate3.0xhardman.xyz/donates/ranking?` +
             new URLSearchParams({
               address: toAddressReal || '',
-              chainId: chain?.id.toString() || '0',
+              // chainId: chain?.id.toString() || '0',
             }),
           {
             method: 'GET',

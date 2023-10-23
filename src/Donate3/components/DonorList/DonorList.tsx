@@ -60,12 +60,7 @@ function DonorList() {
     if (!datas?.length) return;
     let dom: JSX.Element[] = [];
     let records = datas?.slice(0, 3);
-    const formatAmount = (v: string) => {
-      let n = Number(v);
-      n /= 10 ** 18;
-      return n.toFixed(3);
-    };
-    // records.push(records[0]);
+    
     if (datas.length) {
       dom = records?.map((item: DonorItem, index: number) => {
         return (
@@ -83,10 +78,8 @@ function DonorList() {
               ></Avatar>
             </div>
             <div className={styles.amount}>
-              {formatAmount(item.totaldonation)}
+            {item.totalAmount.toFixed(2)} $
             </div>
-            <div className={styles.unit}>$</div>
-            {/* <div className={styles.count}>捐赠{records.length}次</div> */}
           </div>
         );
       });
