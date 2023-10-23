@@ -1,8 +1,13 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
-import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { parseEther, stringToHex } from 'viem';
-import { erc20ABI, useContractWrite } from 'wagmi';
+import { parseEther, parseUnits, stringToHex, zeroAddress } from 'viem';
+import {
+  erc20ABI,
+  useContractWrite,
+  usePublicClient,
+  useWalletClient,
+} from 'wagmi';
 import {
   arbitrum,
   mainnet,
@@ -59,7 +64,7 @@ function FormSection() {
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
     11155111: '0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579', // sepolia
-    420: '0xD880809f80A62B6779D5015197FF6867175A471f', //optimism goerli
+    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7', //optimism goerli
   };
 
   const {
@@ -71,12 +76,14 @@ function FormSection() {
     color,
     chain,
   } = React.useContext(Donate3Context);
+
   const timeout = 10; // s
   const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
   const [tokenList, setTokenList] = useState<IToken[] | []>([]);
   const [selectedToken, setSelectedToken] = useState<IToken>();
   const [transactionHash, setTransactionHash] = useState<string>('');
-
+  const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   useEffect(() => {
     if (!toAddress) {
       toast('unsupport chain');
@@ -103,20 +110,8 @@ function FormSection() {
   } = useContractWrite({
     address: CONTRACT_MAP[chain?.id || 0],
     abi: abi,
-    functionName: 'donateToken',
-    onError(error) {
-      const errMsg = error.name;
-      console.log(errMsg);
-      if (errMsg?.includes('insufficient')) {
-        toast(String('insufficient funds for gas'));
-      } else if (errMsg?.includes('The donor address is equal to receive')) {
-        toast(String('The donor address is equal to receive'));
-      } else if (errMsg) {
-        toast(String(errMsg));
-      }
-      setShowLoading(false);
-      setTransactionHash('');
-    },
+    functionName: 'donate',
+
     onSuccess(data) {
       setTransactionHash(data?.hash);
       setShowLoading(false);
@@ -145,42 +140,39 @@ function FormSection() {
     }
   }, [donateCreateSuccess]);
 
-  const erc20TokenApprove = async (
-    _args: (
-      | string
-      | never[]
-      | BigNumber
-      | Uint8Array
-      | { value: '' | BigNumber }
-      | undefined
-    )[],
-  ) => {
-    // @ts-ignore
-    const provider = new ethers.providers.Web3Provider(window.ethereum!);
-    const signer = provider.getSigner();
-    const tokenAddress = selectedToken?.address;
+  const erc20TokenApprove = async () => {
+    if (
+      !fromAddress ||
+      !publicClient ||
+      !walletClient ||
+      !selectedToken?.address
+    )
+      return;
 
-    const contract = new ethers.Contract(tokenAddress!, erc20ABI, signer);
-    let approveAmount = await contract.allowance(
-      fromAddress,
-      CONTRACT_MAP[chain?.id || 0],
-    );
-    if (BigNumber.from(approveAmount) < BigNumber.from(donateTokenArgs[1]!)) {
-      approveAmount = ethers.constants.MaxUint256;
-      contract
-        .approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]!)
-        .then(async (result: { wait: () => any }) => {
-          await result.wait();
-          await writeAsync?.({
-            recklesslySetUnpreparedArgs: _args,
-          });
-        })
-        .catch((err: any) => {
-          console.warn(err);
-        });
+    const tokenAddress = selectedToken.address as `0x${string}`;
+
+    let approveAmount = await publicClient.readContract({
+      address: tokenAddress || zeroAddress,
+      abi: erc20ABI,
+      functionName: 'allowance',
+      args: [fromAddress, CONTRACT_MAP[chain?.id || 0]],
+    });
+
+    let amountInToken = parseUnits(amount, selectedToken?.decimals || 6);
+    if (BigInt(approveAmount) < BigInt(amountInToken)) {
+      let txn = await walletClient.writeContract({
+        address: tokenAddress || zeroAddress,
+        abi: erc20ABI,
+        functionName: 'approve',
+        args: [CONTRACT_MAP[chain?.id || 0], BigInt(amountInToken)],
+      });
+      await publicClient.waitForTransactionReceipt({ hash: txn });
+      await writeAsync?.({
+        args: [tokenAddress, amountInToken, toAddress, bytesMsg, []],
+      });
     } else {
       await writeAsync?.({
-        recklesslySetUnpreparedArgs: _args,
+        args: [tokenAddress, amountIn, toAddress, bytesMsg, []],
       });
     }
   };
@@ -192,18 +184,66 @@ function FormSection() {
       }
       setShowLoading(true);
 
-      const _donateTokenArgs = [...donateTokenArgs];
-      // ERC20 token should approve
-      if (donateTokenArgs[0] !== DEFAULT_COIN_ADDRESS) {
-        _donateTokenArgs.pop();
-        await erc20TokenApprove(_donateTokenArgs);
-        return;
+      try {
+        // ERC20 token should approve
+        if (selectedToken?.address !== zeroAddress) {
+          await erc20TokenApprove();
+          return;
+        }
+        if (chain.id === 137 || chain.id === 80001) {
+          await walletClient?.writeContract({
+            address: CONTRACT_MAP[chain?.id || 0],
+            abi: [
+              {
+                inputs: [
+                  {
+                    internalType: 'uint256',
+                    name: 'amountIn',
+                    type: 'uint256',
+                  },
+                  { internalType: 'address', name: 'to', type: 'address' },
+                  { internalType: 'bytes', name: 'message', type: 'bytes' },
+                  {
+                    internalType: 'bytes32[]',
+                    name: '_merkleProof',
+                    type: 'bytes32[]',
+                  },
+                ],
+                name: 'donateToken',
+                outputs: [],
+                stateMutability: 'payable',
+                type: 'function',
+              },
+            ],
+            functionName: 'donateToken',
+            args: [amountIn, toAddress!, bytesMsg, []],
+            value: amountIn,
+          });
+        } else {
+          await writeAsync?.({
+            args: [zeroAddress, amountIn, toAddress, bytesMsg, []],
+            value: amountIn,
+          });
+        }
+      } catch (e) {
+        let errMsg = String(e);
+        console.log(errMsg);
+        if (errMsg.includes('User rejected the request')) {
+          toast('User rejected the request');
+        } else if (errMsg?.includes('insufficient')) {
+          toast(String('insufficient funds for gas'));
+        } else if (errMsg?.includes('The donor address is equal to receive')) {
+          toast(String('The donor address is equal to receive'));
+        } else if (errMsg.includes('Invalid input amount')) {
+          toast(String('Invalid input amount'));
+        } else if (errMsg) {
+          toast(String(errMsg));
+        }
+        setShowLoading(false);
+        setTransactionHash('');
+      } finally {
+        setShowLoading(false);
       }
-
-      await writeAsync?.({
-        args: [amountIn, toAddress, bytesMsg, []],
-        value: amountIn,
-      });
     } else {
       toast('Please connect wallet first!');
     }

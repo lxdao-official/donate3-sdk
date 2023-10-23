@@ -1,18 +1,16 @@
 import React from 'react';
 
-import { ReactComponent as Eth } from '../../../../images/eth.svg';
 import { ReactComponent as Switch } from '../../../../images/switch.svg';
 
-import styles from './index.module.css';
 import { IToken } from '../../config';
+import styles from './index.module.css';
 
 interface ICoinPartProps {
   onPress: () => void;
-  token: IToken
+  token: IToken | undefined;
 }
 
 const CoinPart = ({ onPress, token }: ICoinPartProps) => {
-
   return (
     <div className={styles.coinPartWrapper} onClick={onPress}>
       <div className={styles.coinIcon}>
