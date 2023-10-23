@@ -8,10 +8,21 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "@@/*": [".dumi/tmp/*"],
-      "donate3-sdk": ["src"],
-      "donate3-sdk/*": ["src/*", "*"]
+      "@@/*": [
+        ".dumi/tmp/*"
+      ],
+      "donate3-sdk": [
+        "src"
+      ],
+      "donate3-sdk/*": [
+        "src/*",
+        "*"
+      ]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*","custom.d.ts"]
+  "include": [
+    ".dumirc.ts",
+    "src/**/*",
+    "custom.d.ts"
+  ]
 }

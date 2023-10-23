@@ -1,27 +1,28 @@
 import { Global } from '@emotion/react';
+import { JoyIdWallet } from '@joyid/rainbowkit';
 import {
+  connectorsForWallets,
   DisclaimerComponent,
   getDefaultWallets,
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import React from 'react';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
-  sepolia,
   arbitrum,
   goerli,
   mainnet,
   optimism,
+  optimismGoerli,
   polygon,
   polygonMumbai,
-  optimismGoerli
+  sepolia,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import App from './App';
 import { Linea } from './chains/linea';
 import Donate3Provider from './context/Donate3Context';
 import globalcss from './globalcss';
-
 const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   <Text>
     这里是 Donate3 的免责声明，待补充{' '}
@@ -31,30 +32,55 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
   </Text>
 );
 
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, publicClient } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [mainnet, optimism, Linea, polygon, arbitrum, goerli, polygonMumbai, sepolia, optimismGoerli],
+  [
+    mainnet,
+    optimism,
+    Linea,
+    polygon,
+    arbitrum,
+    goerli,
+    polygonMumbai,
+    sepolia,
+    optimismGoerli,
+  ],
   // [polygonMumbai],
   [publicProvider()],
 );
-
-const { connectors } = getDefaultWallets({
+const wallet = getDefaultWallets({
   appName: 'Donate3',
+  projectId: '1f449d25c01a7ece08ce2ffeeaaac6c8',
   chains,
-});
+}).connectors();
 
-const wagmiClient = createClient({
+const wagmiConfig = createConfig({
   autoConnect: true,
-  connectors,
-  provider,
-  webSocketProvider,
+  connectors: [
+    ...wallet,
+    ...connectorsForWallets([
+      {
+        groupName: 'Recommended',
+        wallets: [
+          JoyIdWallet({
+            chains,
+            options: {
+              name: 'Donate3',
+              logo: 'https://fav.farm/🆔',
+            },
+          }),
+        ],
+      },
+    ])(),
+  ],
+  publicClient,
 });
 
 const Donate3 = (props: any) => {
   // console.log('--------------', props, { ...props.config });
   return (
     <React.StrictMode>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider
           appInfo={{
             appName: 'Donate3',

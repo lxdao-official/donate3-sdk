@@ -1,7 +1,7 @@
 import { useChainModal } from '@rainbow-me/rainbowkit';
-import { BigNumber,ethers } from 'ethers';
-import React,{ MouseEvent,useEffect,useRef,useState } from 'react';
-import toast,{ Toaster } from 'react-hot-toast';
+import React, { MouseEvent, useEffect, useRef, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { parseEther, stringToHex } from 'viem';
 import { useContractWrite } from 'wagmi';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
@@ -13,9 +13,9 @@ import { ReactComponent as Optimism } from '../../images/op.svg';
 import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
 import {
-DONATE_VALUE_MAP,
-PrimaryCoinType,
-PRIMARY_COIN
+  DONATE_VALUE_MAP,
+  PrimaryCoinType,
+  PRIMARY_COIN,
 } from '../../utils/const';
 import Success from '../Success/Success';
 import styles from './FormSection.module.css';
@@ -73,22 +73,12 @@ function FormSection() {
     setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
   }, [chain]);
 
-  let amountIn: BigNumber | '' = 0 || '';
+  let amountIn: bigint = BigInt(0);
   if (!Number.isNaN(Number(amount))) {
-    amountIn = amount && ethers.utils.parseEther(amount.toString());
+    amountIn = (amount && parseEther(amount.toString())) || BigInt(0);
   }
 
-  const bytesMsg = ethers.utils.toUtf8Bytes(message);
-  let donateTokenArgs = [
-    // pid,
-    amountIn,
-    toAddress,
-    bytesMsg,
-    [],
-    {
-      value: amountIn,
-    },
-  ];
+  const bytesMsg = stringToHex(message);
 
   const {
     data: transactionData,
@@ -98,9 +88,8 @@ function FormSection() {
     address: CONTRACT_MAP[chain?.id || 0],
     abi: abi,
     functionName: 'donateToken',
-    mode: 'recklesslyUnprepared',
     onError(error) {
-      const errMsg = error?.reason;
+      const errMsg = error.name;
       console.log(errMsg);
       if (errMsg?.includes('insufficient')) {
         toast(String('insufficient funds for gas'));
@@ -145,8 +134,10 @@ function FormSection() {
         return;
       }
       setShowLoading(true);
+
       await writeAsync?.({
-        recklesslySetUnpreparedArgs: donateTokenArgs,
+        args: [amountIn, toAddress, bytesMsg, []],
+        value: amountIn,
       });
       console.log(transactionData);
     } else {
