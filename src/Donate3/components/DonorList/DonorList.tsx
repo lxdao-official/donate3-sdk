@@ -85,7 +85,7 @@ function DonorList() {
             <div className={styles.amount}>
               {formatAmount(item.totaldonation)}
             </div>
-            <div className={styles.unit}>{chain?.nativeCurrency?.symbol}</div>
+            <div className={styles.unit}>$</div>
             {/* <div className={styles.count}>捐赠{records.length}次</div> */}
           </div>
         );

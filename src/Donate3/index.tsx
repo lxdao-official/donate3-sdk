@@ -10,7 +10,6 @@ import React from 'react';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   arbitrum,
-  goerli,
   mainnet,
   optimism,
   optimismGoerli,
@@ -34,17 +33,7 @@ const Disclaimer: DisclaimerComponent = ({ Text, Link }) => (
 
 const { chains, publicClient } = configureChains(
   // [mainnet, goerli, polygon, polygonMumbai],
-  [
-    mainnet,
-    optimism,
-    Linea,
-    polygon,
-    arbitrum,
-    goerli,
-    polygonMumbai,
-    sepolia,
-    optimismGoerli,
-  ],
+  [mainnet, optimism, Linea, polygon, arbitrum, polygonMumbai, sepolia, optimismGoerli],
   // [polygonMumbai],
   [publicProvider()],
 );

@@ -1,0 +1,32 @@
+.coinPartWrapper {
+  background: rgb(26 56 96 / 8%);
+  width: 49%;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.coinPartWrapper .coinName {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.coinPartWrapper .coinIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coinPartWrapper .coinIcon img {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.coinPartWrapper .switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -2,7 +2,16 @@ import { useChainModal } from '@rainbow-me/rainbowkit';
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { parseEther, stringToHex } from 'viem';
-import { useContractWrite } from 'wagmi';
+import { erc20ABI, useContractWrite } from 'wagmi';
+import {
+  arbitrum,
+  mainnet,
+  optimism,
+  optimismGoerli,
+  polygon,
+  polygonMumbai,
+  sepolia,
+} from 'wagmi/chains';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
 import { ReactComponent as Arbitrum } from '../../images/arb.svg';
@@ -12,12 +21,21 @@ import { ReactComponent as Loading } from '../../images/loading.svg';
 import { ReactComponent as Optimism } from '../../images/op.svg';
 import { ReactComponent as Polygon } from '../../images/polygon.svg';
 import { ReactComponent as Switch } from '../../images/switch.svg';
-import {
-  DONATE_VALUE_MAP,
-  PrimaryCoinType,
-  PRIMARY_COIN,
-} from '../../utils/const';
 import Success from '../Success/Success';
+import CoinPart from './components/CoinPart';
+
+import CoinModal from './components/CoinModal';
+import {
+  arbitrumTokensInfo,
+  IToken,
+  lineaTokensInfo,
+  mainnetTokensInfo,
+  optimismGoerliTokensInfo,
+  optimismTokensInfo,
+  polygonTokensInfo,
+  sepoliaTokensInfo,
+  testNetTokensInfo,
+} from './config';
 import styles from './FormSection.module.css';
 interface contractMap {
   [key: number]: `0x${string}`;
@@ -27,22 +45,21 @@ function FormSection() {
   const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState(' ');
-  const [primaryCoin, setPrimaryCoin] = useState<string>('ETH');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
     // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
     // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
     // 137: '0x0049c7684a551e581D8de08fD2827dFF9808d162',
-    1: '0x3a42DDc676F6854730151750f3dBD0ebFE3c6CD3', // ETH
-    5: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // goerli
-    10: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // optimism
-    42161: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // arb one
-    59144: '0x3a42ddc676f6854730151750f3dbd0ebfe3c6cd3', // linea
+    1: '0xDD935a5aAC5Ae89E4A4b3f729C58562246A5fB01', // ETH
+    5: '0xBe0bB0e92426334C5F2Ef488D2dC741065200B79', // goerli
+    10: '0xa753c59E7aF6d7331ddF57Db7954bB234e470023', // optimism
+    42161: '0x5e0A4a381590B955c53646b0483B86F4AD78e8FE', // arb one
+    59144: '0x58706AC79f4A3d63519A623eE1a03f37afe59620', // linea
     137: '0x0049c7684a551e581D8de08fD2827dFF9808d162', // polygon
     80001: '0xc12abd5F6084fC9Bdf3e99470559A80B06783c40', // mubai
-    11155111: '0x1D9021fbE80a7Ce13897B5757b25296d62dDe698', // sepolia
-    420: '0x39fF8a675ffBAfc177a7C54556b815163521a8B7',
+    11155111: '0xf1f5219C777E44BCd2c2C43b6aCe2458169c0579', // sepolia
+    420: '0xD880809f80A62B6779D5015197FF6867175A471f', //optimism goerli
   };
 
   const {
@@ -54,7 +71,11 @@ function FormSection() {
     color,
     chain,
   } = React.useContext(Donate3Context);
-  const timeout = 5; // s
+  const timeout = 10; // s
+  const [coinModalVisible, setCoinModalVisible] = useState<boolean>(false);
+  const [tokenList, setTokenList] = useState<IToken[] | []>([]);
+  const [selectedToken, setSelectedToken] = useState<IToken>();
+  const [transactionHash, setTransactionHash] = useState<string>('');
 
   useEffect(() => {
     if (!toAddress) {
@@ -67,11 +88,6 @@ function FormSection() {
       toast('Can not donate to yourself!');
     }
   }, [toAddress, fromAddress]);
-
-  useEffect(() => {
-    const name: any = chain?.name;
-    setPrimaryCoin(PRIMARY_COIN[name as keyof PrimaryCoinType]);
-  }, [chain]);
 
   let amountIn: bigint = BigInt(0);
   if (!Number.isNaN(Number(amount))) {
@@ -99,9 +115,10 @@ function FormSection() {
         toast(String(errMsg));
       }
       setShowLoading(false);
+      setTransactionHash('');
     },
     onSuccess(data) {
-      console.log('useContractWrite success', data, transactionData);
+      setTransactionHash(data?.hash);
       setShowLoading(false);
       toast('Syncing data, take 1-5 minutes to show');
       setDonateCreateSuccess(true);
@@ -128,6 +145,46 @@ function FormSection() {
     }
   }, [donateCreateSuccess]);
 
+  const erc20TokenApprove = async (
+    _args: (
+      | string
+      | never[]
+      | BigNumber
+      | Uint8Array
+      | { value: '' | BigNumber }
+      | undefined
+    )[],
+  ) => {
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum!);
+    const signer = provider.getSigner();
+    const tokenAddress = selectedToken?.address;
+
+    const contract = new ethers.Contract(tokenAddress!, erc20ABI, signer);
+    let approveAmount = await contract.allowance(
+      fromAddress,
+      CONTRACT_MAP[chain?.id || 0],
+    );
+    if (BigNumber.from(approveAmount) < BigNumber.from(donateTokenArgs[1]!)) {
+      approveAmount = ethers.constants.MaxUint256;
+      contract
+        .approve(CONTRACT_MAP[chain?.id || 0], donateTokenArgs[1]!)
+        .then(async (result: { wait: () => any }) => {
+          await result.wait();
+          await writeAsync?.({
+            recklesslySetUnpreparedArgs: _args,
+          });
+        })
+        .catch((err: any) => {
+          console.warn(err);
+        });
+    } else {
+      await writeAsync?.({
+        recklesslySetUnpreparedArgs: _args,
+      });
+    }
+  };
+
   const handleDonate = async () => {
     if (isConnected) {
       if (showLoading) {
@@ -135,11 +192,18 @@ function FormSection() {
       }
       setShowLoading(true);
 
+      const _donateTokenArgs = [...donateTokenArgs];
+      // ERC20 token should approve
+      if (donateTokenArgs[0] !== DEFAULT_COIN_ADDRESS) {
+        _donateTokenArgs.pop();
+        await erc20TokenApprove(_donateTokenArgs);
+        return;
+      }
+
       await writeAsync?.({
         args: [amountIn, toAddress, bytesMsg, []],
         value: amountIn,
       });
-      console.log(transactionData);
     } else {
       toast('Please connect wallet first!');
     }
@@ -167,9 +231,78 @@ function FormSection() {
     });
   };
 
-  const donateVal = DONATE_VALUE_MAP[chain?.name as keyof PrimaryCoinType] || [
-    0.001, 0.01, 0.5,
-  ];
+  const donateVal = useMemo(() => {
+    return selectedToken?.isErc20 ? [1, 5, 10] : [0.001, 0.01, 0.5];
+  }, [selectedToken]);
+
+  const handleClickCoinPart = () => {
+    setCoinModalVisible(true);
+  };
+
+  const handleClickCoinModalClose = () => {
+    setCoinModalVisible(false);
+  };
+
+  // filter token info by chain
+  const genTokenInfo = () => {
+    switch (chain?.id) {
+      case mainnet.id:
+        return mainnetTokensInfo;
+      case optimism.id:
+        return optimismTokensInfo;
+      case polygon.id:
+        return polygonTokensInfo;
+      case arbitrum.id:
+        return arbitrumTokensInfo;
+      case polygonMumbai.id:
+        return polygonTokensInfo;
+      case sepolia.id:
+        return sepoliaTokensInfo;
+      case optimismGoerli.id:
+        return optimismGoerliTokensInfo;
+      case 59144:
+        return lineaTokensInfo;
+      default:
+        return testNetTokensInfo;
+    }
+  };
+
+  const getTokenInfoByChainId = () => {
+    const tokens = genTokenInfo();
+    // @ts-ignore
+    setTokenList(tokens);
+    // @ts-ignore
+    setSelectedToken(tokens[0]);
+  };
+
+  useEffect(() => {
+    if (chain?.id) {
+      getTokenInfoByChainId();
+    }
+  }, [chain?.id]);
+
+  const genNewTokenInfo = (v: string) => {
+    let temp = [...tokenList];
+    // set all item as false
+    temp = temp.map((item) => {
+      return {
+        ...item,
+        selected: false,
+      };
+    });
+    // set selected true
+    const index = temp.findIndex((item) => item.address === v);
+    temp[index].selected = true;
+
+    setSelectedToken(temp[index]);
+
+    return temp;
+  };
+
+  const handleClickCoinCard = (v: string) => {
+    setTokenList(genNewTokenInfo(v));
+    handleClickCoinModalClose();
+  };
 
   return (
     <>
@@ -179,25 +312,27 @@ function FormSection() {
       <section className={styles.appcontent}>
         <div>
           <div className={styles.title}>Payment Method</div>
-          <div className={styles.methodinput} onClick={openChainModal}>
-            <div className={styles.cointxt}>
-              {/* {primaryCoin === 'ETH' ? <Eth /> : <Polygon />} */}
-              {(chain?.id as number) === 1 && <Eth />}
-              {(chain?.id as number) === 10 && <Optimism />}
-              {(chain?.id as number) === 59144 && <Linea />}
-              {(chain?.id as number) === 137 && <Polygon />}
-              {(chain?.id as number) === 42161 && <Arbitrum />}
-              {(chain?.id as number) === 5 && <Eth />}
-              {(chain?.id as number) === 80001 && <Polygon />}
-              {(chain?.id as number) === 11155111 && <Eth />}
-              {(chain?.id as number) === 420 && <Optimism />}
+          <div className={styles.methodinput}>
+            <div className={styles.chainInput} onClick={openChainModal}>
+              <div className={styles.cointxt}>
+                {(chain?.id as number) === 1 && <Eth />}
+                {(chain?.id as number) === 10 && <Optimism />}
+                {(chain?.id as number) === 59144 && <Linea />}
+                {(chain?.id as number) === 137 && <Polygon />}
+                {(chain?.id as number) === 42161 && <Arbitrum />}
+                {(chain?.id as number) === 5 && <Eth />}
+                {(chain?.id as number) === 80001 && <Polygon />}
+                {(chain?.id as number) === 11155111 && <Eth />}
+                {(chain?.id as number) === 420 && <Optimism />}
+              </div>
+              <div className={styles.chainName}>{chain?.name}</div>
+              <div className={styles.switch}>
+                <Switch />
+              </div>
+            </div>
 
-              <span>{primaryCoin}</span>
-              <span>{chain?.name}</span>
-            </div>
-            <div className={styles.switch}>
-              <Switch />
-            </div>
+            {/* multi-coin*/}
+            <CoinPart onPress={handleClickCoinPart} token={selectedToken} />
           </div>
         </div>
         <div
@@ -206,13 +341,13 @@ function FormSection() {
           onClick={handleEthAmount}
         >
           <div data-amount={donateVal[0]}>
-            {donateVal[0]} {primaryCoin}
+            {donateVal[0]} {selectedToken?.symbol}
           </div>
           <div data-amount={donateVal[1]}>
-            {donateVal[1]} {primaryCoin}
+            {donateVal[1]} {selectedToken?.symbol}
           </div>
           <div data-amount={donateVal[2]}>
-            {donateVal[2]} {primaryCoin}
+            {donateVal[2]} {selectedToken?.symbol}
           </div>
         </div>
         <fieldset className={styles.fieldset}>
@@ -251,10 +386,18 @@ function FormSection() {
         {donateCreateSuccess ? (
           <Success
             timeout={timeout}
+            transactionHash={transactionHash!}
             setDonateCreateSuccess={setDonateCreateSuccess}
           />
         ) : null}
       </section>
+
+      <CoinModal
+        tokens={tokenList}
+        visible={coinModalVisible}
+        onClosePress={handleClickCoinModalClose}
+        onCoinCardClick={handleClickCoinCard}
+      />
     </>
   );
 }
