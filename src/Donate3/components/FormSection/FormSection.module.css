@@ -158,7 +158,7 @@
   border: 0;
   text-align: center;
   box-sizing: border-box;
-  width: 306px;
+  width: 100%;
 }
 
 .pricebtn:focus-visible,
@@ -178,7 +178,6 @@
 .msg textarea {
   height: 96px;
   width: 100%;
-  max-width: 305px;
   min-width: 305px;
   max-height: 175px;
   border: 0;

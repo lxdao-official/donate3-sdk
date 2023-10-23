@@ -49,7 +49,7 @@ interface contractMap {
 function FormSection() {
   const { openChainModal } = useChainModal();
   const [amount, setAmount] = useState('0');
-  const [message, setMessage] = useState(' ');
+  const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
   const shortcutOption = useRef(null);
   const CONTRACT_MAP: contractMap = {
