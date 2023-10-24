@@ -266,7 +266,7 @@ function FormSection() {
   };
 
   const handleManualAmountFocus = () => {
-    shortcutOption?.current?.childNodes?.forEach((item:any) => {
+    shortcutOption?.current?.childNodes?.forEach((item: any) => {
       item.classList.remove(styles.active);
     });
   };

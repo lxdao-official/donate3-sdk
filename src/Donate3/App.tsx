@@ -81,7 +81,7 @@ function App() {
         >
           {showForm ? (
             <div style={bgStyle} className={styles.closewrap}>
-              <img src={Close} className={styles.closeimg} />
+              <Close className={styles.closeimg} />
             </div>
           ) : (
             <>
