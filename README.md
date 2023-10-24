@@ -18,8 +18,8 @@ The first method uses Donate3，Just as a js component for your project
 
 React:
 ```jsx
-import { Donate3 } from 'donate3-sdk-ellen';
-import 'donate3-sdk-ellen/dist/style.css'；
+import { Donate3 } from 'donate3-sdk';
+import 'donate3-sdk/dist/style.css'；
 
 const config = {
   cid: 'bafkreibnfk3tnrmqpgn2b3ynqo7lp7wcolrynuspq54o2dwp25dshmmmou',
@@ -44,8 +44,8 @@ export default () => <Donate3 config={...config}/>
 ```
 Nextjs
 ```jsx
-import 'donate3-sdk-ellen/dist/style.css'
-const Donate3 = dynamic(() => import('donate3-sdk-ellen').then(e => e.Donate3), {
+import 'donate3-sdk/dist/style.css'
+const Donate3 = dynamic(() => import('donate3-sdk').then(e => e.Donate3), {
   ssr: false,
 })
 const config = {
@@ -98,7 +98,7 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
   data-donate3-safe-accounts='[{"networkId":1,"address":"0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"}]'
   data-donate3-to-address="0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"
 ></div>
-<script src="https://cdn.jsdelivr.net/npm/donate3-sdk-ellen@0.0.9/dist/webpack/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.34/dist/webpack/bundle.js"></script>
 ```
 
 The third way is that you can add the corresponding link to the markdown.
