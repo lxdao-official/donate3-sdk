@@ -51,7 +51,7 @@ function FormSection() {
   const [amount, setAmount] = useState('0');
   const [message, setMessage] = useState('');
   const [donateCreateSuccess, setDonateCreateSuccess] = useState(false);
-  const shortcutOption = useRef(null);
+  const shortcutOption = useRef<any>(null);
   const CONTRACT_MAP: contractMap = {
     // 5: '0x888702fa547Ba124f8d8440a4DB95A6ddA81A737',
     // 80001: '0xac511F51C3a89639072144aB539192eca267F823',
@@ -104,7 +104,7 @@ function FormSection() {
   const bytesMsg = stringToHex(message);
 
   const {
-    data: transactionData,
+    // data: transactionData,
     // error:writeError,
     writeAsync,
   } = useContractWrite({
@@ -266,7 +266,7 @@ function FormSection() {
   };
 
   const handleManualAmountFocus = () => {
-    shortcutOption?.current?.childNodes?.forEach((item) => {
+    shortcutOption?.current?.childNodes?.forEach((item:any) => {
       item.classList.remove(styles.active);
     });
   };

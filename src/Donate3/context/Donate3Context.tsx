@@ -29,7 +29,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
   demo: false,
   chain: '',
   chains: [],
-  avatar: '',
+  avatar: `https://nftstorage.link/ipfs/`,
 });
 
 const Donate3Provider: React.FC<{

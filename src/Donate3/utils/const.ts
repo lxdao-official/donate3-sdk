@@ -45,6 +45,20 @@ export const EXPLORER_URL_MAP: Explores = {
   5: 'https://goerli.etherscan.io/address/',
 }
 
+interface Coin {
+  name: string;
+  icon: string;
+  explorer: string;
+  eas: string;
+}
+interface CoinList {
+  [key: number]: Coin;
+}
+interface Chain {
+  name: string;
+  icon: string;
+  coin: CoinList;
+}
 interface ChainList {
   [key: string]: Chain;
 }
