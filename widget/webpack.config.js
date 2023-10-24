@@ -127,11 +127,8 @@ module.exports = {
       {
         test: /\.svg$/i,
         include: [path.resolve(__dirname, '../src')],
-        issuer: { and: [/\.(js|ts)x?$/] },
         use: [
-          '@svgr/webpack',
           'url-loader',
-          'svg-inline-loader',
         ],
       },
     ],

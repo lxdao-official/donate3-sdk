@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
-import Logo from '../../images/logowhite.svg?react';
+import Logo from '../../images/logowhite.svg';
 import { DONATE_TYPE } from '../../utils/const';
 import styles from './DonateButton.module.css';
 
@@ -20,7 +20,7 @@ function DonateButton() {
   );
   return (
     <div className={wrapStyles} style={{ background: color }}>
-      <Logo className={styles.img}></Logo>
+      <img src={Logo} className={styles.img} />
       <span>Donate3</span>
       {type === DONATE_TYPE.EMBED ? (
         <span>

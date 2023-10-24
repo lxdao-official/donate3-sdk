@@ -16,9 +16,10 @@ A donate in cryptocurrency component（Give me a cup of coffee）
 
 The first method uses Donate3，Just as a js component for your project
 
+React:
 ```jsx
-import { Donate3 } from 'donate3-sdk';
-import 'donate3-sdk/dist/style.css'；
+import { Donate3 } from 'donate3-sdk-ellen';
+import 'donate3-sdk-ellen/dist/style.css'；
 
 const config = {
   cid: 'bafkreibnfk3tnrmqpgn2b3ynqo7lp7wcolrynuspq54o2dwp25dshmmmou',
@@ -41,6 +42,34 @@ const config = {
 }
 export default () => <Donate3 config={...config}/>
 ```
+Nextjs
+```jsx
+import 'donate3-sdk-ellen/dist/style.css'
+const Donate3 = dynamic(() => import('donate3-sdk-ellen').then(e => e.Donate3), {
+  ssr: false,
+})
+const config = {
+  cid: 'bafkreibnfk3tnrmqpgn2b3ynqo7lp7wcolrynuspq54o2dwp25dshmmmou',
+  // The cid can be generated after the official website configuration information
+  // If cid exists, other parameters are not required,
+  // otherwise the remaining parameters are required
+  type: 1, // 0 Float mode，1 Normal mode
+  color: "#396AFF", // setting primary color
+  title: "Charity3", // Your donate project title
+  accountType: 1, // 0 Externally Owned Accounts, 1 safe Accounts
+  safeAccounts: [
+    {
+      networkId: 1, // the id of the network
+      address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
+      // Your address on the network to accept donations， Use `0x{String}`
+    }
+  ], //
+  toAddress: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
+  // Your donate address， Use `0x{String}`
+}
+export default () => <Donate3 config={...config}/>
+```
+
 
 The second method uses Donate3，Import a js CDN url to your own website;
 `If cid exists, other parameters are not required, otherwise the remaining parameters are required`
@@ -69,7 +98,7 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
   data-donate3-safe-accounts='[{"networkId":1,"address":"0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"}]'
   data-donate3-to-address="0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4"
 ></div>
-<script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.34/dist/webpack/bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/donate3-sdk-ellen@0.0.9/dist/webpack/bundle.js"></script>
 ```
 
 The third way is that you can add the corresponding link to the markdown.

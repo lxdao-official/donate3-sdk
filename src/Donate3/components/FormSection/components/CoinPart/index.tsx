@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Switch from '../../../../images/switch.svg?react';
+import Switch from '../../../../images/switch.svg';
 
 import { IToken } from '../../config';
 import styles from './index.module.css';
@@ -18,7 +18,7 @@ const CoinPart = ({ onPress, token }: ICoinPartProps) => {
       </div>
       <div className={styles.coinName}>{token?.name}</div>
       <div className={styles.switch}>
-        <Switch />
+        <img src={Switch} />
       </div>
     </div>
   );

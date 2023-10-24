@@ -10,7 +10,7 @@ import Header from './components/Header/Header';
 import SemiModal from './components/SemiModal/SemiModal';
 import UserAvatar from './components/UserAvatar/UserAvatar';
 import { Donate3Context } from './context/Donate3Context';
-import Close from './images/close.svg?react';
+import Close from './images/close.svg';
 import { DONATE_TYPE } from './utils/const';
 
 import { getElementPosition } from './utils/index';
@@ -81,7 +81,7 @@ function App() {
         >
           {showForm ? (
             <div style={bgStyle} className={styles.closewrap}>
-              <Close className={styles.closeimg} />
+              <img src={Close} className={styles.closeimg} />
             </div>
           ) : (
             <>

@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { useNetwork } from 'wagmi';
 import { DonorItem } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
-import Close from '../../images/close.svg?react';
-import SortBg from '../../images/sortbg.svg?react';
+import Close from '../../images/close.svg';
+import SortBg from '../../images/sortbg.svg';
 import { EXPLORER_URL_MAP } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
@@ -104,17 +104,17 @@ function DonorList() {
         <div className={styles.header}>
           <div className={styles.title}>
             <span className={styles.titletxt}>Donor</span>
-            <Close
+            <img src={Close}
               style={{ transform: 'scale(0.5)' }}
               onClick={() => {
                 setShowDonorList(false);
               }}
-            ></Close>
+            />
           </div>
           <div className={styles.top}>
             {makeTopDom(donorList)}
             <div className={styles.bg}>
-              <SortBg></SortBg>
+              <img src={SortBg} />
             </div>
           </div>
         </div>
