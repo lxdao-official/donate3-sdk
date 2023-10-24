@@ -17,8 +17,8 @@ A donate in cryptocurrency component（Give me a cup of coffee）
 The first method uses Donate3，Just as a js component for your project
 
 ```jsx
-import { Donate3 } from 'donate3-sdk-ellen';
-import 'donate3-sdk-ellen/dist/style.css'；
+import { Donate3 } from 'donate3-sdk';
+import 'donate3-sdk/dist/style.css'；
 
 const config = {
   cid: 'bafkreibnfk3tnrmqpgn2b3ynqo7lp7wcolrynuspq54o2dwp25dshmmmou',
