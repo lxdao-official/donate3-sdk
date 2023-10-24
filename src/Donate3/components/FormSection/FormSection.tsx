@@ -19,13 +19,13 @@ import {
 } from 'wagmi/chains';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Arbitrum } from '../../images/arb.svg';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Linea } from '../../images/linea.svg';
-import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
+import Arbitrum from '../../images/arb.svg?react';
+import Eth from '../../images/eth.svg?react';
+import Linea from '../../images/linea.svg?react';
+import Loading from '../../images/loading.svg?react';
+import Optimism from '../../images/op.svg?react';
+import Polygon from '../../images/polygon.svg?react';
+import Switch from '../../images/switch.svg?react';
 import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 

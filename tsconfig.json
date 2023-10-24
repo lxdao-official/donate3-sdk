@@ -1,28 +1,23 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ES6",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "moduleResolution": "Node",
     "jsx": "react",
     "baseUrl": "./",
-    "paths": {
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "donate3-sdk": [
-        "src"
-      ],
-      "donate3-sdk/*": [
-        "src/*",
-        "*"
-      ]
-    }
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "vite-plugin-svgr/client"
+    ],
   },
   "include": [
-    ".dumirc.ts",
     "src/**/*",
     "custom.d.ts"
+  ],
+  "exclude": [
+    "**/*stories*.*"
   ]
 }

@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import React from 'react';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Logo } from '../../images/logowhite.svg';
+import Logo from '../../images/logowhite.svg?react';
 import { DONATE_TYPE } from '../../utils/const';
 import styles from './DonateButton.module.css';
 

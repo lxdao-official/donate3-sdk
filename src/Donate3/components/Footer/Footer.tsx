@@ -1,5 +1,5 @@
 import React from 'react';
-import { ReactComponent as Logo } from '../../images/logogray.svg';
+import Logo from '../../images/logogray.svg?react';
 import styles from './Footer.module.css';
 
 function Footer() {

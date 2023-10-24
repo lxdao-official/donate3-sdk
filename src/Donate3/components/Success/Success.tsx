@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ReactComponent as SuccessImg } from '../../images/success.svg';
+import SuccessImg from '../../images/success.svg?react';
 import Footer from '../Footer/Footer';
 import styles from './Success.module.css';
 import { coinType } from '../../utils/const';

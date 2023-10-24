@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { useNetwork } from 'wagmi';
 import { DonorItem } from '../../@types/donate3';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Close } from '../../images/close.svg';
-import { ReactComponent as SortBg } from '../../images/sortbg.svg';
+import Close from '../../images/close.svg?react';
+import SortBg from '../../images/sortbg.svg?react';
 import { EXPLORER_URL_MAP } from '../../utils/const';
 import Avatar from '../Avatar/Avatar';
 import TotalCircle from '../TotalCircle/TotalCircle';
@@ -60,7 +60,7 @@ function DonorList() {
     if (!datas?.length) return;
     let dom: JSX.Element[] = [];
     let records = datas?.slice(0, 3);
-    
+
     if (datas.length) {
       dom = records?.map((item: DonorItem, index: number) => {
         return (
@@ -78,7 +78,7 @@ function DonorList() {
               ></Avatar>
             </div>
             <div className={styles.amount}>
-            {item.totalAmount.toFixed(2)} $
+              {item.totalAmount.toFixed(2)} $
             </div>
           </div>
         );

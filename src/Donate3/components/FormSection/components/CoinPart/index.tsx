@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as Switch } from '../../../../images/switch.svg';
+import Switch from '../../../../images/switch.svg?react';
 
 import { IToken } from '../../config';
 import styles from './index.module.css';
