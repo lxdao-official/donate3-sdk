@@ -87,7 +87,6 @@ module.exports = {
         ],
         exclude: /(node_modules|bower_components)/,
         use: [
-          'thread-loader',
           {
             loader: 'babel-loader',
             options: {
@@ -120,7 +119,6 @@ module.exports = {
         test: /\.(png|jpe?g|gif)$/i,
         include: [path.resolve(__dirname, '../src')],
         use: [
-          'thread-loader',
           {
             loader: 'file-loader',
           },
@@ -131,7 +129,6 @@ module.exports = {
         include: [path.resolve(__dirname, '../src')],
         issuer: { and: [/\.(js|ts)x?$/] },
         use: [
-          'thread-loader',
           '@svgr/webpack',
           'url-loader',
           'svg-inline-loader',

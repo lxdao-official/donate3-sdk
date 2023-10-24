@@ -133,7 +133,7 @@ const Donate3Provider: React.FC<{
             // `https://donate3.0xhardman.xyz/donates/ranking?` +
             new URLSearchParams({
               address: toAddressReal || '',
-              chainId: chain?.id.toString() || '0',
+              // chainId: chain?.id.toString() || '0',
             }),
           {
             method: 'GET',
@@ -145,10 +145,8 @@ const Donate3Provider: React.FC<{
         );
 
         const json = await res.json();
-        console.log(json);
 
         const { data: result } = json;
-        console.log(result);
         setDonorList(result?.length ? result : []);
       } catch (error) {
         setDonorList([]);
@@ -158,7 +156,7 @@ const Donate3Provider: React.FC<{
       }
     })();
   }, [chain, toAddressReal]);
-  console.log(donorList);
+
   if (
     accountType === 1 &&
     safeAccounts &&

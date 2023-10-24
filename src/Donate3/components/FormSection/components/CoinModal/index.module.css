@@ -1,0 +1,46 @@
+.coinModalWrapper .mask {
+  background: rgba(0, 0, 0, 30%);
+  /* background: red; */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.coinModalWrapper .main {
+  width: 360px;
+  padding: 16px;
+  background-color: rgb(255, 255, 255);
+  margin: 0 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+  border-radius: 24px;
+}
+
+.coinModalWrapper .main .top {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 800;
+  color: #25292e;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-left: 8px;
+}
+
+.coinModalWrapper .main .top .closeBtn {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 50%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.06);
+  color: rgba(60, 66, 66, 0.8);
+  cursor: pointer;
+}

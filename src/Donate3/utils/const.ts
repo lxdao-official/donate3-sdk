@@ -44,3 +44,118 @@ export const EXPLORER_URL_MAP: Explores = {
   80001: 'https://mumbai.polygonscan.com/address/',
   5: 'https://goerli.etherscan.io/address/',
 }
+
+interface ChainList {
+  [key: string]: Chain;
+}
+
+export const coinType: ChainList = {
+  '80001': {
+    name: 'Polygon Mumbai',
+    icon: '/icons/support/polygon.svg',
+    coin: {
+      0: {
+        name: 'MATIC',
+        icon: '/icons/support/polygon.svg',
+        explorer: 'https://mumbai.polygonscan.com/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '137': {
+    name: 'Polygon',
+    icon: '/icons/support/polygon.svg',
+    coin: {
+      0: {
+        name: 'MATIC',
+        icon: '/icons/support/polygon.svg',
+        explorer: 'https://polygonscan.com/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '5': {
+    name: 'ETH Goerli',
+    icon: '/icons/support/ethereum.svg',
+    coin: {
+      0: {
+        name: 'MATIC',
+        icon: '/icons/support/ethereum.svg',
+        explorer: 'https://goerli.etherscan.io/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '1': {
+    name: 'Ethereum',
+    icon: '/icons/support/ethereum.svg',
+    coin: {
+      0: {
+        name: 'ETH',
+        icon: '/icons/support/ethereum.svg',
+        explorer: 'https://etherscan.io/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '10': {
+    name: 'Optimism',
+    icon: '/icons/support/optimism.svg',
+    coin: {
+      0: {
+        name: 'ETH',
+        icon: '/icons/support/ethereum.svg',
+        explorer: 'https://optimistic.etherscan.io/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '42161': {
+    name: 'Arbitrum',
+    icon: '/icons/support/arbitrum.svg',
+    coin: {
+      0: {
+        name: 'ETH',
+        icon: '/icons/support/arbitrum.svg',
+        explorer: 'https://arbiscan.io/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '59144': {
+    name: 'Linea',
+    icon: '/icons/support/linea.svg',
+    coin: {
+      0: {
+        name: 'ETH',
+        icon: '/icons/support/linea.svg',
+        explorer: 'https://lineascan.build/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+  '11155111': {
+    name: 'Sepolia',
+    icon: '/icons/support/ethereum.svg',
+    coin: {
+      0: {
+        name: 'MATIC',
+        icon: '/icons/support/ethereum.svg',
+        explorer: 'https://sepolia.etherscan.io/tx/',
+        eas: 'https://sepolia.easscan.org/',
+      },
+    },
+  },
+  '420': {
+    name: 'Optimistic Goerli',
+    icon: '/icons/support/optimism.svg',
+    coin: {
+      0: {
+        name: 'Optimistic Goerli',
+        icon: '/icons/support/optimism.svg',
+        explorer: 'https://goerli-optimism.etherscan.io/tx/',
+        eas: 'https://optimism-goerli-bedrock.easscan.org/',
+      },
+    },
+  },
+};

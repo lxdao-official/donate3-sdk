@@ -2,6 +2,7 @@ import { useRequest } from 'ahooks';
 import { useCallback } from 'react';
 const BASE_URL = 'https://api.donate3.xyz';
 
+// It seems like we can delete code here
 interface Args {
   chainType: number;
   fromAddress: `0x${string}` | undefined;
@@ -31,7 +32,7 @@ export const useCreateDonate = () => {
     });
     const json = await res.json();
     const { code, result } = json;
-    console.log(':::', code, result);
+    // console.log(':::', code, result);
     return result;
   }, []);
 

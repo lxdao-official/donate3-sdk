@@ -10,6 +10,7 @@ export interface DonorItem {
   address: `0x${string}` | undefined;
   top: string;
   totaldonation: string;
+  totalAmount:number;
 }
 
 export type Donate3ContextType = {
