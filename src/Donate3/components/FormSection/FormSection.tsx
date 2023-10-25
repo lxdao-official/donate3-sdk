@@ -19,13 +19,13 @@ import {
 } from 'wagmi/chains';
 import abi from '../../abi.json';
 import { Donate3Context } from '../../context/Donate3Context';
-import { ReactComponent as Arbitrum } from '../../images/arb.svg';
-import { ReactComponent as Eth } from '../../images/eth.svg';
-import { ReactComponent as Linea } from '../../images/linea.svg';
-import { ReactComponent as Loading } from '../../images/loading.svg';
-import { ReactComponent as Optimism } from '../../images/op.svg';
-import { ReactComponent as Polygon } from '../../images/polygon.svg';
-import { ReactComponent as Switch } from '../../images/switch.svg';
+import Arbitrum from '../../images/arb.svg';
+import Eth from '../../images/eth.svg';
+import Linea from '../../images/linea.svg';
+import Loading from '../../images/loading.svg';
+import Optimism from '../../images/op.svg';
+import Polygon from '../../images/polygon.svg';
+import Switch from '../../images/switch.svg';
 import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
@@ -354,19 +354,19 @@ function FormSection() {
           <div className={styles.methodinput}>
             <div className={styles.chainInput} onClick={openChainModal}>
               <div className={styles.cointxt}>
-                {(chain?.id as number) === 1 && <Eth />}
-                {(chain?.id as number) === 10 && <Optimism />}
-                {(chain?.id as number) === 59144 && <Linea />}
-                {(chain?.id as number) === 137 && <Polygon />}
-                {(chain?.id as number) === 42161 && <Arbitrum />}
-                {(chain?.id as number) === 5 && <Eth />}
-                {(chain?.id as number) === 80001 && <Polygon />}
-                {(chain?.id as number) === 11155111 && <Eth />}
-                {(chain?.id as number) === 420 && <Optimism />}
+                {(chain?.id as number) === 1 && <img src={Eth} />}
+                {(chain?.id as number) === 10 && <img src={Optimism} />}
+                {(chain?.id as number) === 59144 && <img src={Linea} />}
+                {(chain?.id as number) === 137 && <img src={Polygon} />}
+                {(chain?.id as number) === 42161 && <img src={Arbitrum} />}
+                {(chain?.id as number) === 5 && <img src={Eth} />}
+                {(chain?.id as number) === 80001 && <img src={Polygon} />}
+                {(chain?.id as number) === 11155111 && <img src={Eth} />}
+                {(chain?.id as number) === 420 && <img src={Optimism} />}
               </div>
               <div className={styles.chainName}>{chain?.name}</div>
               <div className={styles.switch}>
-                <Switch />
+                <img src={Switch} />
               </div>
             </div>
 
@@ -419,7 +419,7 @@ function FormSection() {
           disabled={!writeAsync || !toAddress}
           onClick={handleDonate}
         >
-          {showLoading ? <Loading></Loading> : null}
+          {showLoading ? <img src={Loading} /> : null}
           {showLoading ? <div>Confirm in wallet...</div> : <div>DONATE</div>}
         </button>
         {donateCreateSuccess ? (
