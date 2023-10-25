@@ -158,7 +158,7 @@ function FormSection() {
       args: [fromAddress, CONTRACT_MAP[chain?.id || 0]],
     });
 
-    let amountInToken = parseUnits(amount, selectedToken?.decimals || 6);
+    let amountInToken = parseUnits(amount, selectedToken?.decimals || 18);
     if (BigInt(approveAmount) < BigInt(amountInToken)) {
       let txn = await walletClient.writeContract({
         address: tokenAddress || zeroAddress,
@@ -172,7 +172,7 @@ function FormSection() {
       });
     } else {
       await writeAsync?.({
-        args: [tokenAddress, amountIn, toAddress, bytesMsg, []],
+        args: [tokenAddress, amountInToken, toAddress, bytesMsg, []],
       });
     }
   };
@@ -266,7 +266,7 @@ function FormSection() {
   };
 
   const handleManualAmountFocus = () => {
-    shortcutOption?.current?.childNodes?.forEach((item:any) => {
+    shortcutOption?.current?.childNodes?.forEach((item: any) => {
       item.classList.remove(styles.active);
     });
   };

@@ -49,8 +49,8 @@ export const defaultPolygon = {
 
 export const defaultArbitrum = {
   logo: arbIcon,
-  name: 'Arbitrum',
-  symbol: 'ARB',
+  name: 'ETH',
+  symbol: 'ETH',
   address: DEFAULT_COIN_ADDRESS,
   selected: true,
   isErc20: false,
