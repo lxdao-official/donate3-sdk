@@ -1,7 +1,5 @@
-import arbIcon from './../../images/coin/arb_icon.png';
 import ethIcon from './../../images/coin/eth_icon.png';
 import maticIcon from './../../images/coin/matic_icon.png';
-import opIcon from './../../images/coin/op_icon.png';
 
 import usdcIcon from './../../images/coin/usdc_icon.png';
 import usdtIcon from './../../images/coin/usdt_icon.png';
@@ -30,7 +28,7 @@ export const defaultMainnet = {
 };
 
 export const defaultOptimism = {
-  logo: opIcon,
+  logo: ethIcon,
   name: 'ETH',
   symbol: 'ETH',
   address: DEFAULT_COIN_ADDRESS,
@@ -48,9 +46,9 @@ export const defaultPolygon = {
 };
 
 export const defaultArbitrum = {
-  logo: arbIcon,
-  name: 'Arbitrum',
-  symbol: 'ARB',
+  logo: ethIcon,
+  name: 'ETH',
+  symbol: 'ETH',
   address: DEFAULT_COIN_ADDRESS,
   selected: true,
   isErc20: false,
@@ -78,10 +76,19 @@ const mainnetTokens = [
 ];
 
 const optimismTokens = [
+  // {
+  //   logo: usdcIcon,
+  //   name: 'USD Coin',
+  //   symbol: 'USDC',
+  //   address: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
+  //   selected: false,
+  //   isErc20: true,
+  //   decimals: 6,
+  // },
   {
     logo: usdcIcon,
-    name: 'USD Coin',
-    symbol: 'USDC',
+    name: 'USD Coin (Bridged from Ethereum)',
+    symbol: 'USDC.e',
     address: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
     selected: false,
     isErc20: true,

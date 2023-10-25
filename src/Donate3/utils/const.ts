@@ -32,10 +32,9 @@ export const DONATE_VALUE_MAP: PrimaryCoinType = {
   'Polygon Mumbai': [0.5, 5, 25],
 };
 
-
 export type Explores = {
   [key: number]: string;
-}
+};
 export const EXPLORER_URL_MAP: Explores = {
   0: 'https://etherscan.io/address/',
   1: 'https://etherscan.io/address/',
@@ -43,7 +42,7 @@ export const EXPLORER_URL_MAP: Explores = {
   137: 'https://polygonscan.com/address/',
   80001: 'https://mumbai.polygonscan.com/address/',
   5: 'https://goerli.etherscan.io/address/',
-}
+};
 
 interface Coin {
   name: string;
@@ -114,7 +113,7 @@ export const coinType: ChainList = {
   },
   '10': {
     name: 'Optimism',
-    icon: '/icons/support/optimism.svg',
+    icon: '/icons/support/ethereum.svg',
     coin: {
       0: {
         name: 'ETH',
@@ -126,7 +125,7 @@ export const coinType: ChainList = {
   },
   '42161': {
     name: 'Arbitrum',
-    icon: '/icons/support/arbitrum.svg',
+    icon: '/icons/support/ethereum.svg',
     coin: {
       0: {
         name: 'ETH',
@@ -142,7 +141,7 @@ export const coinType: ChainList = {
     coin: {
       0: {
         name: 'ETH',
-        icon: '/icons/support/linea.svg',
+        icon: '/icons/support/ethereum.svg',
         explorer: 'https://lineascan.build/tx/',
         eas: 'https://optimism-goerli-bedrock.easscan.org/',
       },
@@ -166,7 +165,7 @@ export const coinType: ChainList = {
     coin: {
       0: {
         name: 'Optimistic Goerli',
-        icon: '/icons/support/optimism.svg',
+        icon: '/icons/support/ethereum.svg',
         explorer: 'https://goerli-optimism.etherscan.io/tx/',
         eas: 'https://optimism-goerli-bedrock.easscan.org/',
       },
