@@ -3,7 +3,6 @@ import { getNounData, getPseudorandomPart, ImageData } from '@nouns/assets';
 import { EncodedImage } from '@nouns/assets/dist/types';
 const { bgcolors, palette, images } = ImageData;
 const { bodies, accessories, heads, glasses } = images;
-
 const decodeImage = (image: string) => {
   let _a, _b;
   const data = image.replace(/^0x/, '');
@@ -26,9 +25,9 @@ const decodeImage = (image: string) => {
             : rects.match(/.{1,4}/g)) === null || _a === void 0
           ? void 0
           : _a.map((rect: string) => [
-            parseInt(rect.substring(0, 2), 16),
-            parseInt(rect.substring(2, 4), 16),
-          ])) !== null && _b !== void 0
+              parseInt(rect.substring(0, 2), 16),
+              parseInt(rect.substring(2, 4), 16),
+            ])) !== null && _b !== void 0
         ? _b
         : [],
   };
@@ -64,7 +63,8 @@ const buildSVG = (
         // Do not push rect if transparent
         if (colorIndex !== 0) {
           svgRects.push(
-            `<rect width="${length * 10}" height="10" x="${currentX * 10}" y="${currentY * 10
+            `<rect width="${length * 10}" height="10" x="${currentX * 10}" y="${
+              currentY * 10
             }" fill="#${hexColor}" />`,
           );
         }
@@ -96,7 +96,6 @@ export const getNounsBase64 = (address: string) => {
   const { parts, background } = getNounData(seed);
   const svgBinary1 = buildSVG(parts, palette, background);
 
-  const svgBase641 = Buffer.from(svgBinary1).toString('base64');
-
+  const svgBase641 = btoa(svgBinary1);
   return svgBase641;
 };
