@@ -142,6 +142,9 @@ devDependencies:
   prettier-plugin-packagejson:
     specifier: ^2.2.18
     version: 2.4.6(prettier@2.8.8)
+  process:
+    specifier: ^0.11.10
+    version: 0.11.10
   rollup:
     specifier: ^3.7.4
     version: 3.29.4
@@ -157,6 +160,9 @@ devDependencies:
   url-loader:
     specifier: ^4.1.1
     version: 4.1.1(file-loader@6.2.0)(webpack@5.89.0)
+  vite:
+    specifier: ^4.5.0
+    version: 4.5.0(@types/node@16.18.59)
   vite-plugin-dts:
     specifier: ^3.6.1
     version: 3.6.1(@types/node@16.18.59)(rollup@3.29.4)(typescript@4.9.5)(vite@4.5.0)
@@ -9366,6 +9372,11 @@ packages:
   /process-warning@1.0.0:
     resolution: {integrity: sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==}
     dev: false
+
+  /process@0.11.10:
+    resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
+    engines: {node: '>= 0.6.0'}
+    dev: true
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
