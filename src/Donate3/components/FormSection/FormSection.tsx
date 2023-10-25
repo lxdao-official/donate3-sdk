@@ -237,9 +237,8 @@ function FormSection() {
         } else if (errMsg.includes('Invalid input amount')) {
           toast(String('Invalid input amount'));
         } else if (errMsg) {
-          toast(String(errMsg));
+          toast(String("Sorry, Something's wrong!"));
         }
-        setShowLoading(false);
         setTransactionHash('');
       } finally {
         setShowLoading(false);
