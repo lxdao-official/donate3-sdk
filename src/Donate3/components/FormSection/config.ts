@@ -87,7 +87,7 @@ const optimismTokens = [
   // },
   {
     logo: usdcIcon,
-    name: 'USD Coin',
+    name: 'USD Coin (Bridged from Ethereum)',
     symbol: 'USDC.e',
     address: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
     selected: false,
