@@ -12,8 +12,8 @@ dependencies:
     specifier: ^5.7.0
     version: 5.7.0
   '@joyid/rainbowkit':
-    specifier: 0.1.0-beta.3
-    version: 0.1.0-beta.3(@rainbow-me/rainbowkit@1.1.3)(viem@1.16.6)(wagmi@1.4.5)
+    specifier: 0.1.0
+    version: 0.1.0(@rainbow-me/rainbowkit@1.1.3)(viem@1.16.6)(wagmi@1.4.5)
   '@lxdao/img3':
     specifier: ^1.1.0
     version: 1.1.0(@babel/core@7.23.2)(react-dom@18.2.0)(react@18.2.0)
@@ -2379,30 +2379,39 @@ packages:
       chalk: 4.1.2
     dev: true
 
-  /@joyid/evm@0.2.2:
-    resolution: {integrity: sha512-2hAL+0Cr8z3pTWXhCHsykRlnaiEYnsD3Fdi8c/AI47kyGSVx+mJNNR1zxXlUV3emce1rY/4D5qrsMYIc9Y3RGg==}
+  /@joyid/ethereum-provider@0.1.2(viem@1.16.6):
+    resolution: {integrity: sha512-H06XtryzLBax3JrW6Y1JjDZANhTSMvEbuSG5xADhxJEZ8DHj/CB6njoFwgDvRMz7q/HHXkGOrv9lml8TFNZuug==}
+    peerDependencies:
+      viem: ^1
+    dependencies:
+      '@joyid/evm': 0.2.4
+      viem: 1.16.6(typescript@4.9.5)
     dev: false
 
-  /@joyid/rainbowkit@0.1.0-beta.3(@rainbow-me/rainbowkit@1.1.3)(viem@1.16.6)(wagmi@1.4.5):
-    resolution: {integrity: sha512-ib8XsGeJr7NQparcL0NbFJroGRa11D2fBGbognG7/KNWKVVpBnFIcIxzqTI5i92k3ah8xilDEZrE+W93kmOhJA==}
+  /@joyid/evm@0.2.4:
+    resolution: {integrity: sha512-OayH6uQmnzGdcjiHSCpyf5gs9WSYTyKE1t1qPYxacgz2NiCjwnNDSkc0GKAHp1wGUCscKMjxoXNy/+I0/8Zweg==}
+    dev: false
+
+  /@joyid/rainbowkit@0.1.0(@rainbow-me/rainbowkit@1.1.3)(viem@1.16.6)(wagmi@1.4.5):
+    resolution: {integrity: sha512-DHjA2P6iSU5hfHduWYhlGnZZckzs+Xi2b8KsvMewSd4entObFF9a2ffUAqYWv2LgN8bL6Q/ngu14RL6hLqiMsg==}
     peerDependencies:
       '@rainbow-me/rainbowkit': ^1.1.2
       viem: ^1.16.0
       wagmi: ^1.4.0
     dependencies:
-      '@joyid/wagmi': 0.1.0-beta.3(viem@1.16.6)(wagmi@1.4.5)
+      '@joyid/wagmi': 0.1.0(viem@1.16.6)(wagmi@1.4.5)
       '@rainbow-me/rainbowkit': 1.1.3(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)(viem@1.16.6)(wagmi@1.4.5)
       viem: 1.16.6(typescript@4.9.5)
       wagmi: 1.4.5(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)(viem@1.16.6)
     dev: false
 
-  /@joyid/wagmi@0.1.0-beta.3(viem@1.16.6)(wagmi@1.4.5):
-    resolution: {integrity: sha512-Y4lr6ujdeU7dUwRgc4pEJG3GI2N8py66U88CCRBXAExrnDwGDhbBug5McrTyID68vbTn1i8ORtPJiqAP30Legw==}
+  /@joyid/wagmi@0.1.0(viem@1.16.6)(wagmi@1.4.5):
+    resolution: {integrity: sha512-5A4cKMKvTX5Em6AeC+CYZZEkSA2EDEDucO4s0ZEf7M6GV8S5qCPC9RYbXJxteIF2nU2bvg5bw7NqFkNy9KO+Tg==}
     peerDependencies:
       viem: ^1.16.0
       wagmi: ^1.4.0
     dependencies:
-      '@joyid/evm': 0.2.2
+      '@joyid/ethereum-provider': 0.1.2(viem@1.16.6)
       viem: 1.16.6(typescript@4.9.5)
       wagmi: 1.4.5(@types/react@18.2.31)(react-dom@18.2.0)(react@18.2.0)(typescript@4.9.5)(viem@1.16.6)
     dev: false
