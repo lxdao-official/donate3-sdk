@@ -107,7 +107,7 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 
 The third way is that you can add the corresponding link to the markdown.
 
-```
+```html
 <a href="Your Donate3 Link" target="_blank"><img src="https://www.donate3.xyz/Donate3ToMe.svg" alt="Donate3 To Me"></a>
 ```
 
