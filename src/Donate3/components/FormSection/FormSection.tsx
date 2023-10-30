@@ -191,7 +191,7 @@ function FormSection() {
           return;
         }
         if (chain.id === 137 || chain.id === 80001) {
-          await walletClient?.writeContract({
+          let hash = await walletClient?.writeContract({
             address: CONTRACT_MAP[chain?.id || 0],
             abi: [
               {
@@ -219,6 +219,11 @@ function FormSection() {
             args: [amountIn, toAddress!, bytesMsg, []],
             value: amountIn,
           });
+          setTransactionHash(hash!)
+          setShowLoading(false);
+          toast('Syncing data, take 1-5 minutes to show');
+          setDonateCreateSuccess(true);
+          await publicClient.waitForTransactionReceipt({ hash: hash! })
         } else {
           await writeAsync?.({
             args: [zeroAddress, amountIn, toAddress, bytesMsg, []],
