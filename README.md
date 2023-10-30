@@ -3,7 +3,7 @@
 A donate in cryptocurrency component（Give me a cup of coffee Web3 version.）
 
 
-<a href="https://twitter.com/intent/follow?screen_name=donate3pfficial">
+<a href="https://twitter.com/intent/follow?screen_name=donate3official">
         <img src="https://img.shields.io/twitter/follow/donate3official?style=social&logo=X"
             alt="follow on Twitter"></a>
 
