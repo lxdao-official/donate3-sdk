@@ -1895,24 +1895,31 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
-"@joyid/evm@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@joyid/evm/-/evm-0.2.2.tgz#6d918355780df6d76938ca940badf25a041fbcdf"
-  integrity sha512-2hAL+0Cr8z3pTWXhCHsykRlnaiEYnsD3Fdi8c/AI47kyGSVx+mJNNR1zxXlUV3emce1rY/4D5qrsMYIc9Y3RGg==
-
-"@joyid/rainbowkit@0.1.0-beta.3":
-  version "0.1.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@joyid/rainbowkit/-/rainbowkit-0.1.0-beta.3.tgz#e9bab1b3424412ae3f1f58ee062473090c1d8565"
-  integrity sha512-ib8XsGeJr7NQparcL0NbFJroGRa11D2fBGbognG7/KNWKVVpBnFIcIxzqTI5i92k3ah8xilDEZrE+W93kmOhJA==
+"@joyid/ethereum-provider@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@joyid/ethereum-provider/-/ethereum-provider-0.1.2.tgz#31dbd041b2dbb827d7702668d7ac2784af26ed77"
+  integrity sha512-H06XtryzLBax3JrW6Y1JjDZANhTSMvEbuSG5xADhxJEZ8DHj/CB6njoFwgDvRMz7q/HHXkGOrv9lml8TFNZuug==
   dependencies:
-    "@joyid/wagmi" "0.1.0-beta.3"
+    "@joyid/evm" "0.2.4"
 
-"@joyid/wagmi@0.1.0-beta.3":
-  version "0.1.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@joyid/wagmi/-/wagmi-0.1.0-beta.3.tgz#c85184f53516dafb11e6a628317deb41d83c3e56"
-  integrity sha512-Y4lr6ujdeU7dUwRgc4pEJG3GI2N8py66U88CCRBXAExrnDwGDhbBug5McrTyID68vbTn1i8ORtPJiqAP30Legw==
+"@joyid/evm@0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@joyid/evm/-/evm-0.2.4.tgz#3244c75415db33c6d49010856c9c60e1068f78bf"
+  integrity sha512-OayH6uQmnzGdcjiHSCpyf5gs9WSYTyKE1t1qPYxacgz2NiCjwnNDSkc0GKAHp1wGUCscKMjxoXNy/+I0/8Zweg==
+
+"@joyid/rainbowkit@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@joyid/rainbowkit/-/rainbowkit-0.1.0.tgz#8e561d193e08bc4f1901d2f2137ab1cb8b1a8a53"
+  integrity sha512-DHjA2P6iSU5hfHduWYhlGnZZckzs+Xi2b8KsvMewSd4entObFF9a2ffUAqYWv2LgN8bL6Q/ngu14RL6hLqiMsg==
   dependencies:
-    "@joyid/evm" "0.2.2"
+    "@joyid/wagmi" "0.1.0"
+
+"@joyid/wagmi@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@joyid/wagmi/-/wagmi-0.1.0.tgz#4c0b01fc3e7660e3286144a897a8017d0fa8aa04"
+  integrity sha512-5A4cKMKvTX5Em6AeC+CYZZEkSA2EDEDucO4s0ZEf7M6GV8S5qCPC9RYbXJxteIF2nU2bvg5bw7NqFkNy9KO+Tg==
+  dependencies:
+    "@joyid/ethereum-provider" "^0.1.2"
 
 "@jridgewell/gen-mapping@^0.3.0", "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.3"
