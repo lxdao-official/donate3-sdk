@@ -18,7 +18,8 @@ A donate in cryptocurrency component（Give me a cup of coffee Web3 version.）
 
 ## Development
 
-The first method uses Donate3，Just as a js component for your project
+### 1
+Just as a js component for your project.
 
 React:
 ```jsx
@@ -74,8 +75,9 @@ const config = {
 export default () => <Donate3 config={...config}/>
 ```
 
+### 2
 
-The second method uses Donate3，Import a js CDN url to your own website;
+Import a js CDN url to your own website;
 `If cid exists, other parameters are not required, otherwise the remaining parameters are required`
 
 `data-donate3-cid`: The cid can be generated after the official website configuration information
@@ -105,7 +107,9 @@ address: "0xb86EB6f8a39Db243a9ae544F180ef958dBA4e8b4",
 <script src="https://cdn.jsdelivr.net/npm/donate3-sdk@1.0.37/dist/webpack/bundle.js"></script>
 ```
 
-The third way is that you can add the corresponding link to the markdown.
+### 3
+
+You can add the corresponding link to the markdown.
 
 ```html
 <a href="Your Donate3 Link" target="_blank"><img src="https://www.donate3.xyz/Donate3ToMe.svg" alt="Donate3 To Me"></a>
