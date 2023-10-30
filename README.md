@@ -1,6 +1,6 @@
 # [&lt;Donate3 /&gt;](https://donate3.xyz/)
 
-A donate in cryptocurrency component（Give me a cup of coffee）
+A donate in cryptocurrency component（Give me a cup of coffee Web3 version.）
 
 ## Features
 
