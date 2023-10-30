@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build && npm widget",
+    "build": "vite build",
     "build:watch": "ladle serve",
     "dev": "ladle serve",
     "lint": "npm run lint:es && npm run lint:css",
