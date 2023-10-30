@@ -4,7 +4,11 @@ A donate in cryptocurrency component（Give me a cup of coffee Web3 version.）
 
 ## Features
 
-- [![npm (tag)](https://img.shields.io/npm/v/donate3-sdk)](https://www.npmjs.com/package/donate3-sdk) ![npm (downloads)](https://img.shields.io/npm/dm/donate3-sdk) <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps.
+- [![npm (tag)](https://img.shields.io/npm/v/donate3-sdk)](https://www.npmjs.com/package/donate3-sdk) ![npm (downloads)](https://img.shields.io/npm/dm/donate3-sdk)
+
+<br>
+
+-   <b>\<Donate3 \/\></b> is a fundamental components for Web3 Apps.
 
 ## Documentation
 
