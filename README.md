@@ -2,6 +2,11 @@
 
 A donate in cryptocurrency component（Give me a cup of coffee Web3 version.）
 
+
+<a href="https://twitter.com/intent/follow?screen_name=donate3pfficial">
+        <img src="https://img.shields.io/twitter/follow/web3clubCN?style=social&logo=X"
+            alt="follow on Twitter"></a>
+
 ## Features
 
 - [![npm (tag)](https://img.shields.io/npm/v/donate3-sdk)](https://www.npmjs.com/package/donate3-sdk) ![npm (downloads)](https://img.shields.io/npm/dm/donate3-sdk)
