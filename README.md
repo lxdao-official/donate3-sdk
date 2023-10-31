@@ -122,9 +122,11 @@ You can add the corresponding link to the markdown.
 
 <a href="https://www.donate3.xyz/demo" target="_blank"><img src="https://www.donate3.xyz/Donate3ToMe.svg" alt="Donate3 To Me"></a>
 
-## Contact
-Wechat:YanboTravelAllWorld
-
+## Contact us
+### Wechat
+YanboTravelAllWorld
+### Telegarm
+[Donate3]()
 
 ## License
 
