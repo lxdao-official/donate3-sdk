@@ -1907,10 +1907,10 @@
   resolved "https://registry.yarnpkg.com/@joyid/evm/-/evm-0.2.4.tgz#3244c75415db33c6d49010856c9c60e1068f78bf"
   integrity sha512-OayH6uQmnzGdcjiHSCpyf5gs9WSYTyKE1t1qPYxacgz2NiCjwnNDSkc0GKAHp1wGUCscKMjxoXNy/+I0/8Zweg==
 
-"@joyid/rainbowkit@0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@joyid/rainbowkit/-/rainbowkit-0.1.0.tgz#8e561d193e08bc4f1901d2f2137ab1cb8b1a8a53"
-  integrity sha512-DHjA2P6iSU5hfHduWYhlGnZZckzs+Xi2b8KsvMewSd4entObFF9a2ffUAqYWv2LgN8bL6Q/ngu14RL6hLqiMsg==
+"@joyid/rainbowkit@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@joyid/rainbowkit/-/rainbowkit-0.1.1.tgz#814b97c2bba190e264b6aaebe190fcb4d9f546a3"
+  integrity sha512-pfqPPzTAYk59GcF/9q5QpGxmFxh15l2Zt0nTF95TN4ooayNeBzbNwoIrbxOzO5/MZOC/swcJIbsIUscCuGgLaQ==
   dependencies:
     "@joyid/wagmi" "0.1.0"
 

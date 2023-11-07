@@ -45,7 +45,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@ethersproject/solidity": "^5.7.0",
-    "@joyid/rainbowkit": "0.1.0",
+    "@joyid/rainbowkit": "0.1.1",
     "@lxdao/img3": "^1.1.0",
     "@nouns/assets": "^0.4.2",
     "@nouns/sdk": "^0.4.0",
