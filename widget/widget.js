@@ -7,9 +7,10 @@ import { getFasterIpfsLink } from '../src/Donate3/utils/ipfsTools';
 // cid > address
 const cidDom = document.querySelectorAll('[data-donate3-cid]');
 const addressDom = document.querySelectorAll('[data-donate3-address]');
-
+const genericDom = document.querySelectorAll('[data-donate3-to-address]');
 const ipfsFlag = cidDom?.length > 0 && cidDom?.[0]?.dataset.donate3Cid;
-const donate3Roots = ipfsFlag ? cidDom : addressDom;
+const addressFlag = addressDom?.length > 0;
+const donate3Roots = ipfsFlag ? cidDom : addressFlag ? addressDom : genericDom;
 
 // If specified, use the gateway
 const getInfoFromIpfs = async (root) => {
@@ -60,36 +61,39 @@ const getInfoFromBackend = async (root) => {
     ).json()
   ).data;
   return {
-    type,
+    type: type == 0 ? 'float' : 'embed',
     color,
     title: name,
     toAddress: address,
     avatar,
     demo: false,
+    accountType: 0,
+    safeAccounts: [],
   };
 };
-const getDonate3Params = (root, isIpfs) => {
+const getDonate3Params = (root, isIpfs, isAddress) => {
   if (isIpfs) {
     return getInfoFromIpfs(root);
-  } else {
+  } else if (isAddress) {
     return getInfoFromBackend(root);
-    // return {
-    //   type: root.dataset.donate3Type,
-    //   color: root.dataset.donate3Color,
-    //   title: root.dataset.donate3Title,
-    //   toAddress: root.dataset.donate3ToAddress,
-    //   demo: root.dataset.donate3Demo === 'true' ? true : false,
-    //   avatar: root.dataset.donate3Avatar,
-    //   accountType: root.dataset.accountType,
-    //   safeAccounts:
-    //     root.dataset.donate3Safeaccounts &&
-    //     JSON.parse(root.dataset.donate3Safeaccounts),
-    // };
+  } else {
+    return {
+      type: root.dataset.donate3Type,
+      color: root.dataset.donate3Color,
+      title: root.dataset.donate3Title,
+      toAddress: root.dataset.donate3ToAddress,
+      demo: root.dataset.donate3Demo === 'true' ? true : false,
+      avatar: root.dataset.donate3Avatar,
+      accountType: root.dataset.accountType,
+      safeAccounts:
+        root.dataset.donate3Safeaccounts &&
+        JSON.parse(root.dataset.donate3Safeaccounts),
+    };
   }
 };
 
 donate3Roots.forEach(async (root) => {
-  const config = await getInfoFromBackend(root);
+  const config = await getDonate3Params(root, ipfsFlag, addressFlag);
   const reactRoot = ReactDOM.createRoot(root);
 
   reactRoot.render(<Donate3 config={config} />);

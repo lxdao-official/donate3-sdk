@@ -34,7 +34,7 @@ export const Donate3Context = React.createContext<Donate3ContextType>({
 
 const Donate3Provider: React.FC<{
   children: React.ReactNode;
-  cid: string;
+  cid?: string;
   accountType: number;
   toAddress: `0x${string}` | undefined;
   safeAccounts?: Account[] | undefined;
@@ -45,7 +45,7 @@ const Donate3Provider: React.FC<{
   avatar: string;
 }> = ({
   children,
-  cid,
+  cid = undefined,
   accountType,
   toAddress,
   safeAccounts,
@@ -82,41 +82,40 @@ const Donate3Provider: React.FC<{
     accountType === 0 || accountType === undefined ? toAddress : undefined;
 
   useEffect(() => {
-    if (!cid) {
-      return;
-    }
-    getFasterIpfsLink({
-      ipfs: `https://nftstorage.link/ipfs/${cid}`,
-      timeout: 4000,
-    })
-      .then((res: any) => {
-        setNftData(res);
-        let accountTypeNft = res.accountType;
-        let safeAccountsNft = res.safeAccounts;
-        toAddressReal =
-          accountTypeNft === 0 || accountTypeNft === undefined
-            ? res.address
-            : undefined;
-
-        if (
-          accountTypeNft === 1 &&
-          safeAccountsNft &&
-          safeAccountsNft.length &&
-          safeAccountsNft.some(
-            (item: Account) =>
-              item.networkId && item.address && item.networkId === chain?.id,
-          )
-        ) {
-          toAddressReal = (
-            safeAccountsNft.find(
-              (item: Account) => item.networkId === chain?.id,
-            ) as Account
-          ).address;
-        }
+    if (cid) {
+      getFasterIpfsLink({
+        ipfs: `https://nftstorage.link/ipfs/${cid}`,
+        timeout: 4000,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res: any) => {
+          setNftData(res);
+          let accountTypeNft = res.accountType;
+          let safeAccountsNft = res.safeAccounts;
+          toAddressReal =
+            accountTypeNft === 0 || accountTypeNft === undefined
+              ? res.address
+              : undefined;
+
+          if (
+            accountTypeNft === 1 &&
+            safeAccountsNft &&
+            safeAccountsNft.length &&
+            safeAccountsNft.some(
+              (item: Account) =>
+                item.networkId && item.address && item.networkId === chain?.id,
+            )
+          ) {
+            toAddressReal = (
+              safeAccountsNft.find(
+                (item: Account) => item.networkId === chain?.id,
+              ) as Account
+            ).address;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [cid]);
 
   useEffect(() => {
