@@ -146,6 +146,9 @@ function FormSection() {
     setAmount(donateAmount.toString());
   }, [donateAmount]);
 
+  useEffect(() => {
+    setDonateAmount(parseFloat(amount));
+  }, [amount]);
   const Donate3Slider = styled(Slider)({
     color: color,
     height: 8,
