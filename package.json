@@ -43,10 +43,12 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@ethersproject/solidity": "^5.7.0",
     "@joyid/rainbowkit": "0.1.1",
     "@lxdao/img3": "^1.1.0",
+    "@mui/material": "^5.14.20",
     "@nouns/assets": "^0.4.2",
     "@nouns/sdk": "^0.4.0",
     "@rainbow-me/rainbowkit": "^1.1.3",

@@ -29,6 +29,7 @@ import Switch from '../../images/switch.svg';
 import Success from '../Success/Success';
 import CoinPart from './components/CoinPart';
 
+import { Slider, styled } from '@mui/material';
 import CoinModal from './components/CoinModal';
 import {
   arbitrumTokensInfo,
@@ -84,6 +85,7 @@ function FormSection() {
   const [transactionHash, setTransactionHash] = useState<string>('');
   const { data: walletClient } = useWalletClient();
   const publicClient = usePublicClient();
+  const [donateAmount, setDonateAmount] = useState<number>(0);
   useEffect(() => {
     if (!toAddress) {
       toast('unsupport chain');
@@ -139,6 +141,49 @@ function FormSection() {
       }, timeout * 1000);
     }
   }, [donateCreateSuccess]);
+
+  useEffect(() => {
+    setAmount(donateAmount.toString());
+  }, [donateAmount]);
+
+  const Donate3Slider = styled(Slider)({
+    color: color,
+    height: 8,
+    '& .MuiSlider-track': {
+      border: 'none',
+    },
+    '& .MuiSlider-thumb': {
+      height: 24,
+      width: 24,
+      backgroundColor: '#fff',
+      border: '2px solid currentColor',
+      '&:focus, &:hover, &.Mui-active, &.Mui-focusVisible': {
+        boxShadow: 'inherit',
+      },
+      '&:before': {
+        display: 'none',
+      },
+    },
+    '& .MuiSlider-valueLabel': {
+      lineHeight: 1.2,
+      fontSize: 12,
+      background: 'unset',
+      padding: 0,
+      width: 32,
+      height: 32,
+      borderRadius: '50% 50% 50% 0',
+      backgroundColor: color,
+      transformOrigin: 'bottom left',
+      transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
+      '&:before': { display: 'none' },
+      '&.MuiSlider-valueLabelOpen': {
+        transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
+      },
+      '& > *': {
+        transform: 'rotate(45deg)',
+      },
+    },
+  });
 
   const erc20TokenApprove = async () => {
     if (
@@ -219,11 +264,11 @@ function FormSection() {
             args: [amountIn, toAddress!, bytesMsg, []],
             value: amountIn,
           });
-          setTransactionHash(hash!)
+          setTransactionHash(hash!);
           setShowLoading(false);
           toast('Syncing data, take 1-5 minutes to show');
           setDonateCreateSuccess(true);
-          await publicClient.waitForTransactionReceipt({ hash: hash! })
+          await publicClient.waitForTransactionReceipt({ hash: hash! });
         } else {
           await writeAsync?.({
             args: [zeroAddress, amountIn, toAddress, bytesMsg, []],
@@ -276,7 +321,7 @@ function FormSection() {
   };
 
   const donateVal = useMemo(() => {
-    return selectedToken?.isErc20 ? [1, 5, 10] : [0.001, 0.01, 0.5];
+    return selectedToken?.isErc20 ? [1, 5, 10] : [0.01, 0.2, 0.5];
   }, [selectedToken]);
 
   const handleClickCoinPart = () => {
@@ -285,6 +330,10 @@ function FormSection() {
 
   const handleClickCoinModalClose = () => {
     setCoinModalVisible(false);
+  };
+
+  const handleDonateAmount = (event: Event, newValue: number | number[]) => {
+    setDonateAmount(newValue as number);
   };
 
   // filter token info by chain
@@ -379,21 +428,42 @@ function FormSection() {
             <CoinPart onPress={handleClickCoinPart} token={selectedToken} />
           </div>
         </div>
+        <div style={{ width: '100%', alignItems: 'center', marginTop: '20px' }}>
+          <Donate3Slider
+            style={{
+              width: '90%',
+            }}
+            value={donateAmount}
+            onChange={handleDonateAmount}
+            defaultValue={selectedToken?.isErc20 ? 1 : 0.1}
+            max={donateVal[2]}
+            min={donateVal[0]}
+            getAriaValueText={(value: number, index: number) =>
+              `${value} ${selectedToken?.symbol}`
+            }
+            step={selectedToken?.isErc20 ? 1 : 0.1}
+            marks={[
+              {
+                value: donateVal[0],
+                label: `${donateVal[0]} ${selectedToken?.symbol}`,
+              },
+              {
+                value: donateVal[1],
+                label: `${donateVal[1]} ${selectedToken?.symbol}`,
+              },
+              {
+                value: donateVal[2],
+                label: `${donateVal[2]} ${selectedToken?.symbol}`,
+              },
+            ]}
+            valueLabelDisplay="auto"
+          />
+        </div>
         <div
           className={styles.shortcutoption}
           ref={shortcutOption}
           onClick={handleEthAmount}
-        >
-          <div data-amount={donateVal[0]}>
-            {donateVal[0]} {selectedToken?.symbol}
-          </div>
-          <div data-amount={donateVal[1]}>
-            {donateVal[1]} {selectedToken?.symbol}
-          </div>
-          <div data-amount={donateVal[2]}>
-            {donateVal[2]} {selectedToken?.symbol}
-          </div>
-        </div>
+        ></div>
         <fieldset className={styles.fieldset}>
           <legend>
             <span>OR</span>
